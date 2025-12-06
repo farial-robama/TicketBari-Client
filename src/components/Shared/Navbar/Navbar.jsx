@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router';
+import useAuth from '../../../hooks/useAuth';
+import Container from '../Container';
+import { AiOutlineMenu } from 'react-icons/ai';
 
 const Navbar = () => {
   const { user, logOut } = useAuth()
@@ -12,7 +15,7 @@ const Navbar = () => {
           <div className='flex flex-row  items-center justify-between gap-3 md:gap-0'>
             {/* Logo */}
             <Link to='/'>
-              <img src={logo} alt='logo' width='100' height='100' />
+              <img src='/logo.png' alt='logo' width='100' height='100' />
             </Link>
             {/* Dropdown Menu */}
             <div className='relative'>
@@ -28,7 +31,7 @@ const Navbar = () => {
                     <img
                       className='rounded-full'
                       referrerPolicy='no-referrer'
-                      src={user && user.photoURL ? user.photoURL : avatarImg}
+                      src={user && user.photoURL ? user.photoURL : '/placeholder.jpg'}
                       alt='profile'
                       height='30'
                       width='30'
