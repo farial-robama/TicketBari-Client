@@ -14,9 +14,12 @@ const Navbar = () => {
         <Container>
           <div className='flex flex-row  items-center justify-between gap-3 md:gap-0'>
             {/* Logo */}
-            <Link to='/'>
-              <img src='/logo.png' alt='logo' width='100' height='100' />
-            </Link>
+            <div className='flex'>
+                <img src="/logo.png" className="w-10 hidden md:block" />
+                <a className="btn btn-ghost text-xl">TicketBari</a>
+            </div>
+
+            
             {/* Dropdown Menu */}
             <div className='relative'>
               <div className='flex flex-row items-center gap-3'>
