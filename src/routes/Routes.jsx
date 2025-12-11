@@ -4,6 +4,8 @@ import ErrorPage from "../pages/ErrorPage";
 import Home from "../pages/Home/Home";
 import Login from "../pages/Login/Login";
 import SignUp from "../pages/SignUp/SignUp";
+import TicketsDetails from "../pages/TicketsDetails/TicketsDetails";
+import DashboardLayout from "../layouts/DashboardLayout";
 
 export const router = createBrowserRouter([
   {
@@ -13,12 +15,20 @@ export const router = createBrowserRouter([
     children: [
         {
             path: '/',
-        element: <Home />,
+        element: <Home></Home>,
         },
-        { path: '/login', element: <Login /> },
-  { path: '/signup', element: <SignUp /> },
+         {
+        path: '/plant/:id',
+        element: <TicketsDetails></TicketsDetails>,
+      },
         
     ]
-
     },
+    { path: '/login', element: <Login /> },
+  { path: '/signup', element: <SignUp /> },
+    {
+      path: '/',
+      element: <DashboardLayout></DashboardLayout>,
+
+    }
 ])

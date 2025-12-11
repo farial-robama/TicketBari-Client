@@ -1,9 +1,13 @@
 import axios from 'axios';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import LoadingSpinner from '../../components/Shared/LoadingSpinner';
+import { motion } from "framer-motion";
+import { useParams } from 'react-router';
 
 const TicketsDetails = () => {
+    const { id } = useParams();
+    const ticketId = id;
     const [ticket, setTicket] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [quantity, setQuantity] = useState(1);
@@ -17,7 +21,7 @@ const TicketsDetails = () => {
       useEffect(() => {
         if(!ticket) return;
 
-        const interval = serInterval(() => {
+        const interval = setInterval(() => {
             const now = new Date();
             const depart = new Date(ticket.departure);
 
