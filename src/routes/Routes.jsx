@@ -6,6 +6,10 @@ import Login from "../pages/Login/Login";
 import SignUp from "../pages/SignUp/SignUp";
 import TicketsDetails from "../pages/TicketsDetails/TicketsDetails";
 import DashboardLayout from "../layouts/DashboardLayout";
+import PrivateRoute from "./PrivateRoute";
+import UserProfile from "../pages/Dashboard/User/UserProfile";
+import MyBookedTickets from "../pages/Dashboard/User/MyBookedTickets";
+import TransactionHistory from "../pages/Dashboard/User/TransactionHistory";
 
 export const router = createBrowserRouter([
   {
@@ -27,8 +31,31 @@ export const router = createBrowserRouter([
     { path: '/login', element: <Login /> },
   { path: '/signup', element: <SignUp /> },
     {
-      path: '/',
-      element: <DashboardLayout></DashboardLayout>,
+      path: '/dashboard',
+      element: (
+         <PrivateRoute>
+        <DashboardLayout></DashboardLayout>
+      </PrivateRoute>
+      ),
+
+      children: [
+        {
+          index: true,
+        element: <h1>Statistiec- coming soon.</h1>
+        },
+        {
+          path: 'profile',
+          element: <UserProfile></UserProfile>
+        },
+        {
+          path: 'bookings',
+          element: <MyBookedTickets></MyBookedTickets>
+        },
+        {
+          path: 'transactions',
+          element: <TransactionHistory></TransactionHistory>
+        }
+      ]
 
     }
 ])

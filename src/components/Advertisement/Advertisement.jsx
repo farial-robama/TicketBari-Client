@@ -18,7 +18,7 @@ const Advertisement = () => {
         loadAdvertisedTickets();
     }, [])
 
-    
+
     return (
         <div className="text-center py-10 px-6">
       <h1 className="font-bold text-2xl">Advertisement Section</h1>
@@ -28,7 +28,7 @@ const Advertisement = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {tickets.map((ticket) => (
           <motion.div
-            key={game.id}
+          key={ticket.id}
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.2, duration: 0.6, ease: "easeOut" }}
