@@ -11,6 +11,7 @@ import {
 } from 'firebase/auth'
 import { app } from '../firebase/firebase.config'
 import { AuthContext } from './AuthContext'
+import axios from 'axios'
 
 const auth = getAuth(app)
 const googleProvider = new GoogleAuthProvider()
@@ -46,11 +47,50 @@ const AuthProvider = ({ children }) => {
     })
   }
 
+  // Save user to database 
+  const saveUser = async (user) => {
+    const userData ={
+      email: user?.email,
+      name: user?.displayName,
+      photoURL: user?. photoURL,
+      role: 'customer'
+    }
+    try {
+      const { data } = await axios.post(
+        `${import.meta.env.VITE_API_URL}/user`,
+        userData
+      )
+      return data
+    } catch(error) {
+      console.error('Error saving user:', error)
+    }
+  }
+
+  // Get token from Firebase 
+  const getToken = async (email) => {
+    try {
+      const currentUser = auth.currentUser
+      if(currentUser) {
+        const token = await currentUser.getIdToken()
+        localStorage.setItem('access-token', token)
+        return token
+      }
+    } catch (error) {
+      console.error('Error getting token', error)
+    }
+  }
+
   // onAuthStateChange
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async currentUser => {
-      console.log('CurrentUser-->', currentUser?.email)
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       setUser(currentUser)
+
+      if (currentUser) {
+        await getToken(currentUser.email)
+        await saveUser(currentUser)
+      } else {
+        localStorage.removeItem('access-token')
+      }
       setLoading(false)
     })
     return () => {
@@ -68,6 +108,7 @@ const AuthProvider = ({ children }) => {
     signInWithGoogle,
     logOut,
     updateUserProfile,
+    saveUser
   }
 
   return (

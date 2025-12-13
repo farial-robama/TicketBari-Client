@@ -48,7 +48,7 @@ export const router = createBrowserRouter([
           element: <UserProfile></UserProfile>
         },
         {
-          path: 'bookings',
+          path: 'my-bookings',
           element: <MyBookedTickets></MyBookedTickets>
         },
         {

@@ -5,6 +5,12 @@ import LoadingSpinner from '../../Shared/LoadingSpinner';
 import { AiOutlineBars } from 'react-icons/ai';
 import { BsGraphUp } from 'react-icons/bs'
 import { FcSettings } from 'react-icons/fc';
+import { Link } from 'react-router';
+import CustomerMenu from '../Menu/CustomerMenu';
+import SellerMenu from '../Menu/SellerMenu';
+import AdminMenu from '../Menu/AdminMenu';
+import { GrLogout } from 'react-icons/gr';
+import MenuItem from '../Menu/MenuItem';
 
 const Sidebar = () => {
   const { logOut } = useAuth()
@@ -25,7 +31,7 @@ const Sidebar = () => {
         <div>
           <div className='block cursor-pointer p-4 font-bold'>
             <Link to='/'>
-              <img src={logo} alt='logo' width='100' height='100' />
+              <img src='/logo.png' alt='logo' width='100' height='100' />
             </Link>
           </div>
         </div>
@@ -50,7 +56,7 @@ const Sidebar = () => {
             {/* Logo */}
             <div className='w-full hidden md:flex px-4 py-2 shadow-lg rounded-lg justify-center items-center bg-lime-100 mx-auto'>
               <Link to='/'>
-                <img src={logo} alt='logo' width='100' height='100' />
+                <img src='/logo.png' alt='logo' width='100' height='100' />
               </Link>
             </div>
           </div>

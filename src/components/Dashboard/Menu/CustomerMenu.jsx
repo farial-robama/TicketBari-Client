@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { MdOutlineBookOnline } from 'react-icons/md';
 import { GrUserAdmin } from 'react-icons/gr'
 import { FaHistory } from 'react-icons/fa';
+import MenuItem from './MenuItem';
 
 const CustomerMenu = () => {
    const [isOpen, setIsOpen] = useState(false)
@@ -24,7 +25,7 @@ const CustomerMenu = () => {
         <span className='mx-4 font-medium'>Become A Seller</span>
       </div>
 
-      <BecomeSellerModal closeModal={closeModal} isOpen={isOpen} />
+      {/* <BecomeSellerModal closeModal={closeModal} isOpen={isOpen} /> */}
     </>
   )
 }
