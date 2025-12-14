@@ -7,7 +7,7 @@ import { BsGraphUp } from 'react-icons/bs'
 import { FcSettings } from 'react-icons/fc';
 import { Link } from 'react-router';
 import CustomerMenu from '../Menu/CustomerMenu';
-import SellerMenu from '../Menu/SellerMenu';
+import SellerMenu from '../Menu/VendorMenu';
 import AdminMenu from '../Menu/AdminMenu';
 import { GrLogout } from 'react-icons/gr';
 import MenuItem from '../Menu/MenuItem';

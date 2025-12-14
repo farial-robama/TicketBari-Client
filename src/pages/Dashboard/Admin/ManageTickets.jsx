@@ -1,6 +1,6 @@
 import React from 'react';
 
-const SellerMenu = () => {
+const ManageTickets = () => {
     return (
         <div>
             
@@ -8,4 +8,4 @@ const SellerMenu = () => {
     );
 };
 
-export default SellerMenu;
+export default ManageTickets;
