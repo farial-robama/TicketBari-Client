@@ -7,7 +7,7 @@ const VendorProfile = () => {
      const axiosSecure = useAxiosSecure()
 
     const { data: user, isLoading } = useQuery({
-        queryKey: ['verdor-profile'],
+        queryKey: ['vendor-profile'],
         queryFn: async () => {
             const { data } = await axiosSecure.get('/user/profile')
             return data
