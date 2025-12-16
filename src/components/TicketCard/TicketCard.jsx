@@ -3,7 +3,7 @@ import { Link } from "react-router";
 
 const TicketCard = ({ ticket }) => {
   return (
-    <Link to={`/game-details/${game.id}`}>
+    <Link to={`/ticket/${ticket._id}`}>
       <div className="card bg-[#F7F7F7] w-full h-96 shadow-sm">
         <figure className="h-50 m-4 rounded-md">
           <img src={ticket.image} />

@@ -17,6 +17,8 @@ import RevenueOverview from "../pages/Dashboard/Vendor/RevenueOverview";
 import ManageTickets from "../pages/Dashboard/Admin/ManageTickets";
 import ManageUsers from "../pages/Dashboard/Admin/ManageUsers";
 import AdvertiseTickets from "../pages/Dashboard/Admin/AdvertiseTickets";
+import MyProfile from "../pages/Profile/MyProfile";
+import AllTickets from "../pages/AllTickets/AllTickets";
 
 export const router = createBrowserRouter([
   {
@@ -30,13 +32,22 @@ export const router = createBrowserRouter([
         },
          {
         path: '/plant/:id',
-        element: <TicketsDetails></TicketsDetails>,
+        element: <PrivateRoute><TicketsDetails></TicketsDetails></PrivateRoute>
+      },
+      {
+          path: 'profile',
+          element: <PrivateRoute><MyProfile></MyProfile></PrivateRoute>
+      },
+      { path: '/login', element: <Login /> },
+  { path: '/signup', element: <SignUp /> },
+  {
+        path: 'tickets',
+        element: <PrivateRoute><AllTickets></AllTickets></PrivateRoute>
       },
         
     ]
     },
-    { path: '/login', element: <Login /> },
-  { path: '/signup', element: <SignUp /> },
+    
     {
       path: '/dashboard',
       element: (
@@ -49,10 +60,6 @@ export const router = createBrowserRouter([
         {
           index: true,
         element: <h1>Statistiec- coming soon.</h1>
-        },
-        {
-          path: 'profile',
-          element: <UserProfile></UserProfile>
         },
         {
           path: 'my-bookings',

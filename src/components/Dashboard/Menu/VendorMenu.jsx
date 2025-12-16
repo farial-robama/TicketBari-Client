@@ -9,12 +9,12 @@ const VendorMenu = () => {
       <MenuItem
         icon={MdAddCircleOutline}
         label="Add Ticket"
-        address="/dashboard/add-ticket"
+        address="/dashboard/add-tickets"
       />
       <MenuItem
         icon={MdConfirmationNumber}
         label="My Added Ticket"
-        address="/dashboard/my-ticket"
+        address="/dashboard/my-tickets"
       />
       <MenuItem
         icon={FaClipboardList}

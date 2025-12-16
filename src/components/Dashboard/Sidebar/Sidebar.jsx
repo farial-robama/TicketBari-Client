@@ -11,6 +11,7 @@ import SellerMenu from '../Menu/VendorMenu';
 import AdminMenu from '../Menu/AdminMenu';
 import { GrLogout } from 'react-icons/gr';
 import MenuItem from '../Menu/MenuItem';
+import VendorMenu from '../Menu/VendorMenu';
 
 const Sidebar = () => {
   const { logOut } = useAuth()
@@ -73,7 +74,7 @@ const Sidebar = () => {
               />
               {/* Role-Based Menu */}
               {role === 'customer' && <CustomerMenu />}
-              {role === 'seller' && <SellerMenu />}
+              {role === 'vendor' && <VendorMenu />}
               {role === 'admin' && <AdminMenu />}
             </nav>
           </div>

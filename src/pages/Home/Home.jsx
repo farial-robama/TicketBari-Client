@@ -1,12 +1,17 @@
 import React from 'react';
 import Banner from '../../components/Shared/Banner/Banner';
-import Advertisement from '../../components/Advertisement/Advertisement';
+import AdvertisedTickets from '../../components/Home/AdvertisedTickets';
+import LatestTickets from '../../components/Home/LatestTickets';
+import PopularRoutes from '../../components/Home/PopularRoutes';
+
 
 const Home = () => {
     return (
         <div>
              <Banner></Banner>
-             <Advertisement></Advertisement>
+             <AdvertisedTickets></AdvertisedTickets>
+             <LatestTickets></LatestTickets>
+             <PopularRoutes></PopularRoutes>
         </div>
     );
 };

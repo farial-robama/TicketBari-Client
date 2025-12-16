@@ -52,8 +52,8 @@ const AuthProvider = ({ children }) => {
     const userData ={
       email: user?.email,
       name: user?.displayName,
-      photoURL: user?. photoURL,
-      role: 'customer'
+      image: user?.photoURL,
+      // role: 'customer'
     }
     try {
       const { data } = await axios.post(
@@ -87,8 +87,23 @@ const AuthProvider = ({ children }) => {
 
       if (currentUser) {
         await getToken(currentUser.email)
-        await saveUser(currentUser)
+
+        try {
+          const { data: profile } = await axios.get(
+            `${import.meta.env.VITE_API_URL}/user/profile`,
+            { headers: { Authorization: `Bearer ${localStorage.getItem('access-token')}`}}
+          )
+          setUser(profile)
+
+        } catch (error) {
+          console.error('Error fetching user profile', error)
+        }
+        // await saveUser(currentUser)
+        if (currentUser.displayName) {
+          await saveUser(currentUser)
+        }
       } else {
+        setUser(null)
         localStorage.removeItem('access-token')
       }
       setLoading(false)

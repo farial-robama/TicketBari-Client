@@ -58,9 +58,9 @@ const AddTicket = () => {
 
 
     return (
-        <div className='max-w-4xl mx-auto'>
-            <h1 className='text-3xl font-bold mb-8'>Add New Ticket</h1>
-            <form onSubmit={handleSubmit(onSubmit)}>
+        <div className='max-w-4xl mx-auto bg-gray-100 p-8 rounded-md shadow-2xl'>
+            <h1 className='text-center text-3xl font-bold mb-8'>Add New Ticket</h1>
+            <form onSubmit={handleSubmit(onSubmit)} className='space-y-5'>
                 {/* Ticet Title */}
                 <div>
                     <label className='block text-sm font-medium text-gray-700 mb-2'>
@@ -84,7 +84,7 @@ const AddTicket = () => {
                     className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent'
                     placeholder='e.g., Dhaka'
                     />
-                    {errors.title && <p className='text-red-500 text-sm mt-1'>{errors.title.message}</p>}
+                    {errors.from && <p className='text-red-500 text-sm mt-1'>{errors.from.message}</p>}
                 </div>
                 <div>
                     <label className='block text-sm font-medium text-gray-700 mb-2'>
@@ -95,7 +95,7 @@ const AddTicket = () => {
                     className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent'
                     placeholder='e.g., Chittagong'
                     />
-                    {errors.title && <p className='text-red-500 text-sm mt-1'>{errors.title.message}</p>}
+                    {errors.to && <p className='text-red-500 text-sm mt-1'>{errors.to.message}</p>}
                 </div>
                 </div>
 
@@ -113,7 +113,7 @@ const AddTicket = () => {
                         <option value="Flight">Flight</option>
                         <option value="Launch">Launch</option>
                     </select>
-                    {errors.title && <p className='text-red-500 text-sm mt-1'>{errors.title.message}</p>}
+                    {errors.transportType && <p className='text-red-500 text-sm mt-1'>{errors.transportType.message}</p>}
                 </div>
 
                  {/* Price & Quantity */}
@@ -127,7 +127,7 @@ const AddTicket = () => {
                     className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent'
                     placeholder='e.g., 100.00'
                     />
-                    {errors.price && <p className='text-red-500 text-sm mt-1'>{errors.title.message}</p>}
+                    {errors.price && <p className='text-red-500 text-sm mt-1'>{errors.price.message}</p>}
                 </div>
                 <div>
                     <label className='block text-sm font-medium text-gray-700 mb-2'>
@@ -138,7 +138,7 @@ const AddTicket = () => {
                     className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent'
                     placeholder='e.g., 50'
                     />
-                    {errors.quantity && <p className='text-red-500 text-sm mt-1'>{errors.title.message}</p>}
+                    {errors.quantity && <p className='text-red-500 text-sm mt-1'>{errors.quantity.message}</p>}
                 </div>
                 </div>
 
@@ -151,7 +151,7 @@ const AddTicket = () => {
                     <input type="date"
                     {...register('departureDate', { required: 'Departure Date is required', min: 1 })}
                     className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent'/>
-                    {errors.departureDate && <p className='text-red-500 text-sm mt-1'>{errors.title.message}</p>}
+                    {errors.departureDate && <p className='text-red-500 text-sm mt-1'>{errors.departureDate.message}</p>}
                 </div>
                 <div>
                     <label className='block text-sm font-medium text-gray-700 mb-2'>
@@ -162,7 +162,7 @@ const AddTicket = () => {
                     className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent'
                     placeholder='e.g., 50'
                     />
-                    {errors.departureTime && <p className='text-red-500 text-sm mt-1'>{errors.title.message}</p>}
+                    {errors.departureTime && <p className='text-red-500 text-sm mt-1'>{errors.departureTime.message}</p>}
                 </div>
                 </div>
 
@@ -199,8 +199,7 @@ const AddTicket = () => {
                     <input type="file"
                     accept='image/*'
                     {...register('image', { required: 'Image is required' })}
-                    className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent'
-                    placeholder='e.g., Dhaka to Chittagong Bus'
+                    className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500'
                     />
                     {errors.image && <p className='text-red-500 text-sm mt-1'>{errors.image.message}</p>}
                 </div>
@@ -229,7 +228,7 @@ const AddTicket = () => {
 
                 {/* Submit Button */}
                 <button
-                type='submit' disabled={uploading} className='w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition duration-200 font-semibold text-lg disabled:bg-gray-400 disabled:cursor-not-allowed'>
+                type='submit' disabled={uploading} className='w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition duration-200 font-semibold text-lg disabled:bg-gray-400 disabled:cursor-not-allowed mt-5'>
                     {uploading ? 'Adding Ticket...' : 'Add Ticket'}
                 </button>
         

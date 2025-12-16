@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import TicketCard from '../TicketCard/TicketCard';
 import { motion } from "framer-motion";
 
-const Advertisement = () => {
+const AdvertisedTickets = () => {
     const [tickets, setTickets] = useState([])
 
     useEffect(() => {
@@ -49,5 +49,5 @@ const Advertisement = () => {
     );
 };
 
-export default Advertisement;
+export default AdvertisedTickets;
 

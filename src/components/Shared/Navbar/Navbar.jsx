@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router';
+import { Link, NavLink } from 'react-router';
 import useAuth from '../../../hooks/useAuth';
 import Container from '../Container';
 import { AiOutlineMenu } from 'react-icons/ai';
@@ -7,6 +7,8 @@ import { AiOutlineMenu } from 'react-icons/ai';
 const Navbar = () => {
   const { user, logOut } = useAuth()
   const [isOpen, setIsOpen] = useState(false)
+
+      const navLinkClass = ({ isActive }) => `px-3 py-2 rounded-md font-semibold transition ${isActive ? 'text-primary border-b-2 border-primary' : 'text-gray-600 hover:text-primary'}`
 
   return (
     <div className='fixed w-full bg-white z-10 shadow-sm'>
@@ -17,6 +19,19 @@ const Navbar = () => {
             <div className='flex'>
                 <img src="/logo.png" className="w-10 hidden md:block" />
                 <a className="btn btn-ghost text-xl">TicketBari</a>
+            </div>
+
+            {/* Middle */}
+            <div>
+              <NavLink to='/' className={navLinkClass}>
+                Home
+              </NavLink>
+              <NavLink to='/tickets' className={navLinkClass}>
+                All Tickets
+              </NavLink>
+              <NavLink to='/dashboard' className={navLinkClass}>
+                Dashboard
+              </NavLink>
             </div>
 
             
@@ -55,10 +70,10 @@ const Navbar = () => {
                     {user ? (
                       <>
                         <Link
-                          to='/dashboard'
+                          to='/profile'
                           className='px-4 py-3 hover:bg-neutral-100 transition font-semibold'
                         >
-                          Dashboard
+                          My Profile
                         </Link>
                         <div
                           onClick={logOut}

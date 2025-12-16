@@ -2,6 +2,7 @@ import React from 'react';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import LoadingSpinner from '../../../components/Shared/LoadingSpinner';
 import TicketCard from '../../../components/TicketCard/TicketCard';
+import { useQuery } from '@tanstack/react-query';
 
 const MyAddedTickets = () => {
     const axiosSecure = useAxiosSecure()
