@@ -5,15 +5,16 @@ import { toast } from "react-hot-toast";
 import { TbFidgetSpinner } from "react-icons/tb";
 import { useForm } from "react-hook-form";
 import { imageUpload, saveOrUpdateUser } from "../../utils";
+import { useState } from "react";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const SignUp = () => {
-  const { createUser, updateUserProfile, signInWithGoogle, loading } =
-    useAuth();
+  const { createUser, updateUserProfile, signInWithGoogle, loading } =useAuth();
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state || "/";
 
-  // React Hook Form
   const {
     register,
     handleSubmit,
@@ -49,33 +50,7 @@ const SignUp = () => {
       toast.error(err?.message);
     }
   };
-  // form submit handler
-  // const handleSubmit = async event => {
-  //   event.preventDefault()
-  //   const form = event.target
-  //   const name = form.name.value
-  //   const email = form.email.value
-  //   const password = form.password.value
-
-  //   try {
-  //     //1. User Registration
-  //     const result = await createUser(email, password)
-
-  //     // 2. Generate image url from selected file
-
-  //     //3. Save username & profile photo
-  //     await updateUserProfile(
-  //       name,
-  //       'https://lh3.googleusercontent.com/a/ACg8ocKUMU3XIX-JSUB80Gj_bYIWfYudpibgdwZE1xqmAGxHASgdvCZZ=s96-c'
-  //     )
-
-  //     navigate(from, { replace: true })
-  //     toast.success('Signup Successful')
-  //   } catch (err) {
-  //     console.log(err)
-  //     toast.error(err?.message)
-  //   }
-  // }
+  
 
   // Handle Google Signin
   const handleGoogleSignIn = async () => {
@@ -97,11 +72,11 @@ const SignUp = () => {
     }
   };
   return (
-    <div className="flex justify-center items-center min-h-screen bg-white">
-      <div className="flex flex-col max-w-md p-6 rounded-md sm:p-10 bg-gray-100 text-gray-900">
+    <div className="flex justify-center items-center min-h-screen">
+      <div className="flex flex-col max-w-md p-6 rounded-md sm:p-10 bg-white text-gray-900 my-20">
         <div className="mb-8 text-center">
           <h1 className="my-3 text-4xl font-bold">Sign Up</h1>
-          <p className="text-sm text-gray-400">Welcome to PlantNet</p>
+          <p className="text-sm text-gray-400">Welcome to TicketBari</p>
         </div>
         <form
           onSubmit={handleSubmit(onSubmit)}
@@ -118,7 +93,7 @@ const SignUp = () => {
                 type="text"
                 id="name"
                 placeholder="Enter Your Name Here"
-                className="w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-lime-500 bg-gray-200 text-gray-900"
+                className="w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-[#3B9797] bg-gray-200 text-gray-900"
                 data-temp-mail-org="0"
                 {...register("name", {
                   required: "Name is required",
@@ -151,10 +126,10 @@ const SignUp = () => {
       file:mr-4 file:py-2 file:px-4
       file:rounded-md file:border-0
       file:text-sm file:font-semibold
-      file:bg-lime-50 file:text-lime-700
+      file:bg-lime-50 file:text-[#3B9797]
       hover:file:bg-lime-100
-      bg-gray-100 border border-dashed border-lime-300 rounded-md cursor-pointer
-      focus:outline-none focus:ring-2 focus:ring-lime-400 focus:border-lime-400
+      bg-gray-100 border border-dashed border-[#3B9797] rounded-md cursor-pointer
+      focus:outline-none focus:ring-2 focus:ring-[#3B9797] focus:border-[#3B9797]
       py-2"
                 {...register("image")}
               />
@@ -172,7 +147,7 @@ const SignUp = () => {
                 type="email"
                 id="email"
                 placeholder="Enter Your Email Here"
-                className="w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-lime-500 bg-gray-200 text-gray-900"
+                className="w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-[#3B9797] bg-gray-200 text-gray-900"
                 data-temp-mail-org="0"
                 {...register("email", {
                   required: "Email is required",
@@ -194,12 +169,13 @@ const SignUp = () => {
                   Password
                 </label>
               </div>
-              <input
-                type="password"
+              <div className="relative">
+                <input
+                type={showPassword ? "text" : "password"}
                 autoComplete="new-password"
                 id="password"
                 placeholder="*******"
-                className="w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-lime-500 bg-gray-200 text-gray-900"
+                className="w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-[#3B9797] bg-gray-200 text-gray-900"
                 {...register("password", {
                   required: "Password is required",
                   minLength: {
@@ -208,18 +184,26 @@ const SignUp = () => {
                   },
                 })}
               />
+              <span
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer"
+                  >
+                    {showPassword ? <FaEyeSlash></FaEyeSlash> : <FaEye></FaEye>}
+                  </span>
+              </div>
               {errors.password && (
                 <p className="text-red-500 text-xs mt-1">
                   {errors.password.message}
                 </p>
               )}
+
             </div>
           </div>
 
           <div>
             <button
               type="submit"
-              className="bg-lime-500 w-full rounded-md py-3 text-white"
+              className="bg-[#3B9797] w-full rounded-md py-3 text-white"
             >
               {loading ? (
                 <TbFidgetSpinner className="animate-spin m-auto" />
@@ -248,7 +232,7 @@ const SignUp = () => {
           Already have an account?{" "}
           <Link
             to="/login"
-            className="hover:underline hover:text-lime-500 text-gray-600"
+            className="hover:underline hover:text-[#3B9797] text-gray-600"
           >
             Login
           </Link>

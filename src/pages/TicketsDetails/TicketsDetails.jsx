@@ -5,18 +5,21 @@ import LoadingSpinner from '../../components/Shared/LoadingSpinner';
 import { motion } from "framer-motion";
 import { useNavigate, useParams } from 'react-router';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { FaArrowRight, FaCalendarAlt, FaClock, FaMapPin } from 'react-icons/fa';
 import { BsTicket } from 'react-icons/bs';
 import { CiTimer } from "react-icons/ci";
+import useAuth from '../../hooks/useAuth';
 
 const TicketsDetails = () => {
   const { id } = useParams();
   const axiosSecure = useAxiosSecure()
+  const { user } = useAuth()
   const navigate = useNavigate()
   const [showModal, setShowModal] = useState(false);
   const [quantity, setQuantity] = useState(1);
   const [countdown, setCountdown] = useState("");
+  const queryClient = useQueryClient()
 
   const { data: ticket, isLoading } = useQuery({
           queryKey: ['ticket-details', id],
@@ -25,6 +28,16 @@ const TicketsDetails = () => {
               return data
           }
       })
+
+     const { data: role } = useQuery({
+          queryKey: ['user-role'],
+          enabled: !user?.email,
+          queryFn: async () => {
+              const { data } = await axios.get(`/users/role/${user?.email}`) 
+              return data.role;
+          }
+      })
+
   
 
       useEffect(() => {
@@ -64,7 +77,8 @@ const TicketsDetails = () => {
             totalPrice: ticket.price * quantity,
             status: "Pending",
         }
-        await axiosSecure.post('/booking', booking);
+        await axiosSecure.post('/bookings', booking);
+        queryClient.invalidateQueries({ queryKey: ['ticket-details', id]});
         toast.success(`Successfully booked ${quantity} ticket(s)!`);
         setShowModal(false);
         setQuantity(1);
@@ -85,13 +99,14 @@ const TicketsDetails = () => {
 
       const isDeparturePassed = new Date(ticket.departure) < new Date();
       const isOutOfStock = ticket.quantity === 0;
-      const isAvailable = !isDeparturePassed && !isOutOfStock;
+      const isUser = role === 'User';
+      const isAvailable = !isDeparturePassed && !isOutOfStock && isUser;
+  
   
     return (
-        <div className='container mx-auto px-4 py-30'>
+        <div className='container mx-auto py-30'>
       <motion.div
-        className="card md:w-96 shadow-lg mx-auto bg-[#AAC4F5] border-2 border-[#cfc6b6]
-        text-gray-800"
+        className="card max-w-2xl shadow-2xl mx-auto bg-[#BBDCE5] text-gray-800"
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2, duration: 0.5, ease: "easeOut" }}
@@ -99,7 +114,7 @@ const TicketsDetails = () => {
       >
           {/* Image Section */}
           <div className="relative h-96 m-4 rounded-md overflow-hidden">
-            <img src={ticket.image} alt={ticket.title} className='w-full h-full object-cover' />
+            <img src={ticket.image} alt={ticket.title} className='w-full h-full object-cover rounded-md' />
             <div className='absolute top-4 right-4 bg-blue-600 text-white px-4 py-2 rounded-full font-semibold'>{ticket.transportType}
             </div>
           </div>
@@ -188,23 +203,23 @@ const TicketsDetails = () => {
 
             {/* Vendor Info */}
             <div className='mb-6 p-4 bg-gray-50 rounded-lg'>
-                <p className='text-sm text-gray-600 font-semibold'>Vendor Info</p>
+                <p className='text-sm text-gray-600 font-semibold'>Vendor Info:</p>
                 <p className='text-gray-800'>{ticket.vendorName}</p>
                 <p className='text-sm text-gray-800'>{ticket.vendorEmail}</p>
             </div>
 
             {/* Action Buttons */}
-            <div>
+            <div className='flex flex-col md:flex-row gap-5'>
               <button
               onClick={() => navigate(-1)}
-              className='px-6 py-3 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400 transition font-semibold'>
+              className='px-4 py-3 text-gray-700 text-sm rounded-lg bg-[#5bb3e6] hover:bg-gray-400 transition font-semibold'>
                 Go Back
               </button>
               <button
               disabled={!isAvailable}
             onClick={() => setShowModal(true)}
-            className={`flex-1 px-6 py-3 rounded-lg font-semibold transition ${isAvailable ? 'bg-blue-600 text-white hover:bg-blue-700' : 'bg-gray-300 text-gray-800 cursor-not-allowed'}`}>
-                {isDeparturePassed ? 'Departure Passed' : isOutOfStock ? "Sold Out" : "Book Now"}
+            className={`flex-1 px-4 py-3 rounded-lg font-semibold text-sm transition ${isAvailable ? 'bg-blue-600 text-white hover:bg-blue-700' : 'bg-gray-300 text-gray-800 cursor-not-allowed'}`}>
+                {isDeparturePassed ? 'Departure Passed' : isOutOfStock ? "Sold Out" : !isUser ? 'Only Users Can Book' : "Book Now"}
               </button>
             </div>
 

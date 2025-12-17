@@ -12,6 +12,7 @@ import AdminMenu from '../Menu/AdminMenu';
 import { GrLogout } from 'react-icons/gr';
 import MenuItem from '../Menu/MenuItem';
 import VendorMenu from '../Menu/VendorMenu';
+import toast from 'react-hot-toast';
 
 const Sidebar = () => {
   const { logOut } = useAuth()
@@ -23,16 +24,27 @@ const Sidebar = () => {
     setActive(!isActive)
   }
 
+  const handleLogout = async () => {
+    try {
+      await logOut()
+      toast.success("You logged out successfully!")
+    }
+    catch(err) {
+      console.log("Logout failed!", err);
+      
+    }
+  }
+
   if (isRoleLoading) return <LoadingSpinner />
 
   return (
     <>
       {/* Small Screen Navbar, only visible till md breakpoint */}
-      <div className='bg-gray-100 text-gray-800 flex justify-between md:hidden'>
+      <div className='bg-white text-gray-800 flex justify-between md:hidden'>
         <div>
           <div className='block cursor-pointer p-4 font-bold'>
             <Link to='/'>
-              <img src='/logo.png' alt='logo' width='100' height='100' />
+              <img src='/logo.png' alt='logo' width='50' height='50' />
             </Link>
           </div>
         </div>
@@ -55,9 +67,9 @@ const Sidebar = () => {
           {/* Top Content */}
           <div>
             {/* Logo */}
-            <div className='w-full hidden md:flex px-4 py-2 shadow-lg rounded-lg justify-center items-center bg-lime-100 mx-auto'>
+            <div className='w-full hidden md:flex px-4 py-2 shadow-lg rounded-lg justify-center items-center bg-white mx-auto'>
               <Link to='/'>
-                <img src='/logo.png' alt='logo' width='100' height='100' />
+                <img src='/logo.png' alt='logo' width='50' height='50' />
               </Link>
             </div>
           </div>
@@ -89,7 +101,7 @@ const Sidebar = () => {
               address='/dashboard/profile'
             />
             <button
-              onClick={logOut}
+              onClick={handleLogout}
               className='flex cursor-pointer w-full items-center px-4 py-2 mt-5 text-gray-600 hover:bg-gray-300   hover:text-gray-700 transition-colors duration-300 transform'
             >
               <GrLogout className='w-5 h-5' />

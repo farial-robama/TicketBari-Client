@@ -95,7 +95,7 @@ const RequestedBookings = () => {
                                         </td>
                                         <td>
                                             {booking.status === 'pending' ? (
-                                                <div>
+                                                <div className=' flex gap-3'>
                                                     <button
                                                     onClick={() => handleStatusUpdate(booking._id, 'accepted')}
                                                     disabled={processing === booking._id}

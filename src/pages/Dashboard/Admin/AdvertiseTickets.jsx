@@ -47,8 +47,9 @@ const AdvertiseTickets = () => {
             <div className='flex justify-between items-center mb-8'>
                 <h1 className='text-3xl font-bold'>Advertise Tickets</h1>
                 <div className='text-right'>
-                    <p className='text-sm text-gray-600'>Advertise Tickets</p>
+                    <p className='text-sm text-gray-600'>Advertised Tickets</p>
                     <p className='text-3xl font-bold text-blue-600'>{advertisedCount}/6</p>
+                </div>
                 </div>
 
                 {tickets.length === 0 ? (
@@ -130,7 +131,6 @@ const AdvertiseTickets = () => {
                     </div>
                 )}
             </div>
-        </div>
     );
 };
 

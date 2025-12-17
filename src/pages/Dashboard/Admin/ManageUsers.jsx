@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import useAuth from '../../../hooks/useAuth';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import { useQuery } from '@tanstack/react-query';
@@ -8,6 +8,7 @@ import toast from 'react-hot-toast';
 const ManageUsers = () => {
   const { user } = useAuth()
   const axiosSecure = useAxiosSecure()
+  const [processing, setProcessing] = useState(null)
   const {
     data: users = [],
     isLoading,
@@ -58,7 +59,7 @@ const ManageUsers = () => {
     <div>
             <h1 className='text-3xl font-bold mb-8'>Manage Users</h1>
 
-            {tickets.length === 0 ? (
+            {user.length === 0 ? (
                 <div className='text-center py-12'>
                     <p className='text-xl text-gray-500'>No users found</p>
                 </div>
@@ -94,15 +95,15 @@ const ManageUsers = () => {
                                         <td className='px-6 py-4 whitespace-nowrap text-sm text-gray-900'>
                                             {user.email}
                                         </td>
-                                        <td className='px-6 py-4 whitespace-nowrap text-sm text-gray-900'>
-                                            <div>
-                                                <p className='font-medium'>{ticket.vendorName}</p>
-                                                <p className='text-xs text-gray-500'>{ticket.vendorEmail}</p>
-                                            </div>
-                                        </td>
                                         
                                         <td className='px-6 py-4 whitespace-nowrap text-sm font-bold text-green-600'>
-                                            {ticket.role}
+                                            <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase ${
+                                              user.role === 'admin' ? 'bg-red-100 text-red-800' : 
+                                              user.role === 'vendor' ? 'bg-green-100 text-green-800' : 
+                                              'bg-blue-100 text-blue-800'
+                                            }`}>
+                                              {user.role}
+                                            </span>
                                         </td>
                                         <td className='px-6 py-4 whitespace-nowrap'>
                                             {

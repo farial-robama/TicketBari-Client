@@ -1,4 +1,5 @@
-import React from 'react';
+
+import React, { useState } from 'react';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import { useQuery } from '@tanstack/react-query';
 import LoadingSpinner from '../../../components/Shared/LoadingSpinner';
@@ -6,6 +7,7 @@ import toast from 'react-hot-toast';
 
 const ManageTickets = () => {
      const axiosSecure = useAxiosSecure()
+     const [processing, setProcessing] = useState(null)
     
          const { data: tickets = [], isLoading, refetch } = useQuery({
             queryKey: ['admin-tickets'],
@@ -73,9 +75,7 @@ const ManageTickets = () => {
                                         <td className='px-6 py-4 whitespace-nowrap text-sm text-gray-900'>
                                             {ticket.title}
                                         </td>
-                                        <td className='px-6 py-4 whitespace-nowrap text-sm text-gray-900'>
-                                            {ticket.ticketTitle}
-                                        </td>
+                                        
                                         <td className='px-6 py-4 whitespace-nowrap text-sm text-gray-900'>
                                             <div>
                                                 <p className='font-medium'>{ticket.vendorName}</p>
@@ -109,7 +109,7 @@ const ManageTickets = () => {
                                                         Approved
                                                     </button>
                                                     <button
-                                                    onClick={() => handleStatusUpdate(ticket._id, 'rejected')}
+                                                    onClick={() => handleVerification(ticket._id, 'rejected')}
                                                     disabled={processing === ticket._id}
                                                     className='bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition disabled:bg-gray-400 disabled:cursor-not-allowed'
                                                     >

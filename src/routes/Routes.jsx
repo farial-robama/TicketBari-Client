@@ -70,6 +70,10 @@ export const router = createBrowserRouter([
           element: <MyBookedTickets></MyBookedTickets>
         },
         {
+          path: 'profile',
+          element: <MyProfile></MyProfile>
+      },
+        {
           path: 'transactions',
           element: <TransactionHistory></TransactionHistory>
         },
@@ -90,7 +94,7 @@ export const router = createBrowserRouter([
           element: <RevenueOverview></RevenueOverview>
         },
         {
-          path: 'manage-bookings',
+          path: 'manage-tickets',
           element: <ManageTickets></ManageTickets>
         },
         {
