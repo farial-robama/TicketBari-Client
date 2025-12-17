@@ -3,6 +3,7 @@ import useAuth from '../../../hooks/useAuth';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import { useQuery } from '@tanstack/react-query';
 import LoadingSpinner from '../../../components/Shared/LoadingSpinner';
+import toast from 'react-hot-toast';
 
 const ManageUsers = () => {
   const { user } = useAuth()
@@ -12,61 +13,155 @@ const ManageUsers = () => {
     isLoading,
     refetch,
   } = useQuery({
-    queryKey: ['users', user?.email],
+    queryKey: ['admin-users'],
     queryFn: async () => {
-      const result = await axiosSecure(`/users`)
-      return result.data
-    },
+      const { data } = await axiosSecure.get('/admin/users')
+      return data
+    }
   })
-  console.log(users)
+  
+  const handleRoleChange = async (email, role) => {
+    if(!window.confirm(`Change user role to ${role}?`)) return;
+
+            try {
+                setProcessing(email)
+            await axiosSecure.patch(`/admin/users/${email}/role`, { role })
+            toast.success(`User role changed to ${role}`)
+            refetch()
+            } catch (error) {
+            console.error(error)
+            toast.error('Failed to change user role')
+        } finally {
+            setProcessing(null)
+        }
+        }
+
+         const handleMarkFraud = async (email) => {
+    if(!window.confirm('Mark this vendor as fraud? All their tickets will be hidden.')) return;
+
+            try {
+                setProcessing(email)
+            await axiosSecure.patch(`/admin/users/${email}/fraud`)
+            toast.success('Vendor marked as fraud')
+            refetch()
+            } catch (error) {
+            console.error(error)
+            toast.error('Failed to mark as fraud')
+        } finally {
+            setProcessing(null)
+        }
+        }
 
   if (isLoading) return <LoadingSpinner></LoadingSpinner>
 
   return (
-    <>
-      <div className='container mx-auto px-4 sm:px-8'>
-        <div className='py-8'>
-          <div className='-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto'>
-            <div className='inline-block min-w-full shadow rounded-lg overflow-hidden'>
-              <table className='min-w-full leading-normal'>
-                <thead>
-                  <tr>
-                    <th
-                      scope='col'
-                      className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
-                    >
-                      Email
-                    </th>
-                    <th
-                      scope='col'
-                      className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
-                    >
-                      Role
-                    </th>
+    <div>
+            <h1 className='text-3xl font-bold mb-8'>Manage Users</h1>
 
-                    <th
-                      scope='col'
-                      className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
-                    >
-                      Action
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {users.map(user => (
-                    <UserDataRow
-                      refetch={refetch}
-                      key={user?._id}
-                      user={user}
-                    />
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
+            {tickets.length === 0 ? (
+                <div className='text-center py-12'>
+                    <p className='text-xl text-gray-500'>No users found</p>
+                </div>
+            ) : (
+                <div className='bg-white shadow-lg rounded-lg overflow-hidden'>
+                    <div className='overflow-x-auto'>
+                        <table className='min-w-full divide-y divide-gray-200'>
+                            <thead className='bg-gradient-to-r from-green-600 to-green-700'>
+                                <tr>
+                                    <th className='px-6 py-4 text-left text-xs font-bold text-white uppercase'>
+                                        Name
+                                    </th>
+                                    <th className='px-6 py-4 text-left text-xs font-bold text-white uppercase'>
+                                        Email
+                                    </th>
+                                    <th className='px-6 py-4 text-left text-xs font-bold text-white uppercase'>
+                                        Role
+                                    </th>
+                                    <th className='px-6 py-4 text-left text-xs font-bold text-white uppercase'>
+                                        Status
+                                    </th>
+                                    <th className='px-6 py-4 text-left text-xs font-bold text-white uppercase'>
+                                        Actions
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody className='bg-white divide-y divide-gray-300'>
+                                {users.map((user, index) => (
+                                    <tr key={user._id} className={`hover:bg-green-50 transition-colors ${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}`}>
+                                        <td className='px-6 py-4 whitespace-nowrap text-sm text-gray-900'>
+                                            {user.name}
+                                        </td>
+                                        <td className='px-6 py-4 whitespace-nowrap text-sm text-gray-900'>
+                                            {user.email}
+                                        </td>
+                                        <td className='px-6 py-4 whitespace-nowrap text-sm text-gray-900'>
+                                            <div>
+                                                <p className='font-medium'>{ticket.vendorName}</p>
+                                                <p className='text-xs text-gray-500'>{ticket.vendorEmail}</p>
+                                            </div>
+                                        </td>
+                                        
+                                        <td className='px-6 py-4 whitespace-nowrap text-sm font-bold text-green-600'>
+                                            {ticket.role}
+                                        </td>
+                                        <td className='px-6 py-4 whitespace-nowrap'>
+                                            {
+                                                user.isFraud ? (
+                                                  <span className='bg-red-600 text-white px-3 py-1 rounded-full text-xs font-bold uppercase'>
+                                                    FRAUD
+                                                  </span>
+                                                ) : (
+                                                  <span className='text-green-600 font-semibold'>Active</span>
+                                                )
+                                            }
+                                                                             
+                                        </td>
+                                        <td className='px-6 py-4 text-sm'>
+                                            
+                                                <div className='flex flex-col gap-2'>
+                                                  <div className='flex gap-2'>
+                                                  {user.role !== 'admin' && (
+                                                    <button
+                                                    onClick={() => handleRoleChange(user.email, 'admin')}
+                                                    disabled={processing === user.email}
+                                                    className='bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition disabled:bg-gray-400 disabled:cursor-not-allowed'
+                                                    >
+                                                        Make Admin
+                                                    </button>
+                                                  )}
+
+                                                  {user.role !== 'vendor' && (
+                                                    <button
+                                                    onClick={() => handleRoleChange(user.email, 'vendor')}
+                                                    disabled={processing === user.email}
+                                                    className='bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition disabled:bg-gray-400 disabled:cursor-not-allowed'
+                                                    >
+                                                        Make Vendor
+                                                    </button>
+                                                  )}
+                                                </div>
+
+                                                {user.role !== 'vendor' && !user.isFraud && (
+                                                    <button
+                                                    onClick={() => handleMarkFraud(user.email)}
+                                                    disabled={processing === user.email}
+                                                    className='bg-orange-600 text-white px-4 py-2 rounded hover:bg-orange-700 transition disabled:bg-gray-400 disabled:cursor-not-allowed'
+                                                    >
+                                                        Make as Fraud
+                                                    </button>
+                                                  )}
+                                                </div>                                              
+                                            
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            )}
         </div>
-      </div>
-    </>
+   
   )
 }
 
