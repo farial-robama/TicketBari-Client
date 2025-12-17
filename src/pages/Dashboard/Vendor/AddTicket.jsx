@@ -4,7 +4,6 @@ import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import { useNavigate } from 'react-router';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
-import { transform } from 'framer-motion';
 import toast from 'react-hot-toast';
 
 const AddTicket = () => {
@@ -44,9 +43,9 @@ const AddTicket = () => {
             }
             // Save to database
             await axiosSecure.post('/tickets', ticketData)
-            toast.success('Ticket added successfully! Waiting fo admin approval.')
+            toast.success('Ticket added successfully! Waiting for admin approval.')
             reset()
-            navigate('/dasshboard/my-tickets')
+            navigate('/dashboard/my-tickets')
 
         } catch (error) {
             console.error(error)
@@ -105,7 +104,7 @@ const AddTicket = () => {
                         Transport Type *
                     </label>
                    <select 
-                   {...register('transportType', { required: 'Transport type location is required' })}
+                   {...register('transportType', { required: 'Transport typ is required' })}
                     className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent'>
                         <option value="">Select transport type</option>
                         <option value="Bus">Bus</option>

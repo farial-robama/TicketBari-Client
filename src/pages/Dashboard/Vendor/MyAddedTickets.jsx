@@ -33,7 +33,7 @@ const MyAddedTickets = () => {
                 <p className='text-gray-400 mt-2'>Start by adding your first ticket!</p>
             </div>
         ) : (
-            <div>
+            <div className='grid grid-cols-2 gap-7'>
                 {tickets.map((ticket) => (
                     <TicketCard key={ticket._id} ticket={ticket} refetch={refetch}></TicketCard>
                 ))}

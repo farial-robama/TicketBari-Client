@@ -38,11 +38,15 @@ export const router = createBrowserRouter([
           path: 'profile',
           element: <PrivateRoute><MyProfile></MyProfile></PrivateRoute>
       },
-      { path: '/login', element: <Login /> },
-  { path: '/signup', element: <SignUp /> },
+      { path: 'login', element: <Login /> },
+  { path: 'signup', element: <SignUp /> },
   {
         path: 'tickets',
-        element: <PrivateRoute><AllTickets></AllTickets></PrivateRoute>
+        element: <AllTickets></AllTickets>
+      },
+      {
+        path: 'ticket/:id',
+        element: <PrivateRoute><TicketsDetails></TicketsDetails></PrivateRoute>
       },
         
     ]
