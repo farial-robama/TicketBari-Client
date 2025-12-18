@@ -136,31 +136,5 @@ TicketBari is a comprehensive MERN stack ticket booking platform where users can
 - ImgBB API key
 
 
-## Key Features Implementation
 
-### 1. Search & Filter (Challenge #1)
-- Location-based search (From/To)
-- Transport type filtering
-- Real-time results update
-
-### 2. Price Sorting (Challenge #2)
-- Low to High sorting
-- High to Low sorting
-- Maintains filter state
-
-### 3. JWT/Firebase Token Security (Challenge #3)
-- Protected API endpoints
-- Token verification middleware
-- Secure user sessions
-
-### 4. Pagination (Challenge #4)
-- 6 tickets per page
-- Previous/Next navigation
-- Page number buttons
-- Auto-reset on filter change
-
-### 5. Dark/Light Mode (Challenge #5)
-- Toggle switch in navbar
-- Persistent theme storage
-- Smooth transitions
 
