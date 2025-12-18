@@ -99,37 +99,32 @@ TicketBari is a comprehensive MERN stack ticket booking platform where users can
 ## NPM Packages Used
 
 ### Frontend
-```json
-{
-  "@stripe/react-stripe-js": "^2.x.x",
-  "@stripe/stripe-js": "^2.x.x",
-  "@tanstack/react-query": "^5.x.x",
-  "axios": "^1.x.x",
-  "firebase": "^10.x.x",
-  "framer-motion": "^11.x.x",
-  "lucide-react": "^0.x.x",
-  "react": "^18.x.x",
-  "react-dom": "^18.x.x",
-  "react-hook-form": "^7.x.x",
-  "react-hot-toast": "^2.x.x",
-  "react-icons": "^5.x.x",
-  "react-router-dom": "^6.x.x",
-  "recharts": "^2.x.x",
-  "swiper": "^11.x.x"
-}
-```
+- react-router-dom: Routing and navigation.
+
+- axios: Handling API communication.
+
+- recharts: Mandatory interactive charts for revenue data.
+
+- framer-motion: Smooth UI animations.
+
+- swiper: Dynamic homepage hero sliders.
+
+- react-hook-form: Optimized form handling.
+
+- react-hot-toast: Real-time user notifications.
+
+- lucide-react & react-icons: Modern iconography (including the X logo).
 
 ### Backend
-```json
-{
-  "express": "^4.x.x",
-  "mongodb": "^6.x.x",
-  "stripe": "^14.x.x",
-  "firebase-admin": "^12.x.x",
-  "cors": "^2.x.x",
-  "dotenv": "^16.x.x"
-}
-```
+- jsonwebtoken: API security and token-based auth.
+
+- dotenv: Management of environment variables (Firebase/MongoDB keys).
+
+- cors: Handling Cross-Origin requests.
+
+- stripe: Server-side payment intent creation.
+
+- mongodb: Database connectivity.
 
 ## Installation & Setup
 

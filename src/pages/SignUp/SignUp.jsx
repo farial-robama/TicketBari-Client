@@ -180,7 +180,10 @@ const SignUp = () => {
                   required: "Password is required",
                   minLength: {
                     value: 6,
-                    message: "Password must be at least 6 characters",
+                    message: "Password must be at least 6 characters" },
+                    pattern: {
+                      value: /^(?=.*[a-z])(?=.*[A-Z]).+$/,
+                      message: "Must be an uppercase and a lowercase letter",
                   },
                 })}
               />
