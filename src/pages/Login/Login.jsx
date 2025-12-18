@@ -8,7 +8,7 @@ import { FcGoogle } from 'react-icons/fc';
 import { saveOrUpdateUser } from '../../utils'
 
 const Login = () => {
-  const { signIn, signInWithGoogle, loading, user, setLoading } = useAuth()
+  const { signIn, signInWithGoogle, loading, user, setLoading, resetPassword} = useAuth()
   const navigate = useNavigate()
   const location = useLocation()
 
@@ -61,6 +61,22 @@ const Login = () => {
       toast.error(err?.message)
     }
   }
+
+  // Foget password
+  const handleResetPassword = async () => {
+    const email = document.getElementById('email').value
+    if (!email) {
+      return toast.error("Please enter your email first")
+    }
+    try {
+      await resetPassword(email)
+      toast.success("Password reset email sent! Check you inbox.")
+    } catch (error) {
+      toast.error(error.message)
+    }
+  }
+
+
   return (
     <div className='flex justify-center items-center min-h-screen '>
       <div className='flex flex-col max-w-md p-6 rounded-md sm:p-10 bg-white text-gray-900 my-20'>
@@ -124,7 +140,7 @@ const Login = () => {
           </div>
         </form>
         <div className='space-y-1'>
-          <button className='text-xs hover:underline hover:text-[#3B9797] text-gray-400 cursor-pointer'>
+          <button onClick={handleResetPassword} type="button" className='text-xs hover:underline hover:text-[#3B9797] text-gray-400 cursor-pointer'>
             Forgot password?
           </button>
         </div>
@@ -144,7 +160,7 @@ const Login = () => {
           <p>Continue with Google</p>
         </div>
         <p className='px-6 text-sm text-center text-gray-400'>
-          Don&apos;t have an account yet?{' '}
+          Don't have an account yet?{' '}
           <Link
             state={from}
             to='/signup'
