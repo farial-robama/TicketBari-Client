@@ -3,6 +3,7 @@ import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import { useQuery } from '@tanstack/react-query';
 import LoadingSpinner from '../../../components/Shared/LoadingSpinner';
 import { FaChartLine, FaDollarSign, FaTicketAlt } from 'react-icons/fa';
+import { Bar, BarChart, CartesianGrid, Cell, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
 const RevenueOverview = () => {
     const axiosSecure = useAxiosSecure()
@@ -14,6 +15,11 @@ const RevenueOverview = () => {
                 return data
             }
         })
+
+        const chartData = [
+            { name: 'Ticket Added', value: stats?.totalTicketsAdded || 0, color: '#9333ea'},
+            { name: 'Ticket Sold', value: stats?.totalTicketsSold || 0, color: '#2563eb'}
+        ]
 
         if(isLoading) return <LoadingSpinner></LoadingSpinner>
     
@@ -61,6 +67,26 @@ const RevenueOverview = () => {
                         </div>
                     </div>
                     <p className='text-blue-100 text-sm mt-4'>Total tickets created</p>
+                </div>
+            </div>
+
+            {/* Chart */}
+            <div className='bg-white rounded-lg shadow-lg p-6 my-13'>
+                <h2 className='text-2xl font-bold mb-8'>Sales vs. Inventory</h2>
+                <div className='h-[300px] w-full'>
+                    <ResponsiveContainer width="100%" height="100%">
+                        <BarChart data={chartData}>
+                            <CartesianGrid strokeDasharray="3 3" vertical={false}></CartesianGrid>
+                                <XAxis dataKey='name'></XAxis>
+                                <YAxis></YAxis>
+                                <Tooltip cursor={{fill: '#f3f4f6'}}></Tooltip>
+                                <Bar dataKey='value' radius={[4,4,0,0]} barSize={80}>
+                                    {chartData.map((entry, index) => (
+                                        <Cell key={`cell-${index}`} fill={entry.color}></Cell>
+                                    ))}
+                                </Bar>
+                        </BarChart>
+                    </ResponsiveContainer>
                 </div>
             </div>
 
