@@ -279,7 +279,7 @@ const AddTicket = () => {
       file:text-sm file:font-semibold
       file:bg-lime-50 file:text-[#3B9797]
       hover:file:bg-lime-100
-      bg-gray-100 bcursor-pointer
+      bg-gray-100 cursor-pointer
       focus:outline-none"
           />
           {errors.image && (
