@@ -1,16 +1,171 @@
-# React + Vite
+# TicketBari - Online Ticket Booking Platform
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+TicketBari is a comprehensive MERN stack ticket booking platform where users can discover and book travel tickets for Bus, Train, Launch, and Flight. The platform features three user roles (User, Vendor, Admin) with secure authentication, real-time booking management, Stripe payment integration, and interactive dashboards.
 
-Currently, two official plugins are available:
+**Purpose:** The purpose of this project is to provide a centralized platform for travel ticket management. It simplifies the booking process for customers, provides vendors with tools to manage their inventory and track revenue, and gives administrators full control over platform quality and user verification.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+**Live Website:** https://ticketbari-client.web.app/
 
-## React Compiler
+## Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### **User Authentication (Firebase)**
+- Email/Password registration & login
+- Google OAuth authentication
+- Password validation (uppercase, lowercase, 6+ characters)
+- Secure logout functionality
+- Protected routes for authenticated users
 
-## Expanding the ESLint configuration
+### **User Dashboard**
+- **User Profile**: View and manage profile information
+- **My Booked Tickets**: View all bookings with status tracking (Pending, Accepted, Rejected, Paid)
+- **Transaction History**: Complete payment history with transaction details
+- **Real-time Countdown**: Shows time until departure for each booking
+- **Stripe Payment Integration**: Secure payment processing for accepted bookings
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### **Vendor Dashboard**
+- **Vendor Profile**: Manage vendor information
+- **Add Ticket**: Create new tickets with image upload (ImgBB)
+- **My Added Tickets**: View, update, and delete tickets with verification status
+- **Requested Bookings**: Accept or reject booking requests from users
+- **Revenue Overview**: Interactive charts displaying total revenue, tickets sold, and tickets added
+
+### **Admin Dashboard**
+- **Admin Profile**: View admin information
+- **Manage Tickets**: Approve or reject vendor-submitted tickets
+- **Manage Users**: Assign roles (Admin, Vendor, Customer) and mark vendors as fraud
+- **Advertise Tickets**: Feature up to 6 tickets on the homepage advertisement section
+
+### **Home Page**
+- Hero banner/slider with Swiper.js
+- Advertisement section with 6 admin-selected tickets
+- Latest tickets section (6-8 recently added tickets)
+- Two additional custom sections (Popular Routes, Why Choose Us)
+
+### **All Tickets Page**
+- Search by From/To location
+- Filter by transport type (Bus, Train, Flight, Ferry)
+- Sort by price (Low to High / High to Low)
+- Pagination (6 tickets per page)
+- Display only admin-approved tickets
+
+### **Ticket Details Page**
+- Complete ticket information with countdown timer
+- Book Now functionality with quantity selection
+- Booking restrictions (departure time passed, out of stock)
+- Role-based access (only customers can book)
+
+### **Additional Features**
+- **Dark/Light Mode Toggle**: Theme customization
+- **Responsive Design**: Fully mobile, tablet, and desktop friendly
+- **Loading States**: Spinners for data fetching
+- **Error Handling**: Custom 404 page and error messages
+- **Toast Notifications**: Real-time feedback for user actions
+- **JWT/Firebase Token**: Secure API protection
+
+## Technologies Used
+
+### **Frontend**
+- React.js with Vite
+- JavaScript (ES6+)
+- Tailwind CSS & DaisyUI
+- React Router DOM
+- React Query (TanStack Query)
+- Framer Motion
+- Firebase Authentication
+- Stripe.js & React Stripe.js
+- React Hook Form
+- Swiper.js
+- Recharts
+- React Hot Toast
+- Lucide React Icons
+- React Icons
+- Axios
+
+### **Backend**
+- Node.js
+- Express.js
+- MongoDB with Mongoose
+- Stripe Payment Gateway
+- Firebase Admin SDK
+- ImgBB API (Image Upload)
+- CORS & dotenv
+- JWT Token Authentication
+
+### **Deployment**
+- Frontend: Firebase Hosting 
+- Backend: Vercel
+- Database: MongoDB Atlas
+
+## NPM Packages Used
+
+### Frontend
+```json
+{
+  "@stripe/react-stripe-js": "^2.x.x",
+  "@stripe/stripe-js": "^2.x.x",
+  "@tanstack/react-query": "^5.x.x",
+  "axios": "^1.x.x",
+  "firebase": "^10.x.x",
+  "framer-motion": "^11.x.x",
+  "lucide-react": "^0.x.x",
+  "react": "^18.x.x",
+  "react-dom": "^18.x.x",
+  "react-hook-form": "^7.x.x",
+  "react-hot-toast": "^2.x.x",
+  "react-icons": "^5.x.x",
+  "react-router-dom": "^6.x.x",
+  "recharts": "^2.x.x",
+  "swiper": "^11.x.x"
+}
+```
+
+### Backend
+```json
+{
+  "express": "^4.x.x",
+  "mongodb": "^6.x.x",
+  "stripe": "^14.x.x",
+  "firebase-admin": "^12.x.x",
+  "cors": "^2.x.x",
+  "dotenv": "^16.x.x"
+}
+```
+
+## Installation & Setup
+
+### Prerequisites
+- Node.js (v16 or higher)
+- MongoDB Atlas account
+- Firebase project
+- Stripe account
+- ImgBB API key
+
+
+## Key Features Implementation
+
+### 1. Search & Filter (Challenge #1)
+- Location-based search (From/To)
+- Transport type filtering
+- Real-time results update
+
+### 2. Price Sorting (Challenge #2)
+- Low to High sorting
+- High to Low sorting
+- Maintains filter state
+
+### 3. JWT/Firebase Token Security (Challenge #3)
+- Protected API endpoints
+- Token verification middleware
+- Secure user sessions
+
+### 4. Pagination (Challenge #4)
+- 6 tickets per page
+- Previous/Next navigation
+- Page number buttons
+- Auto-reset on filter change
+
+### 5. Dark/Light Mode (Challenge #5)
+- Toggle switch in navbar
+- Persistent theme storage
+- Smooth transitions
+

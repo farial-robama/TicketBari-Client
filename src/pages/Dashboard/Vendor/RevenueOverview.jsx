@@ -16,12 +16,14 @@ const RevenueOverview = () => {
             }
         })
 
+        if(isLoading) return <LoadingSpinner></LoadingSpinner>
+
         const chartData = [
             { name: 'Ticket Added', value: stats?.totalTicketsAdded || 0, color: '#9333ea'},
             { name: 'Ticket Sold', value: stats?.totalTicketsSold || 0, color: '#2563eb'}
         ]
 
-        if(isLoading) return <LoadingSpinner></LoadingSpinner>
+        
     
     return (
         <div className='my-12 text-gray-900'>
