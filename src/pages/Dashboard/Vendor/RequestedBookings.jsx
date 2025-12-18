@@ -34,7 +34,7 @@ const RequestedBookings = () => {
     if(isLoading) return <LoadingSpinner></LoadingSpinner>
 
     return (
-        <div>
+        <div className='my-12 text-gray-900'>
             <h1 className='text-3xl font-bold mb-8'>Requested Bookings</h1>
 
             {bookings.length === 0 ? (

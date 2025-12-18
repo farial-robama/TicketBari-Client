@@ -22,10 +22,8 @@ const CustomerMenu = () => {
       >
         <GrUserAdmin className='w-5 h-5' />
 
-        <span className='mx-4 font-medium'>Become A Seller</span>
+        <span className='mx-4 font-medium'>Become A Vendor</span>
       </div>
-
-      {/* <BecomeSellerModal closeModal={closeModal} isOpen={isOpen} /> */}
     </>
   )
 }

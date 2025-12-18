@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import toast from 'react-hot-toast';
 import CheckoutForm from '../CheckoutForm/CheckoutForm';
+import { Elements } from '@stripe/react-stripe-js';
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY)
 
@@ -63,11 +64,11 @@ const BookingCard = ( {booking, refetch} ) => {
     
     return (
         <>
-            <div>
-            <img src={booking.ticketImage} alt={booking.ticketTitle} className='w-full h-48 object-cover'/>
+            <div className='bg-white rounded-lg'>
+            <img src={booking.ticketImage} alt={booking.ticketTitle} className='w-full h-48 object-cover p-3'/>
 
             <div className='p-4'>
-                <h3 className='text-xl font-bold mb-3 text-gray-800 line-clamp-2'>
+                <h3 className='text-xl font-bold mb-4 text-gray-800 line-clamp-2'>
                     {booking.ticketTitle}
                 </h3>
                 <div className='space-y-2 mb-4 text-sm'>
@@ -120,7 +121,7 @@ const BookingCard = ( {booking, refetch} ) => {
                 {booking.status === 'accepted' && !isExpired && (
                     <button
                     onClick={handlePayNow}
-                    className='w-full py-3'>
+                    className='w-full py-3 bg-green-400'>
                         Pay Now - ${booking.totalPrice}
                     </button>
                 )}
@@ -128,14 +129,14 @@ const BookingCard = ( {booking, refetch} ) => {
                 {booking.status === 'accepted' && isExpired && (
                     <button
                     disabled
-                    className='w-full py-3'>
+                    className='w-full py-3 bg-red-400'>
                         Payment Expired
                     </button>
                 )}
 
                 {booking.status === 'pending' && (
                     <div className=''>
-                        <p className='text-yellow-800 font-semibold text-sm'>
+                        <p className='w-full py-3 text-center text-yellow-800 bg-amber-300 font-semibold text-sm'>
                             Waiting for vendor approval...
                         </p>
                     </div>
@@ -143,7 +144,7 @@ const BookingCard = ( {booking, refetch} ) => {
 
                 {booking.status === 'paid' && (
                    <div>
-                    <p className='text-green-800 font-semibold text-sm'>
+                    <p className='text-green-800 font-semibold text-sm text-center btn bg-green-100 p-6 mt-5'>
                         Payment Complete - Ticket Confirmed!
                     </p>
                    </div>
@@ -151,8 +152,8 @@ const BookingCard = ( {booking, refetch} ) => {
 
                 {booking.status === 'rejected' && (
                    <div>
-                    <p className='text-red-800 font-semibold text-sm'>
-                        Booking Rejected by Vendor
+                    <p className='text-red-800 font-semibold text-sm text-center btn bg-red-100 p-6 mt-5'>
+                        Booking Rejected by Vendor!
                     </p>
                    </div>
                 )}
@@ -167,7 +168,7 @@ const BookingCard = ( {booking, refetch} ) => {
                             <h2 className='text-2xl font-bold text-gray-800'>Complete Payment</h2>
                             <button
                             onClick={() => setShowPayment(false)}
-                            className='text-gray-500 hover:text-gray-700 text-3xl font-light leading-none hover:bg-gray-200 w-10 h-10 rounded-full flex items-center justify-center transition'>
+                            className='btn px-10 py-3 bg-green-200 text-gray-500 hover:text-gray-700 text-xl font-light leading-none w-10 h-10 flex items-center justify-center transition cursor-pointer'>
                                 Cancel
                             </button>
                         </div>

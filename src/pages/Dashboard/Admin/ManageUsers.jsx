@@ -56,7 +56,7 @@ const ManageUsers = () => {
   if (isLoading) return <LoadingSpinner></LoadingSpinner>
 
   return (
-    <div>
+    <div className='text-gray-800 my-15'>
             <h1 className='text-3xl font-bold mb-8'>Manage Users</h1>
 
             {user.length === 0 ? (

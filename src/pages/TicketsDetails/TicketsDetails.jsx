@@ -24,16 +24,16 @@ const TicketsDetails = () => {
   const { data: ticket, isLoading } = useQuery({
           queryKey: ['ticket-details', id],
           queryFn: async () => {
-              const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/tickets/${id}`) 
+              const { data } = await axiosSecure.get(`${import.meta.env.VITE_API_URL}/tickets/${id}`) 
               return data
           }
       })
 
      const { data: role } = useQuery({
           queryKey: ['user-role'],
-          enabled: !user?.email,
+          enabled: !!user?.email,
           queryFn: async () => {
-              const { data } = await axios.get(`/users/role/${user?.email}`) 
+              const { data } = await axiosSecure.get('/user/role') 
               return data.role;
           }
       })
@@ -99,7 +99,7 @@ const TicketsDetails = () => {
 
       const isDeparturePassed = new Date(ticket.departure) < new Date();
       const isOutOfStock = ticket.quantity === 0;
-      const isUser = role === 'User';
+      const isUser = role ? role === 'customer' : false;
       const isAvailable = !isDeparturePassed && !isOutOfStock && isUser;
   
   
@@ -208,22 +208,21 @@ const TicketsDetails = () => {
                 <p className='text-sm text-gray-800'>{ticket.vendorEmail}</p>
             </div>
 
-            {/* Action Buttons */}
-            <div className='flex flex-col md:flex-row gap-5'>
+          </div>
+          {/* Action Buttons */}
+            <div className='flex flex-col md:flex-row gap-10 mx-6 mb-6'>
               <button
               onClick={() => navigate(-1)}
-              className='px-4 py-3 text-gray-700 text-sm rounded-lg bg-[#5bb3e6] hover:bg-gray-400 transition font-semibold'>
+              className='px-8 py-3 text-gray-700 text-sm rounded-lg bg-[#5bb3e6] hover:bg-gray-400 transition font-semibold'>
                 Go Back
               </button>
               <button
               disabled={!isAvailable}
             onClick={() => setShowModal(true)}
-            className={`flex-1 px-4 py-3 rounded-lg font-semibold text-sm transition ${isAvailable ? 'bg-blue-600 text-white hover:bg-blue-700' : 'bg-gray-300 text-gray-800 cursor-not-allowed'}`}>
-                {isDeparturePassed ? 'Departure Passed' : isOutOfStock ? "Sold Out" : !isUser ? 'Only Users Can Book' : "Book Now"}
+            className={`flex-1 px-4 py-3 rounded-lg font-semibold text-sm transition ${isAvailable ? 'bg-blue-600 text-white hover:bg-blue-700' : 'bg-gray-400 text-gray-900 cursor-not-allowed'}`}>
+                {isDeparturePassed ? 'Departure Passed' : isOutOfStock ? "Sold Out" : !isUser ? 'Only Customer Can Book' : "Book Now"}
               </button>
             </div>
-
-          </div>
           </motion.div>
 
           {/* Booking Modal */}

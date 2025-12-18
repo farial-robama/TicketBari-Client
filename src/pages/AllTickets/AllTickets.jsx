@@ -6,6 +6,7 @@ import TicketCard from '../../components/TicketCard/TicketCard';
 import { useEffect } from 'react';
 
 const AllTickets = () => {
+    const axiosSecure = useAxiosSecure()
     const [searchFrom, setSearchFrom] = useState('');
     const [searchTo, setSearchTo] = useState('');
     const [transportFilter, setTransportFilter] = useState('all');
@@ -16,8 +17,9 @@ const AllTickets = () => {
      const { data: tickets = [], isLoading } = useQuery({
         queryKey: ['all-tickets'],
         queryFn: async () => {
-            const { data } = await useAxiosSecure.get('/user/transactions')
+            const { data } = await axiosSecure.get('/tickets/all')
             return data
+                  
         }
     })
 
@@ -25,15 +27,15 @@ const AllTickets = () => {
 
     if (searchFrom !== '') {
         filteredTickets = filteredTickets.filter(ticket => {
-            const title = ticket.title || '';
-            return title.toLowerCase().includes(searchFrom.toLowerCase());
+            const from = ticket.from || '';
+            return from.toLowerCase().includes(searchFrom.toLowerCase());
         })
     }
 
     if (searchTo !== '') {
         filteredTickets = filteredTickets.filter(ticket => {
-            const title = ticket.title || '';
-            return title.toLowerCase().includes(searchTo.toLowerCase());
+            const to = ticket.to || '';
+            return to.toLowerCase().includes(searchTo.toLowerCase());
         })
     }
 
@@ -43,7 +45,7 @@ const AllTickets = () => {
         })
     }
 
-    if (priceSort === 'lo-to-high') {
+    if (priceSort === 'low-to-high') {
         filteredTickets = [...filteredTickets].sort((a,b) => a.price - b.price)
         } else if (priceSort === 'high-to-low') {
             filteredTickets = [...filteredTickets].sort((a,b) => b.price - a.price)
@@ -72,8 +74,8 @@ const AllTickets = () => {
     return (
        <div>
         <div className='container mx-auto px-4 py-16'>
-            <div className='text-center mb-12'>
-                <h1 className='text-4xl font-bold text-gray-800 mb-4'>All Available Tickets</h1>
+            <div className='text-center my-15'>
+                <h1 className='text-4xl font-bold text-gray-800 my-6'>All Available Tickets</h1>
                 <p className='text-gray-600 text-lg'>Browse through {tickets.length} available tickets</p>
             </div>
 
@@ -84,14 +86,14 @@ const AllTickets = () => {
                         <label className='block text-sm font-medium text-gray-700 mb-2'>
                             From Location
                         </label>
-                        <input type="text" placeholder='Search origin...' value={searchFrom} onChange={(e) => setSearchFrom(e.target.value)} className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none'/>
+                        <input type="text" placeholder='Search origin...' value={searchFrom} onChange={(e) => setSearchFrom(e.target.value)} className='w-full px-4 py-2 border border-gray-300 text-gray-900 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none'/>
                     </div>
 
                     <div>
                         <label className='block text-sm font-medium text-gray-700 mb-2'>
                             To Location
                         </label>
-                        <input type="text" placeholder='Search origin...' value={searchTo} onChange={(e) => setSearchTo(e.target.value)} className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none'/>
+                        <input type="text" placeholder='Search destination...' value={searchTo} onChange={(e) => setSearchTo(e.target.value)} className='w-full px-4 py-2 border border-gray-300 text-gray-900 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none'/>
                     </div>
                     </div>
 
@@ -103,7 +105,7 @@ const AllTickets = () => {
                         <select 
                         value={transportFilter}
                         onChange={(e) => setTransportFilter(e.target.value)}
-                        className='w-full px-6 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none bg-white'
+                        className='w-full px-6 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none bg-white text-gray-900 text-sm'
                         >
                             <option value="all">All Types</option>
                             <option value="Bus">Bus</option>
@@ -120,7 +122,7 @@ const AllTickets = () => {
                         <select 
                         value={priceSort}
                         onChange={(e) => setPriceSort(e.target.value)}
-                        className='w-full px-6 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none bg-white'
+                        className='w-full px-6 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none bg-white text-gray-900 text-sm'
                         >
                             <option value="none">Default</option>
                             <option value="low-to-high">Low to High</option>
@@ -131,10 +133,10 @@ const AllTickets = () => {
                 </div>
 
                 {(searchFrom || searchTo || transportFilter !== 'all' || priceSort !== 'none') && (
-                    <div>
+                    <div className='flex justify-end'>
                         <button
                         onClick={clearFilters}
-                        className='px-6 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600'
+                        className='px-6 py-2 bg-red-500 text-white rounded-lg hover:bg-red-700 text-sm mt-5'
                         >
                             Clear All Filters
                         </button>

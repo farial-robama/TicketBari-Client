@@ -50,7 +50,7 @@ console.log('user',user)
     const roleConfig = getRoleConfig(user?.role);
 
     return (
-         <div className='max-w-2xl mx-auto my-15'>
+         <div className='max-w-2xl mx-auto my-15 text-gray-800'>
             <h1 className={`text-2xl font-bold mb-6 text-center ${roleConfig.headerColor}`}>{roleConfig.title}</h1>
 
             <div className='bg-white shadow-lg rounded-lg p-8'>

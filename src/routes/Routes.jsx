@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router";
+import { createBrowserRouter, Navigate } from "react-router";
 import MainLayout from "../layouts/MainLayout";
 import ErrorPage from "../pages/ErrorPage";
 import Home from "../pages/Home/Home";
@@ -19,6 +19,8 @@ import ManageUsers from "../pages/Dashboard/Admin/ManageUsers";
 import AdvertiseTickets from "../pages/Dashboard/Admin/AdvertiseTickets";
 import MyProfile from "../pages/Profile/MyProfile";
 import AllTickets from "../pages/AllTickets/AllTickets";
+import VendorRoute from "./VendorRoute";
+import AdminRoute from "./AdminRoute";
 
 export const router = createBrowserRouter([
   {
@@ -27,33 +29,29 @@ export const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
         {
-            path: '/',
+        index: true,
         element: <Home></Home>,
         },
-         {
-        path: '/plant/:id',
-        element: <PrivateRoute><TicketsDetails></TicketsDetails></PrivateRoute>
+        {
+        path: 'tickets',
+        element: (<PrivateRoute><AllTickets></AllTickets></PrivateRoute>)
       },
-      {
-          path: 'profile',
-          element: <PrivateRoute><MyProfile></MyProfile></PrivateRoute>
+        {
+        path: 'ticket/:id',
+        element: (<PrivateRoute><TicketsDetails></TicketsDetails></PrivateRoute>)
       },
       { path: 'login', element: <Login /> },
   { path: 'signup', element: <SignUp /> },
-  {
-        path: 'tickets',
-        element: <AllTickets></AllTickets>
-      },
-      {
-        path: 'ticket/:id',
-        element: <PrivateRoute><TicketsDetails></TicketsDetails></PrivateRoute>
-      },
-        
+   {
+          path: 'profile',
+          element: <MyProfile></MyProfile>
+      }
+     
     ]
     },
-    
+
     {
-      path: '/dashboard',
+      path: 'dashboard',
       element: (
          <PrivateRoute>
         <DashboardLayout></DashboardLayout>
@@ -63,48 +61,57 @@ export const router = createBrowserRouter([
       children: [
         {
           index: true,
-        element: <h1>Statistiec- coming soon.</h1>
+        element: <Navigate to='profile' replace></Navigate>
         },
-        {
-          path: 'my-bookings',
-          element: <MyBookedTickets></MyBookedTickets>
-        },
+
+        // User
         {
           path: 'profile',
           element: <MyProfile></MyProfile>
       },
         {
+          path: 'my-bookings',
+          element: <MyBookedTickets></MyBookedTickets>
+        },
+        
+        {
           path: 'transactions',
           element: <TransactionHistory></TransactionHistory>
         },
+
+        // Vendor
         {
           path: 'add-tickets',
-          element: <AddTicket></AddTicket>
+          element: <VendorRoute><AddTicket></AddTicket></VendorRoute>
         },
         {
           path: 'my-tickets',
-          element: <MyAddedTickets></MyAddedTickets>
+          element: <VendorRoute><MyAddedTickets></MyAddedTickets></VendorRoute>
         },
         {
           path: 'requested-bookings',
-          element: <RequestedBookings></RequestedBookings>
+          element: <VendorRoute><RequestedBookings></RequestedBookings></VendorRoute>
         },
         {
           path: 'revenue',
-          element: <RevenueOverview></RevenueOverview>
+          element: <VendorRoute><RevenueOverview></RevenueOverview></VendorRoute>
         },
+
+        // Admin
         {
           path: 'manage-tickets',
-          element: <ManageTickets></ManageTickets>
+          element: <AdminRoute><ManageTickets></ManageTickets></AdminRoute>
         },
         {
           path: 'manage-users',
-          element: <ManageUsers></ManageUsers>
+          element: <AdminRoute><ManageUsers></ManageUsers></AdminRoute>
         },
         {
           path: 'advertise-tickets',
-          element: <AdvertiseTickets></AdvertiseTickets>
+          element: <AdminRoute><AdvertiseTickets></AdvertiseTickets></AdminRoute>
         }
       ]
     }
+    
+   
 ])

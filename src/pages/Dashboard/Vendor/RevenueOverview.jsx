@@ -18,7 +18,7 @@ const RevenueOverview = () => {
         if(isLoading) return <LoadingSpinner></LoadingSpinner>
     
     return (
-        <div>
+        <div className='my-12 text-gray-900'>
             <h1 className='text-3xl font-bold mb-8'>Revenue Overview</h1>
 
             <div className='grid grid-cols-1 md:grid-cols-3 gap-6'>

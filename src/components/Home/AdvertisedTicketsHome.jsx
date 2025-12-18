@@ -26,7 +26,7 @@ const AdvertisedTicketsHome = () => {
     return (
         <div className="text-center py-10 px-6">
       <h1 className="text-4xl font-bold text-gray-800 mb-4">Advertisement Section</h1>
-      <p className="text-gray-600 text-lg">
+      <p className="text-gray-600 text-lg mb-8">
         Explore popular tickets on market provided by us.
       </p>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -45,14 +45,11 @@ const AdvertisedTicketsHome = () => {
 
       <button
         onClick={() => navigate("/tickets")}
-        className="btn btn-active bg-linear-to-br from-[#7A85C1] to-[#9F62F2] text-white mt-7 px-5"
+        className="btn btn-active bg-gradient-to-t to-[#632EE3] from-[#9F62F2] text-white mt-7 px-5"
       >
         See All Tickets
       </button>
-      {/* <Button
-      onClick={() => navigate("/tickets")}
-        className="btn btn-active bg-linear-to-br from-[#7A85C1] to-[#9F62F2] text-white mt-7 px-5">See All Tickets
-        </Button> */}
+      
     </div>
     );
 };

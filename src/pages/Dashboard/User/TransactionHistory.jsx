@@ -32,7 +32,7 @@ const TransactionHistory = () => {
                         <table className='min-w-full divide-y divide-gray-200'>
                             <thead className='bg-gradient-to-r from-blue-600 to-blue-700'>
                                 <tr>
-                                    <th className='px-6 text-left text-xs font-bold text-white uppercase tracking-wider'>
+                                    <th className='px-6 py-4 text-left text-xs font-bold text-white uppercase tracking-wider'>
                                         Transaction ID
                                     </th>
                                      <th className='px-6 text-left text-xs font-bold text-white uppercase tracking-wider'>
@@ -47,30 +47,30 @@ const TransactionHistory = () => {
                                 </tr>
                             </thead>
                             <tbody className='bg-white divide-y divide-gray-200'>
-                                {transactions.map((transactions, index) => (
+                                {transactions.map((transaction, index) => (
                                     <tr
-                                    key={transactions._id}
+                                    key={transaction._id}
                                     className={`hover:bg-blue-100 transition-colors ${
                                         index % 2 === 0 ? 'bg-white' : 'bg-gray-100'
                                     }`}
                                     >
                                         <td className='px-6 py-4 whitespace-nowrap'>
                                             <div className='text-sm font-mono text-gray-900 bg-gray-100 px-2 py-1 rounded'>
-                                                {transactions.transactionId.substring(0,20)}...
+                                                {transaction.transactionId.substring(0,20)}...
                                             </div>
                                         </td>
                                         <td className='px-6 py-4'>
                                             <div className='text-sm text-gray-900 font-medium'>
-                                                {transactions.ticketTitle}
+                                                {transaction.ticketTitle}
                                             </div>
                                         </td>
                                          <td className='px-6 py-4 whitespace-nowrap'>
                                             <div className='text-sm font-mono text-green-600 bg-green-100 px-3 py-1 rounded-full inline-block'>
-                                                {transactions.amount}
+                                                {transaction.amount}
                                             </div>
                                         </td>
-                                        <td>
-                                            {new Date(transactions.paymentDate).toLocaleDateString('en-US', {
+                                        <td className='px-6 py-4 whitespace-nowrap dark: text-green-500'>
+                                            {new Date(transaction.paymentDate).toLocaleDateString('en-US', {
                                                 year: 'numeric',
                                                 month: 'short',
                                                 day: 'numeric',
@@ -93,7 +93,7 @@ const TransactionHistory = () => {
                     <div className='bg-gray-50 px-6 py-4 border-t border-gray-200'>
                         <div className='flex justify-between items-center'>
                             <span className='text-sm text-gray-600'>
-                                Total Transactios: <span className='font-bold text-gray-800'>{transactions.length}</span>
+                                Total Transactions: <span className='font-bold text-gray-800 text-lg'>{transactions.length}</span>
                             </span>
                             <span className='text-sm text-gray-600'>
                                 Total Spent: <span className='font-bold text-green-600 text-lg'>

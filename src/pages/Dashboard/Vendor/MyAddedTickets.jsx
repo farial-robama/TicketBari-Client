@@ -18,9 +18,9 @@ const MyAddedTickets = () => {
     if(isLoading) return <LoadingSpinner></LoadingSpinner>
 
     return (
-        <div>
+        <div className='my-12'>
             <div className='flex justify-between items-center mb-8'>
-            <h1 className='text-3xl font-bold'>My Added Tickets</h1>
+            <h1 className='text-3xl font-bold text-gray-900'>My Added Tickets</h1>
             <div className='text-right'>
                 <p className='text-sm text-gray-600'>Total Tickets</p>
                 <p className='text-3xl font-bold text-green-600'>{tickets.length}</p>

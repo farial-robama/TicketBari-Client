@@ -36,7 +36,7 @@ const ManageTickets = () => {
         if(isLoading) return <LoadingSpinner></LoadingSpinner>
     
     return (
-        <div>
+        <div className='text-gray-800 my-15'>
             <h1 className='text-3xl font-bold mb-8'>Manage Tickets</h1>
 
             {tickets.length === 0 ? (
@@ -76,19 +76,19 @@ const ManageTickets = () => {
                                             {ticket.title}
                                         </td>
                                         
-                                        <td className='px-6 py-4 whitespace-nowrap text-sm text-gray-900'>
+                                        <td className='px-6 py-4  text-sm text-gray-900'>
                                             <div>
                                                 <p className='font-medium'>{ticket.vendorName}</p>
                                                 <p className='text-xs text-gray-500'>{ticket.vendorEmail}</p>
                                             </div>
                                         </td>
-                                        <td className='px-6 py-4 whitespace-nowrap text-sm text-gray-900'>
+                                        <td className='px-6 py-4  text-sm text-gray-900'>
                                             {ticket.from} - {ticket.to}
                                         </td>
-                                        <td className='px-6 py-4 whitespace-nowrap text-sm font-bold text-green-600'>
+                                        <td className='px-6 py-4  text-sm font-bold text-green-600'>
                                             {ticket.price}
                                         </td>
-                                        <td className='px-6 py-4 whitespace-nowrap'>
+                                        <td className='px-6 py-4 '>
                                             <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase ${
                                                 ticket.verificationStatus === 'pending' ? 'bg-yellow-100 text-yellow-800' :
                                                 ticket.verificationStatus === 'approved' ? 'bg-green-100 text-green-800' :
@@ -98,7 +98,7 @@ const ManageTickets = () => {
                                                 {ticket.verificationStatus}
                                             </span>
                                         </td>
-                                        <td className='px-6 py-4 whitespace-nowrap text-sm'>
+                                        <td className='px-6 py-4  text-sm'>
                                             {ticket.verificationStatus === 'pending' ? (
                                                 <div className='flex gap-2'>
                                                     <button
