@@ -71,7 +71,7 @@ const RevenueOverview = () => {
                 tickets Sold
               </p>
               <p className="text-4xl font-bold mt-2">
-                ${stats?.totalTicketsSold || 0}
+                {stats?.totalTicketsSold || 0}
               </p>
             </div>
             <div className="bg-white bg-opacity-20 p-4 rounded-full">
@@ -88,7 +88,7 @@ const RevenueOverview = () => {
                 Tickets Added
               </p>
               <p className="text-4xl font-bold mt-2">
-                ${stats?.totalTicketsAdded || 0}
+                {stats?.totalTicketsAdded || 0}
               </p>
             </div>
             <div className="bg-white bg-opacity-20 p-4 rounded-full">
@@ -127,18 +127,20 @@ const RevenueOverview = () => {
         <h2 className="text-2xl font-bold mb-4">Quick Stats</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="border-l-4 border-green-500 pl-4">
-            <p></p>
-            <p>
+            <p className="text-gray-600 text-sm">
+                Average Revenue Per Ticket
+            </p>
+            <p className="text-2xl font-bold text-green-600">
               $
-              {stats?.totalTicketsSold > 0
+              {stats?.totalRevenue > 0
                 ? (stats.totalRevenue / stats.totalTicketsSold).toFixed(2)
                 : "0.00"}
             </p>
           </div>
 
-          <div className="border-l-4 bordr-blue-500 pl-4">
+          <div className="border-l-4 border-blue-500 pl-4">
             <p className="text-gray-600 text-sm">
-              Average Units Sold per Ticket
+              Average Units Sold Per Ticket
             </p>
             <p className="text-2xl font-bold text-blue-600">
               {stats?.totalTicketsAdded > 0
