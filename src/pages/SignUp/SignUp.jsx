@@ -9,7 +9,8 @@ import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const SignUp = () => {
-  const { createUser, updateUserProfile, signInWithGoogle, loading } =useAuth();
+  const { createUser, updateUserProfile, signInWithGoogle, loading } =
+    useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
@@ -50,7 +51,6 @@ const SignUp = () => {
       toast.error(err?.message);
     }
   };
-  
 
   // Handle Google Signin
   const handleGoogleSignIn = async () => {
@@ -138,7 +138,6 @@ const SignUp = () => {
               </p>
             </div>
 
-            
             <div>
               <label htmlFor="email" className="block mb-2 text-sm">
                 Email address
@@ -171,35 +170,35 @@ const SignUp = () => {
               </div>
               <div className="relative">
                 <input
-                type={showPassword ? "text" : "password"}
-                autoComplete="new-password"
-                id="password"
-                placeholder="*******"
-                className="w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-[#3B9797] bg-gray-200 text-gray-900"
-                {...register("password", {
-                  required: "Password is required",
-                  minLength: {
-                    value: 6,
-                    message: "Password must be at least 6 characters" },
+                  type={showPassword ? "text" : "password"}
+                  autoComplete="new-password"
+                  id="password"
+                  placeholder="*******"
+                  className="w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-[#3B9797] bg-gray-200 text-gray-900"
+                  {...register("password", {
+                    required: "Password is required",
+                    minLength: {
+                      value: 6,
+                      message: "Password must be at least 6 characters",
+                    },
                     pattern: {
                       value: /^(?=.*[a-z])(?=.*[A-Z]).+$/,
                       message: "Must be an uppercase and a lowercase letter",
-                  },
-                })}
-              />
-              <span
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer"
-                  >
-                    {showPassword ? <FaEyeSlash></FaEyeSlash> : <FaEye></FaEye>}
-                  </span>
+                    },
+                  })}
+                />
+                <span
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer"
+                >
+                  {showPassword ? <FaEyeSlash></FaEyeSlash> : <FaEye></FaEye>}
+                </span>
               </div>
               {errors.password && (
                 <p className="text-red-500 text-xs mt-1">
                   {errors.password.message}
                 </p>
               )}
-
             </div>
           </div>
 

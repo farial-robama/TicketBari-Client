@@ -1,91 +1,109 @@
-import React, { useState } from 'react';
-import useAuth from '../../../hooks/useAuth';
-import useRole from '../../../hooks/useRole';
-import LoadingSpinner from '../../Shared/LoadingSpinner';
-import { AiOutlineBars } from 'react-icons/ai';
-import { BsGraphUp } from 'react-icons/bs'
-import { FcSettings } from 'react-icons/fc';
-import { Link, NavLink } from 'react-router';
-import CustomerMenu from '../Menu/CustomerMenu';
-import SellerMenu from '../Menu/VendorMenu';
-import AdminMenu from '../Menu/AdminMenu';
-import { GrLogout } from 'react-icons/gr';
-import MenuItem from '../Menu/MenuItem';
-import VendorMenu from '../Menu/VendorMenu';
-import toast from 'react-hot-toast';
+import React, { useState } from "react";
+import useAuth from "../../../hooks/useAuth";
+import useRole from "../../../hooks/useRole";
+import LoadingSpinner from "../../Shared/LoadingSpinner";
+import { AiOutlineBars } from "react-icons/ai";
+import { BsGraphUp } from "react-icons/bs";
+import { FcSettings } from "react-icons/fc";
+import { Link, NavLink } from "react-router";
+import CustomerMenu from "../Menu/CustomerMenu";
+import SellerMenu from "../Menu/VendorMenu";
+import AdminMenu from "../Menu/AdminMenu";
+import { GrLogout } from "react-icons/gr";
+import MenuItem from "../Menu/MenuItem";
+import VendorMenu from "../Menu/VendorMenu";
+import toast from "react-hot-toast";
 
 const Sidebar = () => {
-  const { logOut } = useAuth()
-  const [isActive, setActive] = useState(false)
-  const [role, isRoleLoading] = useRole()
+  const { logOut } = useAuth();
+  const [isActive, setActive] = useState(false);
+  const [role, isRoleLoading] = useRole();
 
   // Sidebar Responsive Handler
   const handleToggle = () => {
-    setActive(!isActive)
-  }
+    setActive(!isActive);
+  };
 
   const handleLogout = async () => {
     try {
-      await logOut()
-      toast.success("You logged out successfully!")
-    }
-    catch(err) {
+      await logOut();
+      toast.success("You logged out successfully!");
+    } catch (err) {
       console.log("Logout failed!", err);
-      
     }
-  }
+  };
 
-  if (isRoleLoading) return <LoadingSpinner />
+  if (isRoleLoading) return <LoadingSpinner />;
 
   return (
     <>
       {/* Small Screen Navbar, only visible till md breakpoint */}
-      <div className='bg-white text-gray-800 flex justify-between md:hidden'>
-        <div className='flex items-center'>
+      <div className="bg-white text-gray-800 flex justify-between md:hidden">
+        <div className="flex items-center">
           <div className="dropdown">
-      <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h7" /> </svg>
-      </div>
-      <ul
-        tabIndex="-1"
-        className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
-        <li><NavLink to='/'>Home</NavLink></li>
-        <li><NavLink to='/tickets'>All Tickets</NavLink></li>
-        <li><NavLink to='/dashboard'>Dashboard</NavLink></li>
-      </ul>
-    </div>
-    <div className='block cursor-pointer p-4 font-bold'>
+            <div
+              tabIndex={0}
+              role="button"
+              className="btn btn-ghost btn-circle"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                {" "}
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M4 6h16M4 12h16M4 18h7"
+                />{" "}
+              </svg>
+            </div>
+            <ul
+              tabIndex="-1"
+              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
+            >
+              <li>
+                <NavLink to="/">Home</NavLink>
+              </li>
+              <li>
+                <NavLink to="/tickets">All Tickets</NavLink>
+              </li>
+              <li>
+                <NavLink to="/dashboard">Dashboard</NavLink>
+              </li>
+            </ul>
+          </div>
+          <div className="block cursor-pointer p-4 font-bold">
             <a className="btn btn-ghost text-xl">TicketBari</a>
           </div>
         </div>
-        
 
         <button
           onClick={handleToggle}
-          className='mobile-menu-button p-4 focus:outline-none focus:bg-gray-200'
+          className="mobile-menu-button p-4 focus:outline-none focus:bg-gray-200"
         >
-          <AiOutlineBars className='h-5 w-5' />
+          <AiOutlineBars className="h-5 w-5" />
         </button>
       </div>
 
       {/* Sidebar */}
       <div
         className={`z-10 md:fixed flex flex-col justify-between overflow-x-hidden bg-gray-100 w-64 space-y-6 px-2 py-4 absolute inset-y-0 left-0 transform ${
-          isActive && '-translate-x-full'
+          isActive && "-translate-x-full"
         }  md:translate-x-0  transition duration-200 ease-in-out`}
       >
-        <div className='flex flex-col h-full'>
-          {/* Top Content */}
-          
-
-          {/* Middle Content */}
-          <div className='flex flex-col justify-between flex-1 mt-6'>
+        <div className="flex flex-col h-full">
+          <div className="flex flex-col justify-between flex-1 mt-6">
             {/*  Menu Items */}
             <nav>
               {/* Role-Based Menu */}
-              {role === 'customer' && <CustomerMenu />}
-              {role === 'vendor' && <VendorMenu />}
-              {role === 'admin' && <AdminMenu />}
+              {role === "customer" && <CustomerMenu />}
+              {role === "vendor" && <VendorMenu />}
+              {role === "admin" && <AdminMenu />}
             </nav>
           </div>
 
@@ -95,22 +113,22 @@ const Sidebar = () => {
 
             <MenuItem
               icon={FcSettings}
-              label='Profile'
-              address='/dashboard/profile'
+              label="Profile"
+              address="/dashboard/profile"
             />
             <button
               onClick={handleLogout}
-              className='flex cursor-pointer w-full items-center px-4 py-2 mt-5 text-gray-600 hover:bg-gray-300   hover:text-gray-700 transition-colors duration-300 transform'
+              className="flex cursor-pointer w-full items-center px-4 py-2 mt-5 text-gray-600 hover:bg-gray-300   hover:text-gray-700 transition-colors duration-300 transform"
             >
-              <GrLogout className='w-5 h-5' />
+              <GrLogout className="w-5 h-5" />
 
-              <span className='mx-4 font-medium'>Logout</span>
+              <span className="mx-4 font-medium">Logout</span>
             </button>
           </div>
         </div>
       </div>
     </>
-    );
+  );
 };
 
 export default Sidebar;

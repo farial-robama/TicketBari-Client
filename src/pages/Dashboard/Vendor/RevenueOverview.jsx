@@ -1,118 +1,155 @@
-import React from 'react';
-import useAxiosSecure from '../../../hooks/useAxiosSecure';
-import { useQuery } from '@tanstack/react-query';
-import LoadingSpinner from '../../../components/Shared/LoadingSpinner';
-import { FaChartLine, FaDollarSign, FaTicketAlt } from 'react-icons/fa';
-import { Bar, BarChart, CartesianGrid, Cell, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import React from "react";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import { useQuery } from "@tanstack/react-query";
+import LoadingSpinner from "../../../components/Shared/LoadingSpinner";
+import { FaChartLine, FaDollarSign, FaTicketAlt } from "react-icons/fa";
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  Cell,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
 
 const RevenueOverview = () => {
-    const axiosSecure = useAxiosSecure()
-    
-         const { data: stats, isLoading } = useQuery({
-            queryKey: ['vendor-revenue'],
-            queryFn: async () => {
-                const { data } = await axiosSecure.get('/vendor/revenue')
-                return data
-            }
-        })
+  const axiosSecure = useAxiosSecure();
 
-        if(isLoading) return <LoadingSpinner></LoadingSpinner>
+  const { data: stats, isLoading } = useQuery({
+    queryKey: ["vendor-revenue"],
+    queryFn: async () => {
+      const { data } = await axiosSecure.get("/vendor/revenue");
+      return data;
+    },
+  });
 
-        const chartData = [
-            { name: 'Ticket Added', value: stats?.totalTicketsAdded || 0, color: '#9333ea'},
-            { name: 'Ticket Sold', value: stats?.totalTicketsSold || 0, color: '#2563eb'}
-        ]
+  if (isLoading) return <LoadingSpinner></LoadingSpinner>;
 
-        
-    
-    return (
-        <div className='my-12 text-gray-900'>
-            <h1 className='text-3xl font-bold mb-8'>Revenue Overview</h1>
+  const chartData = [
+    {
+      name: "Ticket Added",
+      value: stats?.totalTicketsAdded || 0,
+      color: "#9333ea",
+    },
+    {
+      name: "Ticket Sold",
+      value: stats?.totalTicketsSold || 0,
+      color: "#2563eb",
+    },
+  ];
 
-            <div className='grid grid-cols-1 md:grid-cols-3 gap-6'>
-                {/* Total Revenue */}
-                <div className='bg-gradient-to-br from-green-500 to-green-600 text-white rounded-lg shadow-lg p-6'>
-                    <div className='flex items-center justify-between'>
-                        <div>
-                            <p className='text-green-100 text-sm uppercase tracking-wide'>Total Revenue</p>
-                            <p className='text-4xl font-bold mt-2'>${stats?.totalRevenue || 0}</p>
-                        </div>
-                        <div className='bg-white bg-opacity-20 p-4 rounded-full'>
-                            <FaDollarSign className='text-4xl'></FaDollarSign>
-                        </div>
-                    </div>
-                    <p className='text-green-100 text-xs mt-4'>From all paid bookings</p>
-                </div>
+  return (
+    <div className="my-12 text-gray-900">
+      <h1 className="text-3xl font-bold mb-8">Revenue Overview</h1>
 
-                {/* Total Tickets Sold */}
-                <div className='bg-gradient-to-br from-blue-500 to-blue-600 text-white rounded-lg shadow-lg p-6'>
-                    <div className='flex items-center justify-between'>
-                        <div>
-                            <p className='text-blue-100 text-sm uppercase tracking-wide'>tickets Sold</p>
-                            <p className='text-4xl font-bold mt-2'>${stats?.totalTicketsSold || 0}</p>
-                        </div>
-                        <div className='bg-white bg-opacity-20 p-4 rounded-full'>
-                            <FaTicketAlt className='text-4xl'></FaTicketAlt>
-                        </div>
-                    </div>
-                    <p className='text-blue-100 text-sm mt-4'>Total units sold</p>
-                </div>
-                {/* Total Tickets Added */}
-                <div className='bg-gradient-to-br from-purple-500 to-purple-600 text-white rounded-lg shadow-lg p-6'>
-                    <div className='flex items-center justify-between'>
-                        <div>
-                            <p className='text-blue-100 text-sm uppercase tracking-wide'>Tickets Added</p>
-                            <p className='text-4xl font-bold mt-2'>${stats?.totalTicketsAdded || 0}</p>
-                        </div>
-                        <div className='bg-white bg-opacity-20 p-4 rounded-full'>
-                            <FaChartLine className='text-4xl'></FaChartLine>
-                        </div>
-                    </div>
-                    <p className='text-blue-100 text-sm mt-4'>Total tickets created</p>
-                </div>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* Total Revenue */}
+        <div className="bg-gradient-to-br from-green-500 to-green-600 text-white rounded-lg shadow-lg p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-green-100 text-sm uppercase tracking-wide">
+                Total Revenue
+              </p>
+              <p className="text-4xl font-bold mt-2">
+                ${stats?.totalRevenue || 0}
+              </p>
             </div>
-
-            {/* Chart */}
-            <div className='bg-white rounded-lg shadow-lg p-6 my-13'>
-                <h2 className='text-2xl font-bold mb-8'>Sales vs. Inventory</h2>
-                <div className='h-[300px] w-full'>
-                    <ResponsiveContainer width="100%" height="100%">
-                        <BarChart data={chartData}>
-                            <CartesianGrid strokeDasharray="3 3" vertical={false}></CartesianGrid>
-                                <XAxis dataKey='name'></XAxis>
-                                <YAxis></YAxis>
-                                <Tooltip cursor={{fill: '#f3f4f6'}}></Tooltip>
-                                <Bar dataKey='value' radius={[4,4,0,0]} barSize={80}>
-                                    {chartData.map((entry, index) => (
-                                        <Cell key={`cell-${index}`} fill={entry.color}></Cell>
-                                    ))}
-                                </Bar>
-                        </BarChart>
-                    </ResponsiveContainer>
-                </div>
+            <div className="bg-white bg-opacity-20 p-4 rounded-full">
+              <FaDollarSign className="text-4xl"></FaDollarSign>
             </div>
-
-           {/* Additional Info */}
-           <div className='mt-8 bg-white rounded-lg shadow-lg p-6'>
-            <h2 className='text-2xl font-bold mb-4'>Quick Stats</h2>
-            <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-                <div className='border-l-4 border-green-500 pl-4'>
-                    <p></p>
-                    <p> 
-                       ${stats?.totalTicketsSold > 0 ? (stats.totalRevenue / stats.totalTicketsSold).toFixed(2) : '0.00'}
-                    </p>
-                </div>
-        
-            <div className='border-l-4 bordr-blue-500 pl-4'>
-                <p className='text-gray-600 text-sm'>Average Units Sold per Ticket</p>
-                <p className='text-2xl font-bold text-blue-600'>
-                    {stats?.totalTicketsAdded > 0 ? (stats.totalTicketsSold / stats.totalTicketsAdded).toFixed(2) : '0.00'}
-                </p>
-            </div>
-           </div>
+          </div>
+          <p className="text-green-100 text-xs mt-4">From all paid bookings</p>
         </div>
-     </div>
-    );
+
+        {/* Total Tickets Sold */}
+        <div className="bg-gradient-to-br from-blue-500 to-blue-600 text-white rounded-lg shadow-lg p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-blue-100 text-sm uppercase tracking-wide">
+                tickets Sold
+              </p>
+              <p className="text-4xl font-bold mt-2">
+                ${stats?.totalTicketsSold || 0}
+              </p>
+            </div>
+            <div className="bg-white bg-opacity-20 p-4 rounded-full">
+              <FaTicketAlt className="text-4xl"></FaTicketAlt>
+            </div>
+          </div>
+          <p className="text-blue-100 text-sm mt-4">Total units sold</p>
+        </div>
+        {/* Total Tickets Added */}
+        <div className="bg-gradient-to-br from-purple-500 to-purple-600 text-white rounded-lg shadow-lg p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-blue-100 text-sm uppercase tracking-wide">
+                Tickets Added
+              </p>
+              <p className="text-4xl font-bold mt-2">
+                ${stats?.totalTicketsAdded || 0}
+              </p>
+            </div>
+            <div className="bg-white bg-opacity-20 p-4 rounded-full">
+              <FaChartLine className="text-4xl"></FaChartLine>
+            </div>
+          </div>
+          <p className="text-blue-100 text-sm mt-4">Total tickets created</p>
+        </div>
+      </div>
+
+      {/* Chart */}
+      <div className="bg-white rounded-lg shadow-lg p-6 my-13">
+        <h2 className="text-2xl font-bold mb-8">Sales vs. Inventory</h2>
+        <div className="h-[300px] w-full">
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart data={chartData}>
+              <CartesianGrid
+                strokeDasharray="3 3"
+                vertical={false}
+              ></CartesianGrid>
+              <XAxis dataKey="name"></XAxis>
+              <YAxis></YAxis>
+              <Tooltip cursor={{ fill: "#f3f4f6" }}></Tooltip>
+              <Bar dataKey="value" radius={[4, 4, 0, 0]} barSize={80}>
+                {chartData.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={entry.color}></Cell>
+                ))}
+              </Bar>
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
+
+      {/* Additional Info */}
+      <div className="mt-8 bg-white rounded-lg shadow-lg p-6">
+        <h2 className="text-2xl font-bold mb-4">Quick Stats</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="border-l-4 border-green-500 pl-4">
+            <p></p>
+            <p>
+              $
+              {stats?.totalTicketsSold > 0
+                ? (stats.totalRevenue / stats.totalTicketsSold).toFixed(2)
+                : "0.00"}
+            </p>
+          </div>
+
+          <div className="border-l-4 bordr-blue-500 pl-4">
+            <p className="text-gray-600 text-sm">
+              Average Units Sold per Ticket
+            </p>
+            <p className="text-2xl font-bold text-blue-600">
+              {stats?.totalTicketsAdded > 0
+                ? (stats.totalTicketsSold / stats.totalTicketsAdded).toFixed(2)
+                : "0.00"}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default RevenueOverview;

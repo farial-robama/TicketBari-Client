@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from "react";
 import {
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
@@ -9,115 +9,118 @@ import {
   signInWithPopup,
   signOut,
   updateProfile,
-} from 'firebase/auth'
-import { app } from '../firebase/firebase.config'
-import { AuthContext } from './AuthContext'
-import axios from 'axios'
+} from "firebase/auth";
+import { app } from "../firebase/firebase.config";
+import { AuthContext } from "./AuthContext";
+import axios from "axios";
 
-const auth = getAuth(app)
-const googleProvider = new GoogleAuthProvider()
+const auth = getAuth(app);
+const googleProvider = new GoogleAuthProvider();
 
 const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null)
-  const [loading, setLoading] = useState(true)
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const createUser = (email, password) => {
-    setLoading(true)
-    return createUserWithEmailAndPassword(auth, email, password)
-  }
+    setLoading(true);
+    return createUserWithEmailAndPassword(auth, email, password);
+  };
 
   const signIn = (email, password) => {
-    setLoading(true)
-    return signInWithEmailAndPassword(auth, email, password)
-  }
+    setLoading(true);
+    return signInWithEmailAndPassword(auth, email, password);
+  };
 
   const signInWithGoogle = () => {
-    setLoading(true)
-    return signInWithPopup(auth, googleProvider)
-  }
+    setLoading(true);
+    return signInWithPopup(auth, googleProvider);
+  };
 
   const logOut = async () => {
-    setLoading(true)
-    return signOut(auth)
-  }
+    setLoading(true);
+    return signOut(auth);
+  };
 
   const updateUserProfile = (name, photo) => {
     return updateProfile(auth.currentUser, {
       displayName: name,
       photoURL: photo,
-    })
-  }
+    });
+  };
 
   const resetPassword = (email) => {
     setLoading(true);
     return sendPasswordResetEmail(auth, email);
-  }
+  };
 
-  // Save user to database 
+  // Save user to database
   const saveUser = async (user) => {
-    const userData ={
+    const userData = {
       email: user?.email,
       name: user?.displayName,
       image: user?.photoURL,
       // role: 'customer'
-    }
+    };
     try {
       const { data } = await axios.post(
         `${import.meta.env.VITE_API_URL}/user`,
         userData
-      )
-      return data
-    } catch(error) {
-      console.error('Error saving user:', error)
+      );
+      return data;
+    } catch (error) {
+      console.error("Error saving user:", error);
     }
-  }
+  };
 
-  // Get token from Firebase 
+  // Get token from Firebase
   const getToken = async (email) => {
     try {
-      const currentUser = auth.currentUser
-      if(currentUser) {
-        const token = await currentUser.getIdToken()
-        localStorage.setItem('access-token', token)
-        return token
+      const currentUser = auth.currentUser;
+      if (currentUser) {
+        const token = await currentUser.getIdToken();
+        localStorage.setItem("access-token", token);
+        return token;
       }
     } catch (error) {
-      console.error('Error getting token', error)
+      console.error("Error getting token", error);
     }
-  }
+  };
 
   // onAuthStateChange
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-      setUser(currentUser)
+      setUser(currentUser);
 
       if (currentUser) {
-        await getToken(currentUser.email)
+        await getToken(currentUser.email);
 
         try {
           const { data: profile } = await axios.get(
             `${import.meta.env.VITE_API_URL}/user/profile`,
-            { headers: { Authorization: `Bearer ${localStorage.getItem('access-token')}`}}
-          )
-          setUser(profile)
-
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("access-token")}`,
+              },
+            }
+          );
+          setUser(profile);
         } catch (error) {
-          console.error('Error fetching user profile', error)
+          console.error("Error fetching user profile", error);
         }
         // await saveUser(currentUser)
         if (currentUser.displayName) {
-          await saveUser(currentUser)
+          await saveUser(currentUser);
         }
       } else {
-        setUser(null)
-        localStorage.removeItem('access-token')
+        setUser(null);
+        localStorage.removeItem("access-token");
       }
-      setLoading(false)
-    })
+      setLoading(false);
+    });
     return () => {
-      return unsubscribe()
-    }
-  }, [])
+      return unsubscribe();
+    };
+  }, []);
 
   const authInfo = {
     user,
@@ -130,12 +133,12 @@ const AuthProvider = ({ children }) => {
     logOut,
     updateUserProfile,
     resetPassword,
-    saveUser
-  }
+    saveUser,
+  };
 
   return (
     <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>
-  )
-}
+  );
+};
 
-export default AuthProvider
+export default AuthProvider;
