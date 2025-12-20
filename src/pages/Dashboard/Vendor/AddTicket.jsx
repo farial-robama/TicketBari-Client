@@ -63,7 +63,7 @@ const AddTicket = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto my-12 bg-white p-8 rounded-md shadow-2xl text-gray-900">
+    <div className="max-w-4xl mx-auto my-12 mt-10 md:mt-20 bg-white p-8 rounded-md shadow-2xl text-gray-900">
       <h1 className="text-center text-3xl font-bold mb-8">Add New Ticket</h1>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
         {/* Ticet Title */}

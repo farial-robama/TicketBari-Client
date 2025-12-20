@@ -22,8 +22,8 @@ const MyBookedTickets = () => {
   if (isLoading) return <LoadingSpinner></LoadingSpinner>;
 
   return (
-    <div>
-      <h1 className="text-3xl font-bold text-gray-900 mb-8">
+    <div className="my-8">
+      <h1 className="text-3xl font-bold text-gray-900 mt-15 mb-8">
         My Booked Tickets
       </h1>
 

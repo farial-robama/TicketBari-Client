@@ -9,8 +9,7 @@ import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const SignUp = () => {
-  const { createUser, updateUserProfile, signInWithGoogle, loading } =
-    useAuth();
+  const { createUser, updateUserProfile, signInWithGoogle, loading } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
@@ -122,15 +121,7 @@ const SignUp = () => {
                 type="file"
                 id="image"
                 accept="image/*"
-                className="block w-full text-sm text-gray-500
-      file:mr-4 file:py-2 file:px-4
-      file:rounded-md file:border-0
-      file:text-sm file:font-semibold
-      file:bg-lime-50 file:text-[#3B9797]
-      hover:file:bg-lime-100
-      bg-gray-100 border border-dashed border-[#3B9797] rounded-md cursor-pointer
-      focus:outline-none focus:ring-2 focus:ring-[#3B9797] focus:border-[#3B9797]
-      py-2"
+                className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-lime-50 file:text-[#3B9797] hover:file:bg-lime-100 bg-gray-100 border border-dashed border-[#3B9797] rounded-md cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#3B9797] focus:border-[#3B9797] py-2"
                 {...register("image")}
               />
               <p className="mt-1 text-xs text-gray-400">

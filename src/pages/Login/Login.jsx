@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import { Link, Navigate, useLocation, useNavigate } from "react-router";
 import LoadingSpinner from "../../components/Shared/LoadingSpinner";
@@ -6,10 +6,11 @@ import toast from "react-hot-toast";
 import { TbFidgetSpinner } from "react-icons/tb";
 import { FcGoogle } from "react-icons/fc";
 import { saveOrUpdateUser } from "../../utils";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Login = () => {
-  const { signIn, signInWithGoogle, loading, user, setLoading, resetPassword } =
-    useAuth();
+  const { signIn, signInWithGoogle, loading, user, setLoading, resetPassword } = useAuth();
+    const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -109,14 +110,15 @@ const Login = () => {
                 data-temp-mail-org="0"
               />
             </div>
-            <div>
+            <div className="relative">
               <div className="flex justify-between">
                 <label htmlFor="password" className="text-sm mb-2">
                   Password
                 </label>
               </div>
-              <input
-                type="password"
+              <div className="relative">
+                <input
+              type={showPassword ? "text" : "password"}
                 name="password"
                 autoComplete="current-password"
                 id="password"
@@ -124,7 +126,15 @@ const Login = () => {
                 placeholder="*******"
                 className="w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-[#3B9797] bg-gray-200 text-gray-900"
               />
+              <span
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer"
+            >
+            {showPassword ? <FaEyeSlash></FaEyeSlash> : <FaEye></FaEye>}
+           </span>
+              </div>
             </div>
+            
           </div>
 
           <div>

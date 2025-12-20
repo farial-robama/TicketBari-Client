@@ -13,13 +13,13 @@ import { GrLogout } from "react-icons/gr";
 import MenuItem from "../Menu/MenuItem";
 import toast from "react-hot-toast";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Home, Ticket } from "lucide-react";
+import { X, Home, Ticket, ChevronRight, ChevronLeft } from "lucide-react";
 
 const Sidebar = () => {
   const { logOut, user } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [role, isRoleLoading] = useRole();
-
+  
   
   useEffect(() => {
     const handleResize = () => {
@@ -35,6 +35,7 @@ const Sidebar = () => {
   const handleMobileToggle = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
+
 
   const handleLogout = async () => {
     try {
@@ -123,6 +124,7 @@ const Sidebar = () => {
             >
               <X className="h-5 w-5 text-gray-600" />
             </button>
+           
           </div>
         </div>
 
@@ -188,3 +190,6 @@ const Sidebar = () => {
 };
 
 export default Sidebar;
+
+
+

@@ -17,8 +17,8 @@ const TransactionHistory = () => {
   if (isLoading) return <LoadingSpinner></LoadingSpinner>;
 
   return (
-    <div>
-      <h1 className="text-3xl font-bold mb-8 text-gray-800">
+    <div className="my-8">
+      <h1 className="text-3xl font-bold mt-15 mb-8 text-gray-800">
         Transaction History
       </h1>
 
