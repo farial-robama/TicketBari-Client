@@ -25,7 +25,7 @@ const PopularRoutes = () => {
     <section className="py-10 my-10 bg-gradient-to-b from-white to-gray-100 rounded-2xl">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold text-gray-800 mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-gray-900 via-purple-900 to-blue-900 bg-clip-text text-transparent mb-4">
             Popular Routes
           </h2>
           <p className="text-gray-600 text-lg">

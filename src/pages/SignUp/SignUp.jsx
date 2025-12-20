@@ -55,7 +55,7 @@ const SignUp = () => {
   // Handle Google Signin
   const handleGoogleSignIn = async () => {
     try {
-      //User Registration using google
+      
       const { user } = await signInWithGoogle();
 
       await saveOrUpdateUser({

@@ -196,7 +196,7 @@ const AllTickets = () => {
           {currentPage > 0 && (
             <button
               onClick={() => setCurrentPage(currentPage - 1)}
-              className="btn"
+              className="btn btn-active bg-gradient-to-t to-[#632EE3] from-[#9F62F2] text-white"
             >
               Prev
             </button>
@@ -206,7 +206,7 @@ const AllTickets = () => {
             <button
               key={i}
               onClick={() => setCurrentPage(i)}
-              className={`btn ${i === currentPage && "btn-primary"}`}
+              className={`btn btn-active bg-gradient-to-t to-[#632EE3] from-[#9F62F2] text-white ${i === currentPage && "btn-primary"}`}
             >
               {i + 1}
             </button>
@@ -215,7 +215,7 @@ const AllTickets = () => {
           {currentPage < totalPage - 1 && (
             <button
               onClick={() => setCurrentPage(currentPage + 1)}
-              className="btn"
+              className="btn btn-active bg-gradient-to-t to-[#632EE3] from-[#9F62F2] text-white"
             >
               Next
             </button>
