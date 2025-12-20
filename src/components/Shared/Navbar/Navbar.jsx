@@ -39,9 +39,9 @@ const Navbar = () => {
         <Container>
           <div className="flex flex-row  items-center justify-between gap-3 md:gap-0">
             {/* Logo */}
-            <div className="flex">
+            <div className="flex items-center gap-2">
               <img src="/logo.png" className="w-10 hidden md:block" />
-              <a className="btn btn-ghost text-xl text-gray-900">TicketBari</a>
+              <a className="font-bold text-xl bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">TicketBari</a>
             </div>
 
             {/* Middle */}

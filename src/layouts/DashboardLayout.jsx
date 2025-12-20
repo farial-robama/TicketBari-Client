@@ -1,25 +1,38 @@
-import React from "react";
+
+import React, { useState } from "react";
 import Sidebar from "../components/Dashboard/Sidebar/Sidebar";
 import { Outlet } from "react-router";
 import Navbar from "../components/Shared/Navbar/Navbar";
 import Footer from "../components/Shared/Footer/Footer";
 
 const DashboardLayout = () => {
+  const [isCollapsed, setIsCollapsed] = useState(false);
+
   return (
-    <div className="min-h-screen md:flex">
-      {/* Left Side: Sidebar Component */}
-      <Sidebar />
-      {/* Right Side: Dashboard Dynamic Content */}
-      <div className="flex-1 flex flex-col md:ml-64">
-        <header className="hidden md:block mb-20">
-          <Navbar></Navbar>
+    <div className="min-h-screen">
+      {/* Sidebar */}
+      <Sidebar isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
+      
+      <div
+        className={`flex flex-col min-h-screen transition-all duration-300 ${
+          isCollapsed ? "md:ml-20" : "md:ml-72"
+        }`}
+      >
+        {/* Navbar */}
+        <header className="hidden md:block sticky top-0 z-30 bg-white border-b border-gray-200 shadow-sm">
+          <Navbar />
         </header>
-        <main className="flex-1 px-8 py-4">
-          {/* Outlet*/}
-          <Outlet />
+
+        {/* Main Content */}
+        <main className="flex-1 px-4 md:px-8 py-6 md:py-8 flex-grow">
+          <div className="max-w-7xl mx-auto">
+            <Outlet />
+          </div>
         </main>
-        <footer className="mt-6">
-          <Footer></Footer>
+
+        {/* Footer */}
+        <footer className="mt-auto border-t border-gray-200 bg-white">
+          <Footer />
         </footer>
       </div>
     </div>

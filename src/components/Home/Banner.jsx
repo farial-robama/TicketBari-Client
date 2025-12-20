@@ -48,7 +48,7 @@ const Banner = () => {
   };
 
   return (
-    <div className="relative w-full h-screen overflow-hidden bg-gray-900 pt-30">
+    <div className="relative w-full h-screen overflow-hidden bg-gray-900 mt-20">
       {slides.map((slide, index) => (
         <div
           key={index}

@@ -1,27 +1,39 @@
-import React, { useState } from "react";
+
+import React, { useState, useEffect } from "react";
 import useAuth from "../../../hooks/useAuth";
 import useRole from "../../../hooks/useRole";
 import LoadingSpinner from "../../Shared/LoadingSpinner";
 import { AiOutlineBars } from "react-icons/ai";
-import { BsGraphUp } from "react-icons/bs";
 import { FcSettings } from "react-icons/fc";
-import { Link, NavLink } from "react-router";
+import { NavLink } from "react-router";
 import CustomerMenu from "../Menu/CustomerMenu";
-import SellerMenu from "../Menu/VendorMenu";
+import VendorMenu from "../Menu/VendorMenu";
 import AdminMenu from "../Menu/AdminMenu";
 import { GrLogout } from "react-icons/gr";
 import MenuItem from "../Menu/MenuItem";
-import VendorMenu from "../Menu/VendorMenu";
 import toast from "react-hot-toast";
+import { motion, AnimatePresence } from "framer-motion";
+import { X, Home, Ticket } from "lucide-react";
 
 const Sidebar = () => {
-  const { logOut } = useAuth();
-  const [isActive, setActive] = useState(false);
+  const { logOut, user } = useAuth();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [role, isRoleLoading] = useRole();
 
-  // Sidebar Responsive Handler
-  const handleToggle = () => {
-    setActive(!isActive);
+  
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 768) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const handleMobileToggle = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
   const handleLogout = async () => {
@@ -37,94 +49,138 @@ const Sidebar = () => {
 
   return (
     <>
-      {/* Small Screen Navbar, only visible till md breakpoint */}
-      <div className="bg-white text-gray-800 flex justify-between md:hidden">
-        <div className="flex items-center">
-          <div className="dropdown">
-            <div
-              tabIndex={0}
-              role="button"
-              className="btn btn-ghost btn-circle"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                {" "}
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4 6h16M4 12h16M4 18h7"
-                />{" "}
-              </svg>
-            </div>
-            <ul
-              tabIndex="-1"
-              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
-            >
-              <li>
-                <NavLink to="/">Home</NavLink>
-              </li>
-              <li>
-                <NavLink to="/tickets">All Tickets</NavLink>
-              </li>
-              <li>
-                <NavLink to="/dashboard">Dashboard</NavLink>
-              </li>
-            </ul>
-          </div>
-          <div className="block cursor-pointer p-4 font-bold">
-            <a className="btn btn-ghost text-xl">TicketBari</a>
+      {/* Mobile Header */}
+      <div className="bg-white border-b border-gray-200 flex justify-between items-center md:hidden sticky top-0 z-50 shadow-sm">
+        <div className="flex items-center gap-3 px-4 py-3">
+          <button
+            onClick={handleMobileToggle}
+            className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+          >
+            <AiOutlineBars className="h-6 w-6 text-gray-700" />
+          </button>
+          
+          <div className="flex items-center gap-2">
+            <img src="/logo.png" className="w-7 h-7" alt="" />
+            <span className="font-bold text-xl bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+              TicketBari
+            </span>
           </div>
         </div>
 
-        <button
-          onClick={handleToggle}
-          className="mobile-menu-button p-4 focus:outline-none focus:bg-gray-200"
-        >
-          <AiOutlineBars className="h-5 w-5" />
-        </button>
+        <div className="flex items-center gap-2 px-4">
+          <NavLink
+            to="/"
+            className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+          >
+            <Home className="h-5 w-5 text-gray-600" />
+          </NavLink>
+          <NavLink
+            to="/tickets"
+            className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+          >
+            <Ticket className="h-5 w-5 text-gray-600" />
+          </NavLink>
+        </div>
       </div>
+
+      {/* Mobile Overlay */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={handleMobileToggle}
+            className="fixed inset-0 bg-black/20 z-40 md:hidden backdrop-blur-sm"
+          />
+        )}
+      </AnimatePresence>
 
       {/* Sidebar */}
       <div
-        className={`z-10 md:fixed flex flex-col justify-between overflow-x-hidden bg-white w-64 space-y-6 px-2 py-4 absolute inset-y-0 left-0 transform ${
-          isActive && "-translate-x-full"
-        }  md:translate-x-0  transition duration-200 ease-in-out`}
+        className={`fixed inset-y-0 left-0 z-50 flex flex-col bg-white border-r border-gray-200 shadow-xl transition-all duration-300 md:w-72 w-72 ${
+          isMobileMenuOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
+        }`}
       >
-        <div className="flex flex-col h-full">
-          <div className="flex flex-col justify-between flex-1 mt-6">
-            {/*  Menu Items */}
-            <nav>
-              {/* Role-Based Menu */}
-              {role === "customer" && <CustomerMenu />}
-              {role === "vendor" && <VendorMenu />}
-              {role === "admin" && <AdminMenu />}
-            </nav>
-          </div>
-
-          {/* Bottom Content */}
-          <div>
-            <hr />
-
-            <MenuItem
-              icon={FcSettings}
-              label="Profile"
-              address="/dashboard/profile"
-            />
-            <button
-              onClick={handleLogout}
-              className="flex cursor-pointer w-full items-center px-4 py-2 mt-5 text-gray-600 hover:bg-gray-300   hover:text-gray-700 transition-colors duration-300 transform"
+        {/* Header */}
+        <div className="relative px-6 py-5 border-b border-gray-200">
+          <div className="flex items-center justify-between">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="flex items-center gap-3"
             >
-              <GrLogout className="w-5 h-5" />
-
-              <span className="mx-4 font-medium">Logout</span>
+              <div>
+                <h1 className="font-bold text-xl text-gray-800">TicketBari</h1>
+                <p className="text-xs text-gray-500">Travel Made Easy</p>
+              </div>
+            </motion.div>
+            
+            {/* Close button for mobile only */}
+            <button
+              onClick={handleMobileToggle}
+              className="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
+            >
+              <X className="h-5 w-5 text-gray-600" />
             </button>
           </div>
+        </div>
+
+        {/* User Profile */}
+        {user && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="px-6 py-4 bg-gradient-to-br from-purple-50 to-blue-50 border-b border-gray-200"
+          >
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center text-white font-bold text-lg shadow-md">
+                {user?.displayName?.[0]?.toUpperCase() || "U"}
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="font-semibold text-sm text-gray-800 truncate">
+                  {user?.displayName || "User"}
+                </p>
+                <p className="text-xs text-gray-500 truncate">{user?.email}</p>
+                <div className="mt-1">
+                  <span className="inline-block px-2 py-0.5 bg-purple-100 text-purple-700 rounded-full text-xs font-medium capitalize">
+                    {role}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        )}
+
+        {/* Navigation Menu */}
+        <nav className="flex-1 overflow-y-auto px-4 py-6 space-y-2 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
+          {role === "customer" && <CustomerMenu />}
+          {role === "vendor" && <VendorMenu />}
+          {role === "admin" && <AdminMenu />}
+        </nav>
+
+       
+        <div className="border-t border-gray-200 px-4 py-4 space-y-2 bg-gray-50">
+          <MenuItem
+            icon={FcSettings}
+            label="Profile"
+            address="/dashboard/profile"
+          />
+          
+          <button
+            onClick={handleLogout}
+            className="flex items-center w-full px-4 py-3 gap-3 rounded-xl text-gray-700 hover:bg-red-50 hover:text-red-600 transition-all duration-300 group"
+          >
+            <GrLogout className="w-5 h-5 group-hover:scale-110 transition-transform" />
+            <span className="font-medium">Logout</span>
+          </button>
+        </div>
+
+        
+        <div className="px-6 py-3 border-t border-gray-200 bg-gray-50">
+          <p className="text-xs text-gray-400 text-center">
+            TicketBari v1.0
+          </p>
         </div>
       </div>
     </>

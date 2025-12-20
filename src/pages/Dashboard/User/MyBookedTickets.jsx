@@ -23,7 +23,7 @@ const MyBookedTickets = () => {
 
   return (
     <div>
-      <h1 className="text-3xl font-bold mb-8 text-gray-800">
+      <h1 className="text-3xl font-bold text-gray-900 mb-8">
         My Booked Tickets
       </h1>
 
