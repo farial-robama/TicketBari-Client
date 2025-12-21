@@ -81,8 +81,7 @@ const AdvertisedTicketsHome = () => {
 
           {/* Subtitle */}
           <p className="text-gray-600 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
-            Discover the most sought-after travel destinations with exclusive
-            deals and unbeatable prices
+           Travel more, spend less: Explore trending destinations with deals updated daily
           </p>
         </motion.div>
 
