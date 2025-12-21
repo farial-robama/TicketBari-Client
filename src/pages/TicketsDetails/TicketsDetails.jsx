@@ -10,6 +10,7 @@ import { FaArrowRight, FaCalendarAlt, FaClock, FaMapPin } from "react-icons/fa";
 import { BsTicket } from "react-icons/bs";
 import { CiTimer } from "react-icons/ci";
 import useAuth from "../../hooks/useAuth";
+import Button from "../../components/Shared/Button/Button";
 
 const TicketsDetails = () => {
   const { id } = useParams();
@@ -92,14 +93,14 @@ const TicketsDetails = () => {
 
   if (!ticket)
     return (
-      <div className=" text-center py-12 text-gray-700">
-        <p>Ticket not found</p>
+      <div className=" text-center py-30 text-gray-700">
+        <p className="mb-6 text-gray-800">Ticket not found!</p>
         <button
           onClick={() => navigate(-1)}
-          className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-400 transition font-semibold"
+          className="px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-400 transition font-semibold"
         >
           Go Back
-        </button>
+        </button>   
       </div>
     );
 
