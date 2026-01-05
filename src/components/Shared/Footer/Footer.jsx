@@ -1,165 +1,279 @@
-// import React from "react";
-
-// const Footer = () => {
-//   return (
-//     <div>
-//       <footer className="footer sm:footer-horizontal bg-base-200 text-base-content p-10">
-//         <nav>
-//           <h6 className="font-bold text-2xl">TicketBari</h6>
-//           <p className="text-sm">
-//             Book bus, train, launch & <br />
-//             flight tickets easily.
-//           </p>
-//         </nav>
-//         <nav>
-//           <h6 className="footer-title">Quick Links</h6>
-//           <a className="link link-hover">Home</a>
-//           <a className="link link-hover">All Tickets</a>
-//           <a className="link link-hover">Contact Us</a>
-//           <a className="link link-hover">About</a>
-//         </nav>
-//         <nav>
-//           <h6 className="footer-title">Contact Info</h6>
-//           <a className="link link-hover">Email: support@ticketbari.com</a>
-//           <a className="link link-hover">Phone: +880 1234-567890</a>
-//           <a className="link link-hover">Facebook Page</a>
-//         </nav>
-//         <nav>
-//           <h6 className="footer-title">Payment Method</h6>
-//           <div>
-//             <img
-//               src="https://img.icons8.com/?size=100&id=23671&format=png"
-//               alt="Stripe"
-//               className="h-8"
-//             />
-//           </div>
-//         </nav>
-//       </footer>
-//       <footer className="footer bg-base-200 text-base-content border-gray-400 border-t px-10 py-4">
-//         <aside className="grid-flow-col items-center">
-//           <img src="/logo.png" className="w-13" />
-//           <p>
-//             TicketBari
-//             <br />
-//             Online Ticket Booking App
-//           </p>
-//         </aside>
-//         <nav className="flex gap-7 justify-between items-center w-full">
-//           <div>@ 2025 TicketBari. All rights reserved.</div>
-//           <div className="grid grid-flow-col gap-4">
-//             <a>
-//               <svg
-//                 xmlns="http://www.w3.org/2000/svg"
-//                 width="24"
-//                 height="24"
-//                 viewBox="0 0 24 24"
-//                 className="fill-current"
-//               >
-//                 <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"></path>
-//               </svg>
-//             </a>
-//             <a>
-//               <svg
-//                 xmlns="http://www.w3.org/2000/svg"
-//                 width="24"
-//                 height="24"
-//                 viewBox="0 0 24 24"
-//                 className="fill-current"
-//               >
-//                 <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"></path>
-//               </svg>
-//             </a>
-//             <a>
-//               <svg
-//                 xmlns="http://www.w3.org/2000/svg"
-//                 width="24"
-//                 height="24"
-//                 viewBox="0 0 24 24"
-//                 className="fill-current"
-//               >
-//                 <path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"></path>
-//               </svg>
-//             </a>
-//           </div>
-//         </nav>
-//       </footer>
-//     </div>
-//   );
-// };
-
-// export default Footer;
-
 
 import React from "react";
+import { Link } from "react-router";
+import {
+  Mail,
+  Phone,
+  MapPin,
+  Facebook,
+  Twitter,
+  Instagram,
+  Linkedin,
+  Send,
+  Shield,
+  Award,
+  Users,
+  ChevronRight,
+  Heart
+} from "lucide-react";
 
 const Footer = () => {
+  const currentYear = new Date().getFullYear();
+
+  const quickLinks = [
+    { name: "Home", path: "/" },
+    { name: "All Tickets", path: "/tickets" },
+    { name: "Dashboard", path: "/dashboard" },
+    { name: "About Us", path: "/about" },
+  ];
+
+  const supportLinks = [
+    { name: "Help Center", path: "/help" },
+    { name: "Contact Us", path: "/contact" },
+    { name: "FAQs", path: "/faq" },
+    { name: "Booking Guide", path: "/guide" },
+  ];
+
+  const legalLinks = [
+    { name: "Privacy Policy", path: "/privacy" },
+    { name: "Terms of Service", path: "/terms" },
+    { name: "Refund Policy", path: "/refund" },
+    { name: "Cookie Policy", path: "/cookies" },
+  ];
+
+  const socialLinks = [
+    { icon: Facebook, link: "#", color: "hover:bg-blue-600" },
+    { icon: Twitter, link: "#", color: "hover:bg-sky-500" },
+    { icon: Instagram, link: "#", color: "hover:bg-pink-600" },
+    { icon: Linkedin, link: "#", color: "hover:bg-blue-700" },
+  ];
+
+  const features = [
+    { icon: Shield, text: "Secure Payment" },
+    { icon: Award, text: "Trusted Platform" },
+    { icon: Users, text: "24/7 Support" },
+  ];
+
   return (
-    <div className="bg-slate-900 text-slate-200"> {/* Dark background for a premium feel */}
-      <footer className="footer container mx-auto p-10 py-16 grid-cols-1 md:grid-cols-4 gap-10">
-        
-        {/* Brand Section */}
-        <aside className="space-y-4">
-          <div className="flex items-center gap-2">
-            <img src="/logo.png" className="w-10 h-10 object-contain" alt="Logo" />
-            <h6 className="font-bold text-3xl tracking-tight text-white">Ticket<span className="text-primary">Bari</span></h6>
-          </div>
-          <p className="leading-relaxed opacity-80">
-            Your trusted partner for hassle-free travel. 
-            Book bus, train, launch, and flight tickets with just a few clicks.
-          </p>
-        </aside>
-
-        {/* Quick Links */}
-        <nav>
-          <h6 className="footer-title text-white opacity-100 border-b border-primary/50 mb-4 w-12">Quick Links</h6>
-          <a className="link link-hover hover:text-primary transition-colors">Home</a>
-          <a className="link link-hover hover:text-primary transition-colors">All Tickets</a>
-          <a className="link link-hover hover:text-primary transition-colors">Contact Us</a>
-          <a className="link link-hover hover:text-primary transition-colors">About Us</a>
-        </nav>
-
-        {/* Contact Info */}
-        <nav>
-          <h6 className="footer-title text-white opacity-100 border-b border-primary/50 mb-4 w-12">Support</h6>
-          <p className="text-sm">Email: <span className="text-white">support@ticketbari.com</span></p>
-          <p className="text-sm">Phone: <span className="text-white">+880 1234-567890</span></p>
-          <div className="mt-4 flex gap-3">
-             {/* Social Button Style */}
-             <a className="btn btn-ghost btn-sm btn-square bg-slate-800 hover:bg-primary hover:text-white transition-all">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"></path></svg>
-             </a>
-             <a className="btn btn-ghost btn-sm btn-square bg-slate-800 hover:bg-primary hover:text-white transition-all">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"></path></svg>
-             </a>
-          </div>
-        </nav>
-
-        {/* Payment & Trust */}
-        <nav>
-          <h6 className="footer-title text-white opacity-100 border-b border-primary/50 mb-4 w-12">Payments</h6>
-          <div className="flex flex-wrap gap-2 opacity-70 grayscale hover:grayscale-0 transition-all">
-            <img src="https://img.icons8.com/color/48/000000/visa.png" className="h-8 grayscale brightness-200" alt="Visa" />
-            <img src="https://img.icons8.com/color/48/000000/mastercard.png" className="h-8 grayscale brightness-200" alt="Mastercard" />
-            <img src="https://img.icons8.com/fluency/48/000000/stripe.png" className="h-8 grayscale brightness-200" alt="Stripe" />
-          </div>
-          <p className="mt-4 text-xs italic opacity-50">Secure SSL Encrypted Payment</p>
-        </nav>
-      </footer>
-
-      {/* Bottom Bar */}
-      <div className="border-t border-slate-800">
-        <footer className="footer container mx-auto px-10 py-6 items-center flex flex-col md:flex-row justify-between text-slate-400 text-sm">
-          <aside className="flex items-center gap-4">
-            <p>© 2025 <span className="text-white font-medium">TicketBari</span>. All rights reserved.</p>
-          </aside> 
-          <nav className="flex gap-6">
-            <a className="link link-hover">Privacy Policy</a>
-            <a className="link link-hover">Terms of Service</a>
-            <a className="link link-hover">Cookies</a>
-          </nav>
-        </footer>
+    <footer className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-slate-200 relative overflow-hidden">
+      {/* Decorative Elements */}
+      <div className="absolute inset-0 opacity-5">
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-purple-500 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-500 rounded-full blur-3xl"></div>
       </div>
-    </div>
+
+      <div className="container mx-auto px-4 relative z-10">
+        {/* Main Footer Content */}
+        <div className="py-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-12">
+          {/* Brand Section - Takes more space */}
+          <div className="lg:col-span-4 space-y-6">
+            {/* Logo */}
+            <Link to="/" className="flex items-center gap-3 group w-fit">
+              <div className="p-2 bg-gradient-to-br from-purple-600 to-blue-600 rounded-xl group-hover:scale-110 transition-transform">
+                <img src="/logo.png" className="w-8 h-8 object-contain" alt="TicketBari Logo" />
+              </div>
+              <h6 className="font-bold text-3xl bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
+                TicketBari
+              </h6>
+            </Link>
+
+            <p className="text-slate-400 leading-relaxed max-w-sm">
+              Your trusted partner for seamless travel experiences. Book bus, train, launch, and flight tickets with confidence and ease.
+            </p>
+
+            {/* Newsletter Signup */}
+            <div className="space-y-3">
+              <h6 className="text-white font-semibold">Stay Updated</h6>
+              <div className="flex gap-2">
+                <input
+                  type="email"
+                  placeholder="Enter your email"
+                  className="flex-1 px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-lg focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 text-sm transition-all"
+                />
+                <button className="px-4 py-2.5 bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg hover:shadow-lg hover:shadow-purple-500/30 transition-all group">
+                  <Send size={18} className="group-hover:translate-x-1 transition-transform" />
+                </button>
+              </div>
+            </div>
+
+            {/* Trust Badges */}
+            <div className="flex flex-wrap gap-4 pt-4">
+              {features.map((feature, index) => (
+                <div key={index} className="flex items-center gap-2 text-xs bg-slate-800/50 px-3 py-2 rounded-lg border border-slate-700/50">
+                  <feature.icon size={16} className="text-purple-400" />
+                  <span className="text-slate-300">{feature.text}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Quick Links */}
+          <div className="lg:col-span-2">
+            <h6 className="text-white font-bold text-lg mb-6 flex items-center gap-2">
+              <div className="w-1 h-6 bg-gradient-to-b from-purple-600 to-blue-600 rounded-full"></div>
+              Quick Links
+            </h6>
+            <ul className="space-y-3">
+              {quickLinks.map((link, index) => (
+                <li key={index}>
+                  <Link
+                    to={link.path}
+                    className="text-slate-400 hover:text-white transition-colors flex items-center gap-2 group"
+                  >
+                    <ChevronRight size={16} className="text-purple-400 group-hover:translate-x-1 transition-transform" />
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Support */}
+          <div className="lg:col-span-2">
+            <h6 className="text-white font-bold text-lg mb-6 flex items-center gap-2">
+              <div className="w-1 h-6 bg-gradient-to-b from-purple-600 to-blue-600 rounded-full"></div>
+              Support
+            </h6>
+            <ul className="space-y-3">
+              {supportLinks.map((link, index) => (
+                <li key={index}>
+                  <Link
+                    to={link.path}
+                    className="text-slate-400 hover:text-white transition-colors flex items-center gap-2 group"
+                  >
+                    <ChevronRight size={16} className="text-purple-400 group-hover:translate-x-1 transition-transform" />
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Contact & Legal Combined */}
+          <div className="lg:col-span-4 space-y-8">
+            {/* Contact Info */}
+            <div>
+              <h6 className="text-white font-bold text-lg mb-6 flex items-center gap-2">
+                <div className="w-1 h-6 bg-gradient-to-b from-purple-600 to-blue-600 rounded-full"></div>
+                Get In Touch
+              </h6>
+              <div className="space-y-4">
+                <a href="mailto:support@ticketbari.com" className="flex items-start gap-3 text-slate-400 hover:text-white transition-colors group">
+                  <div className="p-2 bg-slate-800 rounded-lg group-hover:bg-purple-600 transition-colors">
+                    <Mail size={18} />
+                  </div>
+                  <div>
+                    <div className="text-xs text-slate-500">Email</div>
+                    <div className="font-medium">support@ticketbari.com</div>
+                  </div>
+                </a>
+
+                <a href="tel:+8801234567890" className="flex items-start gap-3 text-slate-400 hover:text-white transition-colors group">
+                  <div className="p-2 bg-slate-800 rounded-lg group-hover:bg-purple-600 transition-colors">
+                    <Phone size={18} />
+                  </div>
+                  <div>
+                    <div className="text-xs text-slate-500">Phone</div>
+                    <div className="font-medium">+880 1234-567890</div>
+                  </div>
+                </a>
+
+                <div className="flex items-start gap-3 text-slate-400">
+                  <div className="p-2 bg-slate-800 rounded-lg">
+                    <MapPin size={18} />
+                  </div>
+                  <div>
+                    <div className="text-xs text-slate-500">Address</div>
+                    <div className="font-medium">Dhaka, Bangladesh</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Social Links */}
+            <div>
+              <h6 className="text-white font-semibold mb-4">Follow Us</h6>
+              <div className="flex gap-3">
+                {socialLinks.map((social, index) => (
+                  <a
+                    key={index}
+                    href={social.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`p-3 bg-slate-800 rounded-lg hover:text-white transition-all transform hover:scale-110 hover:-translate-y-1 ${social.color}`}
+                  >
+                    <social.icon size={20} />
+                  </a>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Payment Methods */}
+        <div className="py-8 border-t border-slate-800">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+            <div>
+              <h6 className="text-white font-semibold mb-3 text-center md:text-left">Accepted Payment Methods</h6>
+              <div className="flex items-center gap-4 flex-wrap justify-center md:justify-start">
+                <div className="px-4 py-2 bg-white rounded-lg">
+                  <img src="https://img.icons8.com/color/48/visa.png" className="h-6" alt="Visa" />
+                </div>
+                <div className="px-4 py-2 bg-white rounded-lg">
+                  <img src="https://img.icons8.com/color/48/mastercard.png" className="h-6" alt="Mastercard" />
+                </div>
+                <div className="px-4 py-2 bg-white rounded-lg">
+                  <img src="https://img.icons8.com/fluency/48/stripe.png" className="h-6" alt="Stripe" />
+                </div>
+                <div className="px-4 py-2 bg-slate-800 rounded-lg border border-slate-700">
+                  <span className="text-sm font-medium">bKash</span>
+                </div>
+                <div className="px-4 py-2 bg-slate-800 rounded-lg border border-slate-700">
+                  <span className="text-sm font-medium">Nagad</span>
+                </div>
+              </div>
+            </div>
+            <div className="flex items-center gap-2 text-sm text-slate-400">
+              <Shield size={16} className="text-green-500" />
+              <span>SSL Encrypted & Secure</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom Bar */}
+        <div className="py-6 border-t border-slate-800">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm">
+            <p className="text-slate-400 text-center md:text-left">
+              © {currentYear}{" "}
+              <span className="text-white font-semibold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
+                TicketBari
+              </span>
+              . All rights reserved.
+            </p>
+
+            <div className="flex items-center gap-2 text-slate-400">
+              <span>Made with</span>
+              <Heart size={16} className="text-red-500 fill-red-500 animate-pulse" />
+              <span>in Bangladesh</span>
+            </div>
+
+            <nav className="flex flex-wrap gap-4 justify-center">
+              {legalLinks.map((link, index) => (
+                <Link
+                  key={index}
+                  to={link.path}
+                  className="text-slate-400 hover:text-white transition-colors text-xs"
+                >
+                  {link.name}
+                </Link>
+              ))}
+            </nav>
+          </div>
+        </div>
+      </div>
+
+      {/* Scroll to top button could go here */}
+    </footer>
   );
 };
 

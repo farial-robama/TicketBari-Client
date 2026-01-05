@@ -54,7 +54,7 @@ const Banner = () => {
   };
 
   return (
-    <div className="relative w-full h-screen overflow-hidden bg-gray-900 mt-20">
+    <div className="relative w-full h-screen overflow-hidden bg-gray-900 mt-8">
       {/* Background Slides */}
       {slides.map((slide, index) => (
         <div

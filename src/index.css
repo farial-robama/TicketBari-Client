@@ -9,7 +9,10 @@
 
 body {
   font-family: "Lexend", sans-serif;
-  background-color: #f1f3e0;
+  background: linear-gradient(135deg, #f8f7ff 0%, #f0f4ff 50%, #fff5f8 100%);
+  background-attachment: fixed;
+  min-height: 100vh;
+  
 }
 
 
