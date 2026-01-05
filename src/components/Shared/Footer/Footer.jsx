@@ -56,7 +56,7 @@ const Footer = () => {
 
   return (
     <footer className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-slate-200 relative overflow-hidden">
-      {/* Decorative Elements */}
+      
       <div className="absolute inset-0 opacity-5">
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-purple-500 rounded-full blur-3xl"></div>
         <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-500 rounded-full blur-3xl"></div>
@@ -174,7 +174,7 @@ const Footer = () => {
                   </div>
                   <div>
                     <div className="text-xs text-slate-500">Phone</div>
-                    <div className="font-medium">+880 1234-567890</div>
+                    <div className="font-medium">+880 1831 492958</div>
                   </div>
                 </a>
 

@@ -155,6 +155,21 @@ const TicketsDetails = () => {
   const isAvailable = !isDeparturePassed && !isOutOfStock && isUser;
   const TransportIcon = getTransportIcon(ticket.transportType);
 
+  
+  const handleBookNowClick = () => {
+    if (!user) {
+      navigate("/login", { state: { from: `/ticket/${id}` } });
+      toast.error("Please login to book tickets");
+      return;
+    }
+    
+    if (isUser) {
+      setShowModal(true);
+    } else {
+      toast.error("Only customers can book tickets");
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-pink-50 py-12 px-4">
       <div className="max-w-6xl mx-auto">
@@ -340,7 +355,17 @@ const TicketsDetails = () => {
                 </div>
               )}
 
-              {!isUser && !isDeparturePassed && !isOutOfStock && (
+              {!user && !isDeparturePassed && !isOutOfStock && (
+                <div className="mb-4 p-4 bg-blue-50 border border-blue-200 rounded-xl flex items-start gap-3">
+                  <Shield size={20} className="text-blue-600 flex-shrink-0 mt-0.5" />
+                  <div>
+                    <p className="font-semibold text-blue-800">Login Required</p>
+                    <p className="text-sm text-blue-600">Please login to book tickets.</p>
+                  </div>
+                </div>
+              )}
+
+              {user && !isUser && !isDeparturePassed && !isOutOfStock && (
                 <div className="mb-4 p-4 bg-blue-50 border border-blue-200 rounded-xl flex items-start gap-3">
                   <Shield size={20} className="text-blue-600 flex-shrink-0 mt-0.5" />
                   <div>
@@ -353,12 +378,12 @@ const TicketsDetails = () => {
               {/* Action Buttons */}
               <div className="space-y-3">
                 <button
-                  disabled={!isAvailable}
-                  onClick={() => setShowModal(true)}
+                  disabled={isDeparturePassed || isOutOfStock}
+                  onClick={handleBookNowClick}
                   className={`w-full py-4 px-6 rounded-xl font-semibold text-lg transition-all flex items-center justify-center gap-2 ${
-                    isAvailable
-                      ? "bg-gradient-to-r from-purple-600 to-blue-600 text-white hover:shadow-xl hover:scale-105"
-                      : "bg-gray-300 text-gray-600 cursor-not-allowed"
+                    isDeparturePassed || isOutOfStock
+                      ? "bg-gray-300 text-gray-600 cursor-not-allowed"
+                      : "bg-gradient-to-r from-purple-600 to-blue-600 text-white hover:shadow-xl hover:scale-105"
                   }`}
                 >
                   <Ticket size={20} />
@@ -366,8 +391,10 @@ const TicketsDetails = () => {
                     ? "Departure Passed"
                     : isOutOfStock
                     ? "Sold Out"
+                    : !user
+                    ? "Login to Book"
                     : !isUser
-                    ? "Login as Customer"
+                    ? "Customer Only"
                     : "Book Now"}
                 </button>
               </div>

@@ -38,11 +38,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "ticket/:id",
-        element: (
-          <PrivateRoute>
-            <TicketsDetails></TicketsDetails>
-          </PrivateRoute>
-        ),
+        element:  <TicketsDetails></TicketsDetails>,
       },
       { path: "login", element: <Login /> },
       { path: "signup", element: <SignUp /> },
