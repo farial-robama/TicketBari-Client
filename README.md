@@ -266,17 +266,6 @@ TicketBari aims to:
 
 ---
 
-<div align="center">
-
-**⭐ Star this repo if you find it helpful!**
-
-Made with ❤️ in Bangladesh
-
-[Report Bug](https://github.com/farial-robama/TicketBari-Client/issues) • [Request Feature](https://github.com/farial-robama/TicketBari-Client/issues)
-
-</div>
-
----
 
 <div align="center">
 
