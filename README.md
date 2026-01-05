@@ -1,8 +1,6 @@
-# 🎫 TicketBari - Modern Online Ticket Booking Platform
-
 <div align="center">
 
-![TicketBari Logo](https://via.placeholder.com/200x200?text=TicketBari)
+# TicketBari – Modern Online Ticket Booking Platform
 
 **A comprehensive MERN stack platform for seamless travel ticket booking**
 
@@ -263,7 +261,7 @@ TicketBari aims to:
 - GitHub: [@farial-robama](https://github.com/farial-robama)
 - Frontend Repo: [TicketBari-Client](https://github.com/farial-robama/TicketBari-Client)
 - Backend Repo: [TicketBari-Server](https://github.com/farial-robama/TicketBari-Server)
-- Email: [Connect with me](farialrobama15@gmail.com)
+- Email: [Connect with me](mailto:farialrobama15@gmail.com)
 - LinkedIn: [Connect with me](https://linkedin.com/in/farial-robama)
 
 ---
