@@ -1,11 +1,17 @@
 import React from "react";
 import { FaChartLine, FaClipboardList } from "react-icons/fa";
-import { MdAddCircleOutline, MdConfirmationNumber } from "react-icons/md";
+import { MdAddCircleOutline, MdConfirmationNumber, MdDashboard } from "react-icons/md";
 import MenuItem from "./MenuItem";
 
 const VendorMenu = () => {
   return (
     <>
+      <MenuItem
+        icon={MdDashboard}
+        label="Dashboard Overview"
+        address="/dashboard"
+      />
+
       <MenuItem
         icon={MdAddCircleOutline}
         label="Add Ticket"

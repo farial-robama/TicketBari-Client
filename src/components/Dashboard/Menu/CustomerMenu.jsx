@@ -1,11 +1,16 @@
 import React, { useState } from "react";
-import { MdOutlineBookOnline } from "react-icons/md";
+import { MdDashboard, MdOutlineBookOnline } from "react-icons/md";
 import { FaHistory } from "react-icons/fa";
 import MenuItem from "./MenuItem";
 
 const CustomerMenu = () => {
   return (
     <>
+    <MenuItem
+        icon={MdDashboard}
+        label="Dashboard Overview"
+        address="/dashboard"
+      />
       <MenuItem
         icon={MdOutlineBookOnline}
         label="My Booked Tickets"

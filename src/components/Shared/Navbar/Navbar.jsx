@@ -101,6 +101,12 @@ const Navbar = () => {
               <NavLink to="/dashboard" className={navLinkClass}>
                 Dashboard
               </NavLink>
+              <NavLink to="/about" className={navLinkClass}>
+                About
+              </NavLink>
+              <NavLink to="/contact" className={navLinkClass}>
+                Contact
+              </NavLink>
             </div>
 
             {/* Right Section */}
@@ -164,6 +170,20 @@ const Navbar = () => {
                         className="block px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-700 transition font-medium text-gray-700 dark:text-gray-300"
                       >
                         📊 Dashboard
+                      </Link>
+                      <Link
+                        to="/about"
+                        onClick={closeMenu}
+                        className="block px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-700 transition font-medium text-gray-700 dark:text-gray-300"
+                      >
+                        ℹ️ About
+                      </Link>
+                      <Link
+                        to="/contact"
+                        onClick={closeMenu}
+                        className="block px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-700 transition font-medium text-gray-700 dark:text-gray-300"
+                      >
+                        📧 Contact
                       </Link>
                     </div>
 

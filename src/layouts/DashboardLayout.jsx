@@ -84,16 +84,16 @@ const DashboardLayout = () => {
     }));
   };
 
-  const handleLogout = async () => {
-    try {
-      if (signOutUser) {
-        await signOutUser();
-      }
-      navigate("/");
-    } catch (error) {
-      console.error("Logout failed:", error);
-    }
-  };
+  // const handleLogout = async () => {
+  //   try {
+  //     if (signOutUser) {
+  //       await signOutUser();
+  //     }
+  //     navigate("/");
+  //   } catch (error) {
+  //     console.error("Logout failed:", error);
+  //   }
+  // };
 
   const toggleTheme = () => {
     setTheme(theme === "dark" ? "light" : "dark");
@@ -221,13 +221,13 @@ const DashboardLayout = () => {
 
                       <div className="border-t border-gray-200 my-2"></div>
 
-                      <button
+                      {/* <button
                         onClick={handleLogout}
                         className="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-red-50 transition-colors text-red-600"
                       >
                         <LogOut size={18} />
                         <span>Logout</span>
-                      </button>
+                      </button> */}
                     </div>
                   </>
                 )}

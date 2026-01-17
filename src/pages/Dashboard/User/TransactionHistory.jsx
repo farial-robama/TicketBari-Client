@@ -1,63 +1,20 @@
 import { useQuery } from "@tanstack/react-query";
 import React, { useState, useMemo } from "react";
-import { 
-  Search, 
-  Download, 
-  Filter, 
-  Calendar, 
-  DollarSign, 
+import {
+  Search,
+  Download,
+  Filter,
+  Calendar,
+  DollarSign,
   TrendingUp,
   CreditCard,
   Clock,
   ChevronDown,
   ChevronUp,
   Receipt,
-  ArrowUpDown
+  ArrowUpDown,
 } from "lucide-react";
-
-// Mock data for demonstration - replace with your actual hook
-const useAxiosSecure = () => ({
-  get: async () => ({
-    data: [
-      {
-        _id: "1",
-        transactionId: "TXN123456789012345678901234567890",
-        ticketTitle: "Express Bus to New York",
-        amount: 125.50,
-        paymentDate: "2024-12-15T10:30:00",
-        status: "completed",
-        paymentMethod: "Credit Card"
-      },
-      {
-        _id: "2",
-        transactionId: "TXN987654321098765432109876543210",
-        ticketTitle: "First Class Train to Boston",
-        amount: 89.99,
-        paymentDate: "2024-12-10T14:20:00",
-        status: "completed",
-        paymentMethod: "PayPal"
-      },
-      {
-        _id: "3",
-        transactionId: "TXN456789012345678901234567890123",
-        ticketTitle: "Flight to Los Angeles",
-        amount: 350.00,
-        paymentDate: "2024-11-28T08:15:00",
-        status: "completed",
-        paymentMethod: "Debit Card"
-      },
-      {
-        _id: "4",
-        transactionId: "TXN789012345678901234567890123456",
-        ticketTitle: "Bus to Chicago",
-        amount: 45.00,
-        paymentDate: "2024-11-15T16:45:00",
-        status: "refunded",
-        paymentMethod: "Credit Card"
-      }
-    ]
-  })
-});
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const LoadingSpinner = () => (
   <div className="flex items-center justify-center min-h-screen">
@@ -73,14 +30,33 @@ const TransactionHistory = () => {
   const [expandedRow, setExpandedRow] = useState(null);
   const [dateRange, setDateRange] = useState("all");
 
+
   const { data: transactions = [], isLoading } = useQuery({
     queryKey: ["user-transactions"],
     queryFn: async () => {
+    
       const { data } = await axiosSecure.get("/user/transactions");
-      return data;
+
+      return data.map((transaction) => ({
+        ...transaction,
+        
+        transactionId: transaction.transactionId || transaction._id,
+        ticketTitle: transaction.ticketTitle || "Ticket Purchase",
+        amount: transaction.amount || 0,
+        paymentDate: transaction.paymentDate || transaction.createdAt,
+
+        status:
+          transaction.status === "confirmed"
+            ? "completed"
+            : transaction.status === "cancelled"
+            ? "refunded"
+            : "pending",
+        paymentMethod: transaction.paymentMethod || "N/A",
+      }));
     },
   });
 
+  
   // Filter and sort transactions
   const filteredTransactions = useMemo(() => {
     let filtered = [...transactions];
@@ -105,12 +81,14 @@ const TransactionHistory = () => {
       const ranges = {
         "7days": 7,
         "30days": 30,
-        "90days": 90
+        "90days": 90,
       };
       const daysAgo = ranges[dateRange];
       if (daysAgo) {
         const cutoffDate = new Date(now.setDate(now.getDate() - daysAgo));
-        filtered = filtered.filter((t) => new Date(t.paymentDate) >= cutoffDate);
+        filtered = filtered.filter(
+          (t) => new Date(t.paymentDate) >= cutoffDate
+        );
       }
     }
 
@@ -134,33 +112,47 @@ const TransactionHistory = () => {
   }, [transactions, searchTerm, sortBy, filterStatus, dateRange]);
 
   // Calculate statistics
+  
   const stats = useMemo(() => {
-    const total = filteredTransactions.reduce((sum, t) => sum + t.amount, 0);
-    const completed = filteredTransactions.filter((t) => t.status === "completed");
-    const avgTransaction = completed.length > 0 ? total / completed.length : 0;
-    
+    const completed = filteredTransactions.filter(
+      (t) => t.status === "completed"
+    );
+    const completedTotal = completed.reduce(
+      (sum, t) => sum + (t.amount || 0),
+      0
+    );
+    const avgTransaction =
+      completed.length > 0 ? completedTotal / completed.length : 0;
+
     return {
-      totalSpent: total,
+      totalSpent: completedTotal, 
       totalTransactions: filteredTransactions.length,
       completedTransactions: completed.length,
-      avgTransaction: avgTransaction
+      avgTransaction: avgTransaction,
     };
   }, [filteredTransactions]);
 
   const exportToCSV = () => {
-    const headers = ["Transaction ID", "Ticket", "Amount", "Date", "Status", "Payment Method"];
+    const headers = [
+      "Transaction ID",
+      "Ticket",
+      "Amount",
+      "Date",
+      "Status",
+      "Payment Method",
+    ];
     const rows = filteredTransactions.map((t) => [
       t.transactionId,
       t.ticketTitle,
       t.amount,
       new Date(t.paymentDate).toLocaleString(),
       t.status,
-      t.paymentMethod || "N/A"
+      t.paymentMethod || "N/A",
     ]);
 
     const csv = [
       headers.join(","),
-      ...rows.map((row) => row.map(cell => `"${cell}"`).join(","))
+      ...rows.map((row) => row.map((cell) => `"${cell}"`).join(",")),
     ].join("\n");
 
     const blob = new Blob([csv], { type: "text/csv" });
@@ -295,7 +287,9 @@ const TransactionHistory = () => {
               <h1>Payment Receipt</h1>
               <p>Thank you for your purchase!</p>
               <p style="margin-top: 15px;">
-                <span class="status ${transaction.status}">${transaction.status}</span>
+                <span class="status ${transaction.status}">${
+      transaction.status
+    }</span>
               </p>
             </div>
 
@@ -307,17 +301,21 @@ const TransactionHistory = () => {
               </div>
               <div class="detail-row">
                 <span class="detail-label">Payment Date:</span>
-                <span class="detail-value">${new Date(transaction.paymentDate).toLocaleString("en-US", {
+                <span class="detail-value">${new Date(
+                  transaction.paymentDate
+                ).toLocaleString("en-US", {
                   year: "numeric",
                   month: "long",
                   day: "numeric",
                   hour: "2-digit",
-                  minute: "2-digit"
+                  minute: "2-digit",
                 })}</span>
               </div>
               <div class="detail-row">
                 <span class="detail-label">Payment Method:</span>
-                <span class="detail-value">${transaction.paymentMethod || "N/A"}</span>
+                <span class="detail-value">${
+                  transaction.paymentMethod || "N/A"
+                }</span>
               </div>
             </div>
 
@@ -349,7 +347,7 @@ const TransactionHistory = () => {
     const receiptWindow = window.open("", "_blank");
     receiptWindow.document.write(receiptHTML);
     receiptWindow.document.close();
-    
+
     // Optional: Auto-print
     setTimeout(() => {
       receiptWindow.print();
@@ -357,7 +355,7 @@ const TransactionHistory = () => {
   };
 
   const downloadInvoice = (transaction) => {
-    // Generate invoice HTML content
+   
     const invoiceHTML = `
       <!DOCTYPE html>
       <html>
@@ -514,12 +512,16 @@ const TransactionHistory = () => {
             </div>
             <div class="invoice-info">
               <h2>INV-${transaction.transactionId.substring(0, 8)}</h2>
-              <p><strong>Invoice Date:</strong> ${new Date(transaction.paymentDate).toLocaleDateString("en-US", {
+              <p><strong>Invoice Date:</strong> ${new Date(
+                transaction.paymentDate
+              ).toLocaleDateString("en-US", {
                 year: "numeric",
                 month: "long",
-                day: "numeric"
+                day: "numeric",
               })}</p>
-              <p><strong>Status:</strong> <span class="status-badge status-${transaction.status}">${transaction.status}</span></p>
+              <p><strong>Status:</strong> <span class="status-badge status-${
+                transaction.status
+              }">${transaction.status}</span></p>
             </div>
           </div>
 
@@ -533,9 +535,15 @@ const TransactionHistory = () => {
             <div class="detail-box">
               <h3>Payment Details</h3>
               <p><strong>Transaction ID:</strong></p>
-              <p style="word-break: break-all; font-family: monospace; font-size: 11px;">${transaction.transactionId}</p>
-              <p><strong>Payment Method:</strong> ${transaction.paymentMethod || "N/A"}</p>
-              <p><strong>Payment Date:</strong> ${new Date(transaction.paymentDate).toLocaleString()}</p>
+              <p style="word-break: break-all; font-family: monospace; font-size: 11px;">${
+                transaction.transactionId
+              }</p>
+              <p><strong>Payment Method:</strong> ${
+                transaction.paymentMethod || "N/A"
+              }</p>
+              <p><strong>Payment Date:</strong> ${new Date(
+                transaction.paymentDate
+              ).toLocaleString()}</p>
             </div>
           </div>
 
@@ -590,13 +598,15 @@ const TransactionHistory = () => {
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `invoice-${transaction.transactionId.substring(0, 10)}-${new Date().toISOString().split("T")[0]}.html`;
+    a.download = `invoice-${transaction.transactionId.substring(0, 10)}-${
+      new Date().toISOString().split("T")[0]
+    }.html`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
     window.URL.revokeObjectURL(url);
 
-    // Optional: Also open in new window for immediate viewing
+   
     const invoiceWindow = window.open("", "_blank");
     invoiceWindow.document.write(invoiceHTML);
     invoiceWindow.document.close();
@@ -613,7 +623,9 @@ const TransactionHistory = () => {
             <Receipt className="text-purple-600" size={36} />
             Transaction History
           </h1>
-          <p className="text-gray-600">View and manage all your payment transactions</p>
+          <p className="text-gray-600">
+            View and manage all your payment transactions
+          </p>
         </div>
 
         {/* Statistics Cards */}
@@ -680,7 +692,10 @@ const TransactionHistory = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {/* Search */}
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+              <Search
+                className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+                size={20}
+              />
               <input
                 type="text"
                 placeholder="Search transactions..."
@@ -692,7 +707,10 @@ const TransactionHistory = () => {
 
             {/* Date Range Filter */}
             <div className="relative">
-              <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+              <Calendar
+                className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+                size={20}
+              />
               <select
                 value={dateRange}
                 onChange={(e) => setDateRange(e.target.value)}
@@ -707,7 +725,10 @@ const TransactionHistory = () => {
 
             {/* Status Filter */}
             <div className="relative">
-              <Filter className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+              <Filter
+                className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+                size={20}
+              />
               <select
                 value={filterStatus}
                 onChange={(e) => setFilterStatus(e.target.value)}
@@ -722,7 +743,10 @@ const TransactionHistory = () => {
 
             {/* Sort */}
             <div className="relative">
-              <ArrowUpDown className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+              <ArrowUpDown
+                className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+                size={20}
+              />
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
@@ -754,7 +778,9 @@ const TransactionHistory = () => {
             <div className="inline-flex items-center justify-center w-20 h-20 bg-gray-100 rounded-full mb-4">
               <Receipt className="text-gray-400" size={40} />
             </div>
-            <h3 className="text-xl font-semibold text-gray-700 mb-2">No Transactions Found</h3>
+            <h3 className="text-xl font-semibold text-gray-700 mb-2">
+              No Transactions Found
+            </h3>
             <p className="text-gray-500">
               {searchTerm || filterStatus !== "all" || dateRange !== "all"
                 ? "Try adjusting your filters"
@@ -818,7 +844,9 @@ const TransactionHistory = () => {
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="text-sm text-gray-900">
-                            {new Date(transaction.paymentDate).toLocaleDateString("en-US", {
+                            {new Date(
+                              transaction.paymentDate
+                            ).toLocaleDateString("en-US", {
                               year: "numeric",
                               month: "short",
                               day: "numeric",
@@ -826,7 +854,9 @@ const TransactionHistory = () => {
                           </div>
                           <div className="text-xs text-gray-500 flex items-center gap-1 mt-1">
                             <Clock size={12} />
-                            {new Date(transaction.paymentDate).toLocaleTimeString("en-US", {
+                            {new Date(
+                              transaction.paymentDate
+                            ).toLocaleTimeString("en-US", {
                               hour: "2-digit",
                               minute: "2-digit",
                             })}
@@ -848,7 +878,11 @@ const TransactionHistory = () => {
                         <td className="px-6 py-4">
                           <button
                             onClick={() =>
-                              setExpandedRow(expandedRow === transaction._id ? null : transaction._id)
+                              setExpandedRow(
+                                expandedRow === transaction._id
+                                  ? null
+                                  : transaction._id
+                              )
                             }
                             className="text-purple-600 hover:text-purple-800 transition-colors"
                           >
@@ -865,23 +899,31 @@ const TransactionHistory = () => {
                           <td colSpan="6" className="px-6 py-4 bg-purple-50">
                             <div className="space-y-2 text-sm">
                               <div className="flex justify-between">
-                                <span className="font-semibold text-gray-700">Full Transaction ID:</span>
-                                <span className="font-mono text-gray-600">{transaction.transactionId}</span>
+                                <span className="font-semibold text-gray-700">
+                                  Full Transaction ID:
+                                </span>
+                                <span className="font-mono text-gray-600">
+                                  {transaction.transactionId}
+                                </span>
                               </div>
                               {transaction.paymentMethod && (
                                 <div className="flex justify-between">
-                                  <span className="font-semibold text-gray-700">Payment Method:</span>
-                                  <span className="text-gray-600">{transaction.paymentMethod}</span>
+                                  <span className="font-semibold text-gray-700">
+                                    Payment Method:
+                                  </span>
+                                  <span className="text-gray-600">
+                                    {transaction.paymentMethod}
+                                  </span>
                                 </div>
                               )}
                               <div className="flex justify-end gap-2 mt-4">
-                                <button 
+                                <button
                                   onClick={() => viewReceipt(transaction)}
                                   className="px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors text-sm"
                                 >
                                   View Receipt
                                 </button>
-                                <button 
+                                <button
                                   onClick={() => downloadInvoice(transaction)}
                                   className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm"
                                 >
@@ -926,7 +968,7 @@ const TransactionHistory = () => {
                       {transaction.status}
                     </span>
                   </div>
-                  
+
                   <div className="flex justify-between items-center">
                     <div>
                       <div className="text-2xl font-bold text-green-600">
@@ -938,7 +980,11 @@ const TransactionHistory = () => {
                     </div>
                     <button
                       onClick={() =>
-                        setExpandedRow(expandedRow === transaction._id ? null : transaction._id)
+                        setExpandedRow(
+                          expandedRow === transaction._id
+                            ? null
+                            : transaction._id
+                        )
                       }
                       className="text-purple-600 hover:text-purple-800"
                     >
@@ -954,16 +1000,18 @@ const TransactionHistory = () => {
                     <div className="mt-4 pt-4 border-t border-gray-200 space-y-2">
                       <div className="flex justify-between text-sm">
                         <span className="text-gray-600">Payment Method:</span>
-                        <span className="font-medium">{transaction.paymentMethod}</span>
+                        <span className="font-medium">
+                          {transaction.paymentMethod}
+                        </span>
                       </div>
                       <div className="flex gap-2 mt-3">
-                        <button 
+                        <button
                           onClick={() => viewReceipt(transaction)}
                           className="flex-1 px-3 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg text-sm"
                         >
                           Receipt
                         </button>
-                        <button 
+                        <button
                           onClick={() => downloadInvoice(transaction)}
                           className="flex-1 px-3 py-2 bg-purple-600 text-white rounded-lg text-sm"
                         >

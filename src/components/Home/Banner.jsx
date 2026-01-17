@@ -244,13 +244,13 @@ const Banner = () => {
                     </svg>
                   </Link>
                   
-                  <button 
+                  {/* <button 
                     className="group inline-flex items-center px-8 py-4 text-base font-semibold text-white bg-white/10 backdrop-blur-md rounded-full hover:bg-white/20 border border-white/30 transform hover:scale-105 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-white/20"
                     aria-label="Watch introduction video"
                   >
                     <Play size={20} className="mr-2 group-hover:scale-110 transition-transform" />
                     Watch Video
-                  </button>
+                  </button> */}
                 </div>
               </div>
             ))}

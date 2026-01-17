@@ -21,6 +21,11 @@ import MyProfile from "../pages/Profile/MyProfile";
 import AllTickets from "../pages/AllTickets/AllTickets";
 import VendorRoute from "./VendorRoute";
 import AdminRoute from "./AdminRoute";
+import VendorDashboard from "../pages/Dashboard/Vendor/VendorDashboard";
+import Dashboard from "../pages/Dashboard/Dashboard/Dashboard";
+import About from "../pages/About/About";
+import Contact from "../pages/Contact/Contact";
+
 
 export const router = createBrowserRouter([
   {
@@ -38,13 +43,21 @@ export const router = createBrowserRouter([
       },
       {
         path: "ticket/:id",
-        element:  <TicketsDetails></TicketsDetails>,
+        element: <TicketsDetails></TicketsDetails>,
       },
       { path: "login", element: <Login /> },
       { path: "signup", element: <SignUp /> },
       {
         path: "profile",
         element: <MyProfile></MyProfile>,
+      },
+      {
+        path: "/about",
+        element: <About />,
+      },
+      {
+        path: "/contact",
+        element: <Contact />,
       },
     ],
   },
@@ -60,7 +73,7 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Navigate to="profile" replace></Navigate>,
+        element: <Dashboard />,
       },
 
       // User
