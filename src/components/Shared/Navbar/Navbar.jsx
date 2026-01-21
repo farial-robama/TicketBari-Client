@@ -107,6 +107,9 @@ const Navbar = () => {
               <NavLink to="/contact" className={navLinkClass}>
                 Contact
               </NavLink>
+              <NavLink to="/booking-guide" className={navLinkClass}>
+                Booking Guide
+              </NavLink>
             </div>
 
             {/* Right Section */}
@@ -184,6 +187,13 @@ const Navbar = () => {
                         className="block px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-700 transition font-medium text-gray-700 dark:text-gray-300"
                       >
                         📧 Contact
+                      </Link>
+                      <Link
+                        to="/booking-guide"
+                        onClick={closeMenu}
+                        className="block px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-700 transition font-medium text-gray-700 dark:text-gray-300"
+                      >
+                        🔁 Booking Guide
                       </Link>
                     </div>
 

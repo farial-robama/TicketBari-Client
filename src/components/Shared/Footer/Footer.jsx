@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router";
 import {
   Mail,
@@ -16,9 +16,35 @@ import {
   ChevronRight,
   Heart
 } from "lucide-react";
+import toast from "react-hot-toast";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const [email, setEmail] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  
+  const handleSubscribe = () => {
+    if (!email) {
+      toast.error("Please enter your email");
+      return;
+    }
+    // Simple email regex
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      toast.error("Please enter a valid email");
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    // Simulate API call
+    setTimeout(() => {
+      toast.success("Subscribed successfully! Thank you.");
+      setEmail("");
+      setIsSubmitting(false);
+    }, 1500);
+  };
+
 
   const quickLinks = [
     { name: "Home", path: "/" },
@@ -28,10 +54,10 @@ const Footer = () => {
   ];
 
   const supportLinks = [
-    { name: "Help Center", path: "/help" },
+    { name: "Help Center", path: "/contact" },
     { name: "Contact Us", path: "/contact" },
-    { name: "FAQs", path: "/faq" },
-    { name: "Booking Guide", path: "/guide" },
+    { name: "FAQs", path: "/about" },
+    { name: "Booking Guide", path: "/booking-guide" },
   ];
 
   const legalLinks = [
@@ -82,7 +108,7 @@ const Footer = () => {
             </p>
 
             {/* Newsletter Signup */}
-            <div className="space-y-3">
+            {/* <div className="space-y-3">
               <h6 className="text-white font-semibold">Stay Updated</h6>
               <div className="flex gap-2">
                 <input
@@ -94,7 +120,27 @@ const Footer = () => {
                   <Send size={18} className="group-hover:translate-x-1 transition-transform" />
                 </button>
               </div>
-            </div>
+            </div> */}
+            
+      <div className="space-y-3">
+        <h6 className="text-white font-semibold">Stay Updated</h6>
+        <div className="flex gap-2">
+          <input
+            type="email"
+            placeholder="Enter your email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="flex-1 px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-lg focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 text-sm transition-all"
+          />
+          <button
+            onClick={handleSubscribe}
+            disabled={isSubmitting}
+            className="px-4 py-2.5 bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg hover:shadow-lg hover:shadow-purple-500/30 transition-all group"
+          >
+            {isSubmitting ? "Submitting..." : <Send size={18} className="group-hover:translate-x-1 transition-transform" />}
+          </button>
+        </div>
+      </div>
 
             {/* Trust Badges */}
             <div className="flex flex-wrap gap-4 pt-4">

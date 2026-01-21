@@ -30,22 +30,21 @@ const TransactionHistory = () => {
   const [expandedRow, setExpandedRow] = useState(null);
   const [dateRange, setDateRange] = useState("all");
 
-
   const { data: transactions = [], isLoading } = useQuery({
     queryKey: ["user-transactions"],
     queryFn: async () => {
-    
       const { data } = await axiosSecure.get("/user/transactions");
 
       return data.map((transaction) => ({
         ...transaction,
-        
+
         transactionId: transaction.transactionId || transaction._id,
         ticketTitle: transaction.ticketTitle || "Ticket Purchase",
         amount: transaction.amount || 0,
         paymentDate: transaction.paymentDate || transaction.createdAt,
 
         status:
+          transaction.status === "completed" ||
           transaction.status === "confirmed"
             ? "completed"
             : transaction.status === "cancelled"
@@ -56,7 +55,6 @@ const TransactionHistory = () => {
     },
   });
 
-  
   // Filter and sort transactions
   const filteredTransactions = useMemo(() => {
     let filtered = [...transactions];
@@ -112,7 +110,7 @@ const TransactionHistory = () => {
   }, [transactions, searchTerm, sortBy, filterStatus, dateRange]);
 
   // Calculate statistics
-  
+
   const stats = useMemo(() => {
     const completed = filteredTransactions.filter(
       (t) => t.status === "completed"
@@ -125,7 +123,7 @@ const TransactionHistory = () => {
       completed.length > 0 ? completedTotal / completed.length : 0;
 
     return {
-      totalSpent: completedTotal, 
+      totalSpent: completedTotal,
       totalTransactions: filteredTransactions.length,
       completedTransactions: completed.length,
       avgTransaction: avgTransaction,
@@ -355,7 +353,6 @@ const TransactionHistory = () => {
   };
 
   const downloadInvoice = (transaction) => {
-   
     const invoiceHTML = `
       <!DOCTYPE html>
       <html>
@@ -606,7 +603,6 @@ const TransactionHistory = () => {
     document.body.removeChild(a);
     window.URL.revokeObjectURL(url);
 
-   
     const invoiceWindow = window.open("", "_blank");
     invoiceWindow.document.write(invoiceHTML);
     invoiceWindow.document.close();

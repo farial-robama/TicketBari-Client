@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import { Link, Navigate, useLocation, useNavigate } from "react-router";
@@ -15,39 +14,46 @@ import {
   ArrowRight,
   LogIn,
   KeyRound,
-  CheckCircle2
+  CheckCircle2,
+  Shield,
+  Store,
 } from "lucide-react";
 
 const Login = () => {
-  const { signIn, signInWithGoogle, loading, user, setLoading, resetPassword } = useAuth();
+  const { signIn, signInWithGoogle, loading, user, resetPassword } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [authAttempted, setAuthAttempted] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
   const from = location.state || "/";
 
-  if (loading) return <LoadingSpinner />;
+  // Only show loading spinner on initial load, not after auth attempts
+  if (loading && !authAttempted) return <LoadingSpinner />;
   if (user) return <Navigate to={from} replace={true} />;
 
   // Validate form
   const validateForm = () => {
     const newErrors = {};
-    
+
     if (!email) {
       newErrors.email = "Email is required";
-    } else if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) {
+    } else if (
+      !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)
+    ) {
       newErrors.email = "Please enter a valid email";
     }
-    
+
     if (!password) {
       newErrors.password = "Password is required";
     } else if (password.length < 6) {
       newErrors.password = "Password must be at least 6 characters";
     }
-    
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -55,8 +61,11 @@ const Login = () => {
   // Form submit handler
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!validateForm()) return;
+
+    setIsSubmitting(true);
+    setAuthAttempted(true);
 
     try {
       const { user } = await signIn(email, password);
@@ -71,13 +80,19 @@ const Login = () => {
       toast.success("Welcome back! 🎉");
     } catch (err) {
       console.log(err);
-      toast.error(err?.message || "Login failed. Please check your credentials.");
-      setLoading(false);
+      toast.error(
+        err?.message || "Login failed. Please check your credentials.",
+      );
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   // Handle Google Signin
   const handleGoogleSignIn = async () => {
+    setIsSubmitting(true);
+    setAuthAttempted(true);
+
     try {
       const { user } = await signInWithGoogle();
 
@@ -86,13 +101,14 @@ const Login = () => {
         email: user?.email,
         image: user?.photoURL,
       });
-      
+
       navigate(from, { replace: true });
       toast.success("Welcome back! 🎉");
     } catch (err) {
       console.log(err);
-      setLoading(false);
       toast.error(err?.message || "Google sign in failed.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -101,11 +117,11 @@ const Login = () => {
     if (!email) {
       return toast.error("Please enter your email first");
     }
-    
+
     if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) {
       return toast.error("Please enter a valid email address");
     }
-    
+
     try {
       await resetPassword(email);
       toast.success("Password reset email sent! Check your inbox.");
@@ -130,15 +146,19 @@ const Login = () => {
           <div className="relative bg-gradient-to-r from-purple-600 to-blue-600 p-8 text-white">
             <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
             <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/10 rounded-full translate-y-1/2 -translate-x-1/2"></div>
-            
+
             <div className="relative">
               <div className="flex items-center justify-center mb-4">
                 <div className="p-3 bg-white/20 backdrop-blur-sm rounded-2xl">
                   <LogIn size={32} />
                 </div>
               </div>
-              <h1 className="text-3xl font-bold text-center mb-2">Welcome Back</h1>
-              <p className="text-center text-purple-100">Sign in to continue to TicketBari</p>
+              <h1 className="text-3xl font-bold text-center mb-2">
+                Welcome Back
+              </h1>
+              <p className="text-center text-purple-100">
+                Sign in to continue to TicketBari
+              </p>
             </div>
           </div>
 
@@ -147,7 +167,10 @@ const Login = () => {
             <div className="space-y-5">
               {/* Email Field */}
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium text-gray-700 mb-2"
+                >
                   Email Address
                 </label>
                 <div className="relative">
@@ -162,18 +185,23 @@ const Login = () => {
                       setEmail(e.target.value);
                       if (errors.email) setErrors({ ...errors, email: "" });
                     }}
+                    disabled={isSubmitting}
                     placeholder="you@example.com"
                     className={`w-full pl-10 pr-4 py-3 border-2 rounded-xl focus:outline-none transition-all ${
-                      errors.email 
-                        ? "border-red-300 focus:border-red-500 focus:ring-2 focus:ring-red-200" 
+                      errors.email
+                        ? "border-red-300 focus:border-red-500 focus:ring-2 focus:ring-red-200"
                         : "border-gray-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-200"
-                    } text-gray-900`}
+                    } text-gray-900 disabled:bg-gray-50 disabled:cursor-not-allowed`}
                   />
-                  {!errors.email && email && /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email) && (
-                    <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
-                      <CheckCircle2 size={18} className="text-green-500" />
-                    </div>
-                  )}
+                  {!errors.email &&
+                    email &&
+                    /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(
+                      email,
+                    ) && (
+                      <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
+                        <CheckCircle2 size={18} className="text-green-500" />
+                      </div>
+                    )}
                 </div>
                 {errors.email && (
                   <p className="mt-1.5 text-xs text-red-600 flex items-center gap-1">
@@ -186,13 +214,17 @@ const Login = () => {
               {/* Password Field */}
               <div>
                 <div className="flex items-center justify-between mb-2">
-                  <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+                  <label
+                    htmlFor="password"
+                    className="block text-sm font-medium text-gray-700"
+                  >
                     Password
                   </label>
                   <button
                     type="button"
                     onClick={handleResetPassword}
-                    className="text-xs text-purple-600 hover:text-purple-700 font-medium hover:underline flex items-center gap-1"
+                    disabled={isSubmitting}
+                    className="text-xs text-purple-600 hover:text-purple-700 font-medium hover:underline flex items-center gap-1 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     <KeyRound size={12} />
                     Forgot password?
@@ -208,20 +240,23 @@ const Login = () => {
                     value={password}
                     onChange={(e) => {
                       setPassword(e.target.value);
-                      if (errors.password) setErrors({ ...errors, password: "" });
+                      if (errors.password)
+                        setErrors({ ...errors, password: "" });
                     }}
+                    disabled={isSubmitting}
                     autoComplete="current-password"
                     placeholder="••••••••"
                     className={`w-full pl-10 pr-12 py-3 border-2 rounded-xl focus:outline-none transition-all ${
-                      errors.password 
-                        ? "border-red-300 focus:border-red-500 focus:ring-2 focus:ring-red-200" 
+                      errors.password
+                        ? "border-red-300 focus:border-red-500 focus:ring-2 focus:ring-red-200"
                         : "border-gray-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-200"
-                    } text-gray-900`}
+                    } text-gray-900 disabled:bg-gray-50 disabled:cursor-not-allowed`}
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600"
+                    disabled={isSubmitting}
+                    className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 disabled:opacity-50"
                   >
                     {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                   </button>
@@ -239,7 +274,8 @@ const Login = () => {
                 <label className="flex items-center gap-2 cursor-pointer">
                   <input
                     type="checkbox"
-                    className="w-4 h-4 rounded border-gray-300 text-purple-600 focus:ring-purple-500 focus:ring-2"
+                    disabled={isSubmitting}
+                    className="w-4 h-4 rounded border-gray-300 text-purple-600 focus:ring-purple-500 focus:ring-2 disabled:opacity-50 disabled:cursor-not-allowed"
                   />
                   <span className="text-sm text-gray-600">Remember me</span>
                 </label>
@@ -249,10 +285,10 @@ const Login = () => {
               <button
                 type="button"
                 onClick={handleSubmit}
-                disabled={loading}
+                disabled={isSubmitting}
                 className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white font-semibold py-3.5 px-6 rounded-xl hover:shadow-xl hover:scale-105 transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
               >
-                {loading ? (
+                {isSubmitting ? (
                   <>
                     <Loader2 className="animate-spin" size={20} />
                     <span>Signing in...</span>
@@ -269,32 +305,120 @@ const Login = () => {
             {/* Divider */}
             <div className="flex items-center my-6">
               <div className="flex-1 border-t border-gray-300"></div>
-              <span className="px-4 text-sm text-gray-500 font-medium">Or continue with</span>
+              <span className="px-4 text-sm text-gray-500 font-medium">
+                Or continue with
+              </span>
               <div className="flex-1 border-t border-gray-300"></div>
             </div>
 
             {/* Google Sign In */}
             <button
               onClick={handleGoogleSignIn}
-              disabled={loading}
+              disabled={isSubmitting}
               className="w-full flex items-center justify-center gap-3 px-6 py-3 border-2 border-gray-300 rounded-xl hover:bg-gray-50 hover:border-gray-400 transition-all duration-200 font-medium text-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <FcGoogle size={24} />
               <span>Continue with Google</span>
             </button>
 
-            {/* Sign Up Link */}
-            <p className="mt-6 text-center text-sm text-gray-600">
-              Don't have an account?{" "}
-              <Link
-                to="/signup"
-                state={from}
-                className="font-semibold text-purple-600 hover:text-purple-700 hover:underline"
-              >
-                Create account
-              </Link>
-            </p>
+            {/* Demo Credentials Section - User & Admin */}
+            <div className="mt-6">
+              <div className="flex items-center mb-4">
+                <div className="flex-1 border-t border-gray-300"></div>
+                <span className="px-4 text-sm text-gray-500 font-medium">
+                  Quick Demo Access
+                </span>
+                <div className="flex-1 border-t border-gray-300"></div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                {/* Demo User Button */}
+                <button
+                  onClick={() => {
+                    setEmail("lamia02@gmail.com");
+                    setPassword("lA3456");
+                    setErrors({});
+                    toast.success(
+                      "Demo User credentials loaded! Click Sign In to continue.",
+                      {
+                        icon: "👤",
+                        duration: 3000,
+                      },
+                    );
+                  }}
+                  disabled={isSubmitting}
+                  className="flex flex-col items-center justify-center gap-2 px-4 py-3 bg-gradient-to-br from-blue-50 to-cyan-50 border-2 border-blue-200 rounded-xl hover:from-blue-100 hover:to-cyan-100 hover:border-blue-300 transition-all duration-200 font-semibold text-blue-700 disabled:opacity-50 disabled:cursor-not-allowed group"
+                >
+                  <div className="p-2 bg-blue-100 rounded-lg group-hover:bg-blue-200 transition-colors">
+                    <KeyRound size={18} className="text-blue-600" />
+                  </div>
+                  <span className="text-sm">Demo User</span>
+                </button>
+
+                {/* Demo Admin Button */}
+                <button
+                  onClick={() => {
+                    setEmail("farialrobama00@gmail.com");
+                    setPassword("1234567Aa");
+                    setErrors({});
+                    toast.success(
+                      "Admin credentials loaded! Click Sign In to continue.",
+                      {
+                        icon: "👑",
+                        duration: 3000,
+                      },
+                    );
+                  }}
+                  disabled={isSubmitting}
+                  className="flex flex-col items-center justify-center gap-2 px-4 py-3 bg-gradient-to-br from-purple-50 to-pink-50 border-2 border-purple-200 rounded-xl hover:from-purple-100 hover:to-pink-100 hover:border-purple-300 transition-all duration-200 font-semibold text-purple-700 disabled:opacity-50 disabled:cursor-not-allowed group"
+                >
+                  <div className="p-2 bg-purple-100 rounded-lg group-hover:bg-purple-200 transition-colors">
+                    <Shield size={18} className="text-purple-600" />
+                  </div>
+                  <span className="text-sm">Demo Admin</span>
+                </button>
+
+                {/* Demo Vendor Button */}
+                <button
+                  onClick={() => {
+                    setEmail("aysha@gmail.com");
+                    setPassword("09876Rr");
+                    setErrors({});
+                    toast.success(
+                      "Vendor credentials loaded! Click Sign In to continue.",
+                      {
+                        icon: "🏪",
+                        duration: 3000,
+                      },
+                    );
+                  }}
+                  disabled={isSubmitting}
+                  className="flex flex-col items-center justify-center gap-2 px-4 py-3 bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-green-200 rounded-xl hover:from-green-100 hover:to-emerald-100 hover:border-green-300 transition-all duration-200 font-semibold text-green-700 disabled:opacity-50 disabled:cursor-not-allowed group"
+                >
+                  <div className="p-2 bg-green-100 rounded-lg group-hover:bg-green-200 transition-colors">
+                    <Store size={18} className="text-green-600" />
+                  </div>
+                  <span className="text-sm">Demo Vendor</span>
+                </button>
+              </div>
+
+              <p className="mt-2 text-xs text-center text-gray-500">
+                Click to load credentials, then sign in
+              </p>
+            </div>
           </div>
+
+          {/* Sign Up Link */}
+          <p className="mt-6 text-center text-sm text-gray-600 pb-8">
+            Don't have an account?{" "}
+            <Link
+              to="/signup"
+              state={from}
+              className="font-semibold text-purple-600 hover:text-purple-700 hover:underline"
+            >
+              Create account
+            </Link>
+          </p>
         </div>
 
         {/* Security Notice */}

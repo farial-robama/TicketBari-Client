@@ -1,48 +1,3 @@
-// import { useQuery } from "@tanstack/react-query";
-// import React from "react";
-// import LoadingSpinner from "../Shared/LoadingSpinner";
-// import useAxiosSecure from "../../hooks/useAxiosSecure";
-// import TicketCard from "../TicketCard/TicketCard";
-
-// const LatestTickets = () => {
-//   const axiosSecure = useAxiosSecure();
-//   const { data: tickets = [], isLoading } = useQuery({
-//     queryKey: ["latest-tickets"],
-//     queryFn: async () => {
-//       const { data } = await axiosSecure.get("/tickets/latest");
-//       return data;
-//     },
-//   });
-
-//   if (isLoading) return <LoadingSpinner></LoadingSpinner>;
-
-//   return (
-//     <section className="py-6 my-10">
-//       <div className="container mx-auto px-4">
-//         <div className="text-center mb-12">
-//           <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-gray-900 via-purple-900 to-blue-900 bg-clip-text text-transparent mb-4">
-//             Latest Tickets
-//           </h2>
-//           <p className="text-gray-600 text-lg">
-//             Recently added tickets for your next adventure
-//           </p>
-//         </div>
-//       </div>
-
-//       {tickets.length === 0 ? (
-//         <p className="text-center text-gray-500">No tickets available yet</p>
-//       ) : (
-//         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-//           {tickets.slice(0, 8).map((ticket) => (
-//             <TicketCard key={ticket._id} ticket={ticket}></TicketCard>
-//           ))}
-//         </div>
-//       )}
-//     </section>
-//   );
-// };
-
-// export default LatestTickets;
 
 
 import { useQuery } from "@tanstack/react-query";
@@ -50,9 +5,11 @@ import React from "react";
 import LoadingSpinner from "../Shared/LoadingSpinner";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import TicketCard from "../TicketCard/TicketCard";
+import { useNavigate } from "react-router";
 
 const LatestTickets = () => {
   const axiosSecure = useAxiosSecure();
+  const navigate = useNavigate();
   const { data: tickets = [], isLoading } = useQuery({
     queryKey: ["latest-tickets"],
     queryFn: async () => {
@@ -113,7 +70,7 @@ const LatestTickets = () => {
         {/* View All Button */}
         {tickets.length > 0 && (
           <div className="text-center mt-12">
-            <button className="group inline-flex items-center px-8 py-4 text-base font-semibold text-white bg-gradient-to-r from-purple-600 to-blue-600 rounded-full hover:from-purple-700 hover:to-blue-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl">
+            <button onClick={() => navigate("/tickets")} className="group inline-flex items-center px-8 py-4 text-base font-semibold text-white bg-gradient-to-r from-purple-600 to-blue-600 rounded-full hover:from-purple-700 hover:to-blue-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl">
               View All Tickets
               <svg className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />

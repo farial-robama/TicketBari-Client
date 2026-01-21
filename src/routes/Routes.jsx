@@ -25,6 +25,7 @@ import VendorDashboard from "../pages/Dashboard/Vendor/VendorDashboard";
 import Dashboard from "../pages/Dashboard/Dashboard/Dashboard";
 import About from "../pages/About/About";
 import Contact from "../pages/Contact/Contact";
+import BookingGuide from "../pages/BookingGuide/BookingGuide";
 
 
 export const router = createBrowserRouter([
@@ -58,6 +59,10 @@ export const router = createBrowserRouter([
       {
         path: "/contact",
         element: <Contact />,
+      },
+      {
+        path: "/booking-guide",
+        element: <BookingGuide />,
       },
     ],
   },
