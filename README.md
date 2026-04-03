@@ -60,11 +60,9 @@ The platform serves three roles:
 
 ## 🖼️ Screenshots
 
-> 📸 _Add your screenshots here. Recommended: homepage, ticket search, booking flow, vendor dashboard, admin panel._
-
 | Homepage | Ticket Listing | Booking Flow |
 |----------|---------------|--------------|
-| ![home](./public/ticket-home.png) | ![tickets](/public/tickets.png) | ![booking](./public/ticket.png) |
+| ![home](./public/ticket-home.png) | ![tickets](./public/tickets.png) | ![booking](./public/ticket.png) | 
 
 | Vendor Dashboard | Admin Panel |
 |-----------------|-------------|
@@ -304,7 +302,7 @@ cp .env.example .env
 | `FB_SERVICE_KEY` | Firebase service account JSON encoded as base64 |
 | `STRIPE_SECRET_KEY` | Stripe secret key |
 
-See `.env.example` for the full template.
+Create a `.env.local` file in the project root with the variables listed above.
 
 ---
 
@@ -347,76 +345,30 @@ Base URL: `https://ticket-bari-online-ticket-booking-p.vercel.app`
 
 All protected routes require a `Bearer <JWT>` token in the `Authorization` header.
 
-### Auth
-| Method | Endpoint | Auth | Description |
-|---|---|---|---|
-| POST | `/jwt` | ❌ | Issue JWT token |
-
-### Tickets
-| Method | Endpoint | Auth | Description |
-|---|---|---|---|
-| GET | `/tickets` | ❌ | Get all approved tickets (with filters & pagination) |
-| GET | `/tickets/:id` | ❌ | Get single ticket details |
-| POST | `/tickets` | Vendor | Add a new ticket |
-| PUT | `/tickets/:id` | Vendor | Update a ticket |
-| DELETE | `/tickets/:id` | Vendor | Delete a ticket |
-
-### Bookings
-| Method | Endpoint | Auth | Description |
-|---|---|---|---|
-| GET | `/bookings` | Customer | Get user's bookings |
-| POST | `/bookings` | Customer | Create a new booking |
-| PATCH | `/bookings/:id` | Vendor | Accept or reject a booking |
-
-### Payments
-| Method | Endpoint | Auth | Description |
-|---|---|---|---|
-| POST | `/create-payment-intent` | Customer | Create Stripe payment intent |
-| POST | `/payments` | Customer | Save completed payment |
-| GET | `/payments` | Customer | Get payment history |
-
-### Users (Admin)
-| Method | Endpoint | Auth | Description |
-|---|---|---|---|
-| GET | `/users` | Admin | Get all users |
-| PATCH | `/users/:id/role` | Admin | Update user role |
-
-### Admin
-| Method | Endpoint | Auth | Description |
-|---|---|---|---|
-| GET | `/admin/tickets` | Admin | Get all tickets for review |
-| PATCH | `/admin/tickets/:id` | Admin | Approve or reject a ticket |
-| GET | `/advertisements` | ❌ | Get featured homepage tickets |
-| PATCH | `/advertisements/:id` | Admin | Toggle ticket advertisement |
-
 ---
 
 ## 🔒 Security
 
 | Measure | Implementation |
 |---|---|
-| Authentication | Firebase Auth + JWT tokens |
-| Authorization | Role-based access control (RBAC) |
+| Authentication | Firebase ID Token verification on all protected routes |
+| Authorization | Role-based access control (Customer / Vendor / Admin) |
+| Ownership Validation | Vendors can only edit or delete their own tickets |
 | Payment | PCI-compliant Stripe integration |
 | Transport | HTTPS / SSL on all endpoints |
-| Input Validation | Server-side sanitization |
-| CORS | Configured allowed origins only |
-| Rate Limiting | API request throttling |
-| XSS Protection | Input escaping on all user content |
-| Injection Prevention | Mongoose parameterized queries |
-| Secrets | Environment variables, never hardcoded |
+| Input Validation | `ObjectId.isValid()` checks on all ID parameters |
+| Duplicate Prevention | MongoDB unique index on seat + ticket for active bookings |
+| CORS | Restricted to client domain via environment variable |
+| Secrets | All credentials stored in environment variables, never hardcoded |
 
 ---
 
 ## ⚡ Performance
 
-- **Code Splitting** — React lazy loading per route
-- **Image Optimization** — WebP format with lazy loading
 - **Caching** — TanStack Query cache with stale-while-revalidate
 - **Build Optimization** — Vite production minification and tree shaking
 - **CDN** — Firebase Hosting serves frontend via global CDN
 - **DB Indexing** — MongoDB indexes on frequently queried fields
-- **API Compression** — Response compression middleware
 
 ---
 
@@ -427,7 +379,6 @@ All protected routes require a `Bearer <JWT>` token in the `Authorization` heade
 - [ ] Multi-language support (Bangla / English)
 - [ ] Mobile app (React Native)
 - [ ] Vendor payout dashboard with bank transfer support
-- [ ] Booking cancellation and refund flow
 
 ---
 
