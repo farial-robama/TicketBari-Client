@@ -11,9 +11,9 @@
 [![Live Demo](https://img.shields.io/badge/🌐_Live_Demo-ticketbari--client.web.app-6c47ff?style=for-the-badge)](https://ticketbari-client.web.app/)
 [![Frontend Repo](https://img.shields.io/badge/GitHub-Client-181717?style=for-the-badge&logo=github)](https://github.com/farial-robama/TicketBari-Client)
 [![Backend Repo](https://img.shields.io/badge/GitHub-Server-181717?style=for-the-badge&logo=github)](https://github.com/farial-robama/TicketBari-Server)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)](LICENSE)
+<!-- [![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)](LICENSE) -->
 
-![React](https://img.shields.io/badge/React_18-61DAFB?style=flat-square&logo=react&logoColor=black)
+![React](https://img.shields.io/badge/React_19-61DAFB?style=flat-square&logo=react&logoColor=black)
 ![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat-square&logo=nodedotjs&logoColor=white)
 ![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=flat-square&logo=mongodb&logoColor=white)
 ![Firebase](https://img.shields.io/badge/Firebase-FFCA28?style=flat-square&logo=firebase&logoColor=black)
@@ -42,7 +42,6 @@
 - [Performance](#-performance)
 - [Roadmap](#-roadmap)
 - [Contributing](#-contributing)
-- [License](#-license)
 - [Author](#-author)
 
 ---
@@ -120,10 +119,10 @@ The platform serves three roles:
 ### Frontend
 | Technology | Purpose |
 |---|---|
-| React 18 | UI library |
+| React 19 | UI library |
 | Vite | Build tool and dev server |
 | Tailwind CSS + DaisyUI | Styling and components |
-| React Router v6 | Client-side routing |
+| React Router v7 | Client-side routing |
 | TanStack Query | Server state and caching |
 | Framer Motion | Animations |
 | Firebase Auth | User authentication |
@@ -131,8 +130,7 @@ The platform serves three roles:
 | Axios | HTTP client |
 | React Hook Form | Form validation |
 | Recharts | Data visualization |
-| Swiper.js | Touch slider |
-| Lucide React | Icons |
+| Lucide React + React Icons | Icons |
 
 ### Backend
 | Technology | Purpose |
