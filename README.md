@@ -1,187 +1,119 @@
 <div align="center">
 
-# TicketBari – Modern Online Ticket Booking Platform
+<img src="./public/logo.png" alt="TicketBari Logo" width="80" />
 
-**A comprehensive MERN stack platform for seamless travel ticket booking**
+# 🎫 TicketBari
+
+### Modern Online Ticket Booking Platform for Bangladesh
+
+**Book Bus · Train · Launch · Flight tickets — all in one place.**
+
+[![Live Demo](https://img.shields.io/badge/🌐_Live_Demo-ticketbari--client.web.app-6c47ff?style=for-the-badge)](https://ticketbari-client.web.app/)
+[![Frontend Repo](https://img.shields.io/badge/GitHub-Client-181717?style=for-the-badge&logo=github)](https://github.com/farial-robama/TicketBari-Client)
+[![Backend Repo](https://img.shields.io/badge/GitHub-Server-181717?style=for-the-badge&logo=github)](https://github.com/farial-robama/TicketBari-Server)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)](LICENSE)
+
+![React](https://img.shields.io/badge/React_18-61DAFB?style=flat-square&logo=react&logoColor=black)
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat-square&logo=nodedotjs&logoColor=white)
+![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=flat-square&logo=mongodb&logoColor=white)
+![Firebase](https://img.shields.io/badge/Firebase-FFCA28?style=flat-square&logo=firebase&logoColor=black)
+![Stripe](https://img.shields.io/badge/Stripe-008CDD?style=flat-square&logo=stripe&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)
+
+> ⚠️ **Note:** The backend is hosted on Vercel's free tier. First load after inactivity may take **5–10 seconds** due to cold start.
 
 </div>
 
 ---
 
-## ⚡ Quick Start
+## 📑 Table of Contents
 
-```bash
-# 1. Clone the repositories
-git clone https://github.com/farial-robama/TicketBari-Client.git
-git clone https://github.com/farial-robama/TicketBari-Server.git
-
-# 2. Setup Frontend
-cd TicketBari-Client
-npm install
-# Create .env.local with your Firebase & API keys
-npm run dev
-
-# 3. Setup Backend (in new terminal)
-cd TicketBari-Server
-npm install
-# Create .env with your MongoDB & Stripe keys
-npm start
-```
-
-**Repositories:**
-- 📦 Frontend: [TicketBari-Client](https://github.com/farial-robama/TicketBari-Client)
-- 🔧 Backend: [TicketBari-Server](https://github.com/farial-robama/TicketBari-Server)
+- [Overview](#-overview)
+- [Screenshots](#-screenshots)
+- [Features](#-features)
+- [Tech Stack](#️-tech-stack)
+- [Project Structure](#-project-structure)
+- [Getting Started](#-getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Environment Variables](#environment-variables)
+  - [Installation](#installation)
+- [API Reference](#-api-reference)
+- [Security](#-security)
+- [Performance](#-performance)
+- [Roadmap](#-roadmap)
+- [Contributing](#-contributing)
+- [License](#-license)
+- [Author](#-author)
 
 ---
 
 ## 📖 Overview
 
-**TicketBari** is a full-stack ticket booking platform that revolutionizes the way travelers book transportation. Built with modern web technologies, it provides a seamless experience for users to discover and book tickets for Bus, Train, Launch, and Flight services across Bangladesh.
+**TicketBari** is a full-stack ticket booking platform built with the MERN stack. It lets Bangladeshi travelers search, book, and pay for Bus, Train, Launch, and Flight tickets — all from a single interface.
 
-### 🎯 Purpose
+The platform serves three roles:
+- **Customers** browse and book verified tickets with Stripe-powered payments
+- **Vendors** list tickets, manage inventory, and track revenue via analytics
+- **Admins** verify listings, manage users, and control homepage advertisements
 
-TicketBari aims to:
-- **Simplify Travel Booking**: Provide a centralized platform for all travel tickets
-- **Empower Vendors**: Give transport operators tools to manage inventory and track revenue
-- **Ensure Quality**: Enable administrators to maintain platform standards through verification
-- **Secure Transactions**: Implement industry-standard payment processing
+---
 
-### 🌟 Key Highlights
+## 🖼️ Screenshots
 
-- 🔐 **Multi-Role System** - Customer, Vendor, and Admin roles with distinct dashboards
-- 💳 **Secure Payments** - Stripe integration for safe transactions
-- 📊 **Analytics Dashboard** - Real-time revenue tracking and insights
-- 🎨 **Modern UI/UX** - Beautiful, responsive design with dark mode
-- ⚡ **Real-time Updates** - Live countdown timers and booking status
-- 🔍 **Advanced Search** - Multi-filter search with sorting and pagination
+> 📸 _Add your screenshots here. Recommended: homepage, ticket search, booking flow, vendor dashboard, admin panel._
+
+| Homepage | Ticket Listing | Booking Flow |
+|----------|---------------|--------------|
+| ![home](./public/ticket-home.png) | ![tickets](/public/tickets.png) | ![booking](./public/ticket.png) |
+
+| Vendor Dashboard | Admin Panel |
+|-----------------|-------------|
+| ![vendor](./public/ticket-vendor.png) | ![admin](./public/ticket-admin.png) |
 
 ---
 
 ## ✨ Features
 
 ### 🔐 Authentication & Security
-- **Firebase Authentication**
-  - Email/Password registration with validation
-  - Google OAuth single sign-on
-  - Password requirements (uppercase, lowercase, 6+ chars)
-  - Secure JWT token-based API protection
-  - Protected routes and role-based access control
+- Email/Password registration with validation (uppercase, lowercase, 6+ chars)
+- Google OAuth single sign-on via Firebase
+- JWT token-based API protection
+- Role-based access control (Customer / Vendor / Admin)
+- Protected routes per role
 
-### 👤 Customer Features
-- **Profile Management**
-  - View and edit personal information
-  - Upload and update profile picture
-  - Track account activity and login history
+### 👤 Customer
+- Search tickets by origin, destination, and transport type
+- Real-time seat availability and live departure countdown
+- Book multiple tickets in one transaction
+- Track bookings: Pending → Accepted → Paid
+- Stripe payment integration with digital confirmation
+- Full transaction history with timestamps
 
-- **Ticket Booking**
-  - Browse available tickets with filters
-  - Search by origin/destination
-  - Real-time seat availability
-  - Book multiple tickets in one transaction
-  - Live countdown to departure
+### 🏪 Vendor
+- Add tickets with image upload (ImgBB API)
+- Edit and delete listings
+- Track verification status: Pending / Approved / Rejected
+- Accept or reject incoming booking requests
+- Revenue analytics with Recharts (total revenue, tickets sold)
 
-- **Booking Management**
-  - View all bookings with status tracking
-  - Status indicators: Pending, Accepted, Rejected, Paid
-  - Secure payment processing via Stripe
-  - Digital ticket confirmation
-
-- **Transaction History**
-  - Complete payment records
-  - Transaction details with timestamps
-  - Download/print receipts
-
-### 🏪 Vendor Features
-- **Ticket Management**
-  - Add new tickets with rich details
-  - Image upload via ImgBB API
-  - Edit and delete existing tickets
-  - Track verification status (Pending, Approved, Rejected)
-
-- **Booking Requests**
-  - View incoming booking requests
-  - Accept or reject requests
-  - Manage seat inventory automatically
-
-- **Revenue Analytics**
-  - Interactive charts with Recharts
-  - Total revenue tracking
-  - Tickets sold statistics
-  - Performance insights
-
-### 👨‍💼 Admin Features
-- **Ticket Verification**
-  - Review vendor-submitted tickets
-  - Approve or reject listings
-  - Maintain platform quality standards
-
-- **User Management**
-  - View all registered users
-  - Assign roles (Customer, Vendor, Admin)
-  - Mark fraudulent vendors
-  - Suspend accounts
-
-- **Advertisement Control**
-  - Feature up to 6 tickets on homepage
-  - Manage promotional content
-  - Boost ticket visibility
+### 👨‍💼 Admin
+- Approve or reject vendor ticket submissions
+- Manage all users: assign roles, suspend accounts, flag fraud
+- Select up to 6 tickets for homepage advertisement slots
 
 ### 🏠 Public Pages
-- **Homepage**
-  - Dynamic hero slider (Swiper.js)
-  - Featured tickets section (6 admin-selected)
-  - Latest tickets (8 most recent)
-  - Popular routes showcase
-  - "Why Choose Us" section
-  - Customer testimonials
+- Hero slider (Swiper.js) with featured tickets
+- Advanced search: filter by route, transport type, price (asc/desc)
+- Pagination (9 tickets/page), grid/list toggle
+- Ticket detail page with map, vendor info, and booking interface
+- Blocks booking for past departures and sold-out tickets
 
-- **All Tickets Page**
-  - Advanced filtering system
-    - Search by From/To location
-    - Filter by transport type (Bus, Train, Flight, Ferry)
-    - Sort by price (ascending/descending)
-  - Pagination (9 tickets per page)
-  - Grid/List view toggle
-  - Only shows approved tickets
-
-- **Ticket Details Page**
-  - Comprehensive ticket information
-  - High-quality images
-  - Live departure countdown
-  - Route information with map
-  - Vendor details
-  - Booking interface with quantity selector
-  - Smart restrictions (past departure, sold out)
-
-### 🎨 UI/UX Features
-- **Modern Design**
-  - Purple-blue gradient theme
-  - Smooth animations with Framer Motion
-  - Glassmorphism effects
-  - Card-based layouts
-
-- **Dark/Light Mode**
-  - System preference detection
-  - Persistent theme storage
-  - Smooth transitions
-
-- **Responsive Design**
-  - Mobile-first approach
-  - Tablet optimization
-  - Desktop layouts
-  - Touch-friendly interfaces
-
-- **User Feedback**
-  - Toast notifications (React Hot Toast)
-  - Loading spinners
-  - Error handling
-  - Success confirmations
-
----
-
-### Live Demo
-
-🌐 **Website**: [https://ticketbari-client.web.app/](https://ticketbari-client.web.app/)
+### 🎨 UI/UX
+- Purple-blue gradient theme with glassmorphism effects
+- Framer Motion animations throughout
+- Dark / Light mode with system preference detection and persistent storage
+- Mobile-first responsive design
+- Toast notifications, loading spinners, and error states
 
 ---
 
@@ -189,90 +121,355 @@ TicketBari aims to:
 
 ### Frontend
 | Technology | Purpose |
-|------------|---------|
-| **React 18** | UI library with hooks |
-| **Vite** | Fast build tool and dev server |
-| **Tailwind CSS** | Utility-first CSS framework |
-| **DaisyUI** | Tailwind component library |
-| **React Router v6** | Client-side routing |
-| **TanStack Query** | Server state management |
-| **Framer Motion** | Animation library |
-| **Firebase Auth** | User authentication |
-| **Stripe.js** | Payment processing |
-| **Axios** | HTTP client |
-| **React Hook Form** | Form validation |
-| **Recharts** | Data visualization |
-| **Swiper** | Touch slider |
-| **Lucide React** | Icon library |
+|---|---|
+| React 18 | UI library |
+| Vite | Build tool and dev server |
+| Tailwind CSS + DaisyUI | Styling and components |
+| React Router v6 | Client-side routing |
+| TanStack Query | Server state and caching |
+| Framer Motion | Animations |
+| Firebase Auth | User authentication |
+| Stripe.js | Payment processing |
+| Axios | HTTP client |
+| React Hook Form | Form validation |
+| Recharts | Data visualization |
+| Swiper.js | Touch slider |
+| Lucide React | Icons |
 
 ### Backend
 | Technology | Purpose |
-|------------|---------|
-| **Node.js** | Runtime environment |
-| **Express.js** | Web framework |
-| **MongoDB** | NoSQL database |
-| **Mongoose** | MongoDB ODM |
-| **Firebase Admin** | Server-side auth verification |
-| **Stripe API** | Payment gateway |
-| **Multer** | File upload handling |
-| **JWT** | Token-based auth |
-| **CORS** | Cross-origin requests |
+|---|---|
+| Node.js + Express.js | Server and API |
+| MongoDB + Mongoose | Database and ODM |
+| Firebase Admin SDK | Token verification |
+| Stripe API | Payment gateway |
+| Multer | File uploads |
+| JWT | Auth tokens |
+| CORS | Cross-origin handling |
 
-### Services & APIs
-- **Firebase**: Authentication and hosting
-- **MongoDB Atlas**: Cloud database
-- **Stripe**: Payment processing
-- **ImgBB**: Image hosting
-- **Vercel**: Backend deployment
-
----
-
-
-## 🔒 Security Features
-
-- **Authentication**: Firebase Authentication with JWT tokens
-- **Authorization**: Role-based access control (RBAC)
-- **Data Validation**: Input sanitization and validation
-- **Secure Payments**: PCI-compliant Stripe integration
-- **HTTPS**: SSL encryption for all communications
-- **Environment Variables**: Sensitive data protection
-- **CORS**: Configured origin restrictions
-- **Rate Limiting**: API request throttling
-- **XSS Protection**: Input escaping and sanitization
-- **SQL Injection**: MongoDB parameterized queries
+### Services
+| Service | Purpose |
+|---|---|
+| Firebase | Auth and frontend hosting |
+| MongoDB Atlas | Cloud database |
+| Stripe | Payment processing |
+| ImgBB | Image hosting |
+| Vercel | Backend deployment |
 
 ---
 
-## 📊 Performance Optimization
+## 📁 Project Structure
 
-- **Code Splitting**: React lazy loading
-- **Image Optimization**: WebP format, lazy loading
-- **Caching**: React Query cache management
-- **Minification**: Production build optimization
-- **CDN**: Firebase hosting with CDN
-- **Database Indexing**: MongoDB performance indexes
-- **API Response**: Compression middleware
+```
+TicketBari-Client/
+├── public/
+├── src/
+│   ├── assets/
+│   ├── components/
+│   │   ├── Bookings/
+│   │   │   ├── BookingCard.jsx
+│   │   │   └── PaymentModal.jsx
+│   │   ├── Dashboard/
+│   │   │   ├── BookingCard/
+│   │   │   ├── CheckoutForm/
+│   │   │   ├── Menu/
+│   │   │   │   ├── AdminMenu.jsx
+│   │   │   │   ├── CustomerMenu.jsx
+│   │   │   │   ├── MenuItem.jsx
+│   │   │   │   └── VendorMenu.jsx
+│   │   │   └── Sidebar/
+│   │   ├── Home/
+│   │   │   ├── Banner.jsx
+│   │   │   ├── Features.jsx
+│   │   │   ├── LatestTickets.jsx
+│   │   │   ├── PopularRoutes.jsx
+│   │   │   ├── Statistics.jsx
+│   │   │   ├── Testimonials.jsx
+│   │   │   └── WhyChooseUs.jsx
+│   │   ├── Shared/
+│   │   │   ├── Button/
+│   │   │   ├── Footer/
+│   │   │   ├── Navbar/
+│   │   │   ├── Container.jsx
+│   │   │   └── LoadingSpinner.jsx
+│   │   └── TicketCard/
+│   ├── firebase/
+│   │   └── firebase.config.js
+│   ├── hooks/
+│   │   ├── useAuth.jsx
+│   │   ├── useAxiosSecure.jsx
+│   │   └── useRole.jsx
+│   ├── layouts/
+│   │   ├── DashboardLayout.jsx
+│   │   └── MainLayout.jsx
+│   ├── pages/
+│   │   ├── Dashboard/
+│   │   │   ├── Admin/
+│   │   │   │   ├── AdminDashboard.jsx
+│   │   │   │   ├── AdvertiseTickets.jsx
+│   │   │   │   ├── ManageTickets.jsx
+│   │   │   │   └── ManageUsers.jsx
+│   │   │   ├── User/
+│   │   │   │   ├── MyBookedTickets.jsx
+│   │   │   │   ├── TransactionHistory.jsx
+│   │   │   │   ├── UserDashboard.jsx
+│   │   │   │   └── UserProfile.jsx
+│   │   │   └── Vendor/
+│   │   │       ├── AddTicket.jsx
+│   │   │       ├── MyAddedTickets.jsx
+│   │   │       ├── RequestedBookings.jsx
+│   │   │       ├── RevenueOverview.jsx
+│   │   │       └── VendorDashboard.jsx
+│   │   ├── AllTickets/
+│   │   ├── Home/
+│   │   ├── Login/
+│   │   ├── SignUp/
+│   │   ├── TicketsDetails/
+│   │   └── ErrorPage.jsx
+│   ├── providers/
+│   │   ├── AuthContext.jsx
+│   │   └── AuthProvider.jsx
+│   ├── routes/
+│   │   ├── AdminRoute.jsx
+│   │   ├── PrivateRoute.jsx
+│   │   ├── Routes.jsx
+│   │   └── VendorRoute.jsx
+│   ├── utils/
+│   │   └── index.js
+│   ├── App.jsx
+│   └── main.jsx
+├── .env.local              # Local environment variables (not committed)
+├── .env.example            # Template for environment variables ✅
+├── .gitignore
+└── package.json
+```
 
 ---
 
-## 👥 Authors
+## 🚀 Getting Started
+
+### Prerequisites
+
+Make sure you have the following installed:
+
+| Tool | Version |
+|---|---|
+| Node.js | v18+ |
+| npm | v9+ |
+| Git | Any recent version |
+
+You will also need accounts for:
+- [Firebase](https://console.firebase.google.com/) — create a project and enable **Authentication** (Email/Password + Google)
+- [MongoDB Atlas](https://cloud.mongodb.com/) — create a free cluster
+- [Stripe](https://dashboard.stripe.com/) — get your test API keys
+- [ImgBB](https://api.imgbb.com/) — get a free API key
+
+---
+
+### Environment Variables
+
+**Never commit real credentials.** Copy the example files and fill in your own values.
+
+#### Frontend (`TicketBari-Client/.env.local`)
+
+```bash
+cp .env.example .env.local
+```
+
+| Variable | Description |
+|---|---|
+| `VITE_FIREBASE_API_KEY` | Firebase project API key |
+| `VITE_FIREBASE_AUTH_DOMAIN` | Firebase auth domain |
+| `VITE_FIREBASE_PROJECT_ID` | Firebase project ID |
+| `VITE_FIREBASE_STORAGE_BUCKET` | Firebase storage bucket |
+| `VITE_FIREBASE_MESSAGING_SENDER_ID` | Firebase messaging sender ID |
+| `VITE_FIREBASE_APP_ID` | Firebase app ID |
+| `VITE_API_URL` | Backend server base URL |
+| `VITE_IMGBB_API_KEY` | ImgBB image hosting API key |
+| `VITE_STRIPE_PUBLISHABLE_KEY` | Stripe publishable key (starts with `pk_`) |
+
+Create a `.env.local` file in the project root with the variables listed above.
+
+#### Backend (`TicketBari-Server/.env`)
+
+```bash
+cp .env.example .env
+```
+
+| Variable | Description |
+|---|---|
+| `PORT` | Server port (default: `5000`) |
+| `MONGODB_URI` | MongoDB Atlas connection string |
+| `CLIENT_DOMAIN` | Frontend URL for CORS |
+| `FB_SERVICE_KEY` | Firebase service account JSON encoded as base64 |
+| `STRIPE_SECRET_KEY` | Stripe secret key |
+
+See `.env.example` for the full template.
+
+---
+
+### Installation
+
+#### 1. Clone both repositories
+
+```bash
+git clone https://github.com/farial-robama/TicketBari-Client.git
+git clone https://github.com/farial-robama/TicketBari-Server.git
+```
+
+#### 2. Set up the Backend
+
+```bash
+cd TicketBari-Server
+npm install
+cp .env.example .env
+# Fill in your values in .env
+npm start
+# Server runs at http://localhost:5000
+```
+
+#### 3. Set up the Frontend
+
+```bash
+cd TicketBari-Client
+npm install
+cp .env.example .env.local
+# Fill in your values in .env.local
+npm run dev
+# App runs at http://localhost:5173
+```
+
+---
+
+## 📡 API Reference
+
+Base URL: `https://ticket-bari-online-ticket-booking-p.vercel.app`
+
+All protected routes require a `Bearer <JWT>` token in the `Authorization` header.
+
+### Auth
+| Method | Endpoint | Auth | Description |
+|---|---|---|---|
+| POST | `/jwt` | ❌ | Issue JWT token |
+
+### Tickets
+| Method | Endpoint | Auth | Description |
+|---|---|---|---|
+| GET | `/tickets` | ❌ | Get all approved tickets (with filters & pagination) |
+| GET | `/tickets/:id` | ❌ | Get single ticket details |
+| POST | `/tickets` | Vendor | Add a new ticket |
+| PUT | `/tickets/:id` | Vendor | Update a ticket |
+| DELETE | `/tickets/:id` | Vendor | Delete a ticket |
+
+### Bookings
+| Method | Endpoint | Auth | Description |
+|---|---|---|---|
+| GET | `/bookings` | Customer | Get user's bookings |
+| POST | `/bookings` | Customer | Create a new booking |
+| PATCH | `/bookings/:id` | Vendor | Accept or reject a booking |
+
+### Payments
+| Method | Endpoint | Auth | Description |
+|---|---|---|---|
+| POST | `/create-payment-intent` | Customer | Create Stripe payment intent |
+| POST | `/payments` | Customer | Save completed payment |
+| GET | `/payments` | Customer | Get payment history |
+
+### Users (Admin)
+| Method | Endpoint | Auth | Description |
+|---|---|---|---|
+| GET | `/users` | Admin | Get all users |
+| PATCH | `/users/:id/role` | Admin | Update user role |
+
+### Admin
+| Method | Endpoint | Auth | Description |
+|---|---|---|---|
+| GET | `/admin/tickets` | Admin | Get all tickets for review |
+| PATCH | `/admin/tickets/:id` | Admin | Approve or reject a ticket |
+| GET | `/advertisements` | ❌ | Get featured homepage tickets |
+| PATCH | `/advertisements/:id` | Admin | Toggle ticket advertisement |
+
+---
+
+## 🔒 Security
+
+| Measure | Implementation |
+|---|---|
+| Authentication | Firebase Auth + JWT tokens |
+| Authorization | Role-based access control (RBAC) |
+| Payment | PCI-compliant Stripe integration |
+| Transport | HTTPS / SSL on all endpoints |
+| Input Validation | Server-side sanitization |
+| CORS | Configured allowed origins only |
+| Rate Limiting | API request throttling |
+| XSS Protection | Input escaping on all user content |
+| Injection Prevention | Mongoose parameterized queries |
+| Secrets | Environment variables, never hardcoded |
+
+---
+
+## ⚡ Performance
+
+- **Code Splitting** — React lazy loading per route
+- **Image Optimization** — WebP format with lazy loading
+- **Caching** — TanStack Query cache with stale-while-revalidate
+- **Build Optimization** — Vite production minification and tree shaking
+- **CDN** — Firebase Hosting serves frontend via global CDN
+- **DB Indexing** — MongoDB indexes on frequently queried fields
+- **API Compression** — Response compression middleware
+
+---
+
+## 🗺️ Roadmap
+
+- [ ] SMS/email notifications on booking status changes
+- [ ] Seat selection map for buses and trains
+- [ ] Multi-language support (Bangla / English)
+- [ ] Mobile app (React Native)
+- [ ] Vendor payout dashboard with bank transfer support
+- [ ] Booking cancellation and refund flow
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Please follow these steps:
+
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/your-feature-name`
+3. Commit using conventional commits: `git commit -m "feat: add seat selection map"`
+4. Push to your fork: `git push origin feature/your-feature-name`
+5. Open a Pull Request against `main`
+
+**Branch naming:** `feature/`, `fix/`, `chore/`, `docs/`  
+**Commit style:** Follow [Conventional Commits](https://www.conventionalcommits.org/)
+
+Please open an issue first for major changes.
+
+---
+
+<!-- ## 📄 License
+
+This project is licensed under the [MIT License](LICENSE). -->
+
+---
+
+## 👤 Author
 
 **Farial Robama**
-- GitHub: [@farial-robama](https://github.com/farial-robama)
-- Frontend Repo: [TicketBari-Client](https://github.com/farial-robama/TicketBari-Client)
-- Backend Repo: [TicketBari-Server](https://github.com/farial-robama/TicketBari-Server)
-- Email: [Connect with me](mailto:farialrobama15@gmail.com)
-- LinkedIn: [Connect with me](https://linkedin.com/in/farial-robama)
+
+[![GitHub](https://img.shields.io/badge/GitHub-farial--robama-181717?style=flat-square&logo=github)](https://github.com/farial-robama)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-farial--robama-0A66C2?style=flat-square&logo=linkedin)](https://linkedin.com/in/farial-robama)
+[![Email](https://img.shields.io/badge/Email-farialrobama15@gmail.com-EA4335?style=flat-square&logo=gmail)](mailto:farialrobama15@gmail.com)
 
 ---
-
 
 <div align="center">
 
-**⭐ Star this repo if you find it helpful!**
-
 Made with ❤️ in Bangladesh
 
-[Report Bug](https://github.com/farial-robama/TicketBari-Client/issues) • [Request Feature](https://github.com/farial-robama/TicketBari-Client/issues)
+⭐ Star this repo if you found it helpful!
+
+[🐛 Report Bug](https://github.com/farial-robama/TicketBari-Client/issues) · [💡 Request Feature](https://github.com/farial-robama/TicketBari-Client/issues)
 
 </div>

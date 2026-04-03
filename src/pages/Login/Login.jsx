@@ -32,7 +32,6 @@ const Login = () => {
 
   const from = location.state || "/";
 
-  // Only show loading spinner on initial load, not after auth attempts
   if (loading && !authAttempted) return <LoadingSpinner />;
   if (user) return <Navigate to={from} replace={true} />;
 
@@ -321,7 +320,7 @@ const Login = () => {
               <span>Continue with Google</span>
             </button>
 
-            {/* Demo Credentials Section - User & Admin */}
+            {/* Demo Credentials Section - User, Admin & Vendor */}
             <div className="mt-6">
               <div className="flex items-center mb-4">
                 <div className="flex-1 border-t border-gray-300"></div>
