@@ -133,14 +133,14 @@ const AllTickets = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-pink-50 pt-24 pb-12">
+      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 pt-24 pb-12">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[...Array(6)].map((_, i) => (
-              <div key={i} className="bg-white rounded-xl shadow-lg p-6 animate-pulse">
-                <div className="h-48 bg-gray-200 rounded-lg mb-4"></div>
-                <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
-                <div className="h-4 bg-gray-200 rounded w-1/2"></div>
+              <div key={i} className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 animate-pulse">
+                <div className="h-48 bg-gray-200 dark:bg-gray-700 rounded-lg mb-4"></div>
+                <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-3/4 mb-2"></div>
+                <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/2"></div>
               </div>
             ))}
           </div>
@@ -150,35 +150,35 @@ const AllTickets = () => {
   }
 
   return (
-    <div className="min-h-screen  pt-24 pb-12">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pt-24 pb-12">
       <div className="container mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-3 bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+          <h1 className="text-4xl md:text-5xl font-bold text-gray-800 dark:text-gray-100 mb-3 bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
             Explore Available Tickets
           </h1>
-          <p className="text-gray-600 text-lg">
+          <p className="text-gray-600 dark:text-gray-400 text-lg">
             Browse through {tickets.length} destinations
           </p>
         </div>
 
         {/* Filters Section */}
-        <div className="bg-white rounded-2xl shadow-xl p-6 mb-8 border border-gray-100">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 mb-8 border border-gray-100 dark:border-gray-700">
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-3">
               <Filter className="text-purple-600" size={24} />
-              <h2 className="text-xl font-semibold text-gray-800">
+              <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100">
                 Search & Filter
               </h2>
               {activeFiltersCount > 0 && (
-                <span className="bg-purple-100 text-purple-700 text-sm font-medium px-3 py-1 rounded-full">
+                <span className="bg-purple-100 dark:bg-purple-900 text-purple-700 dark:text-purple-300 text-sm font-medium px-3 py-1 rounded-full">
                   {activeFiltersCount} active
                 </span>
               )}
             </div>
             <button
               onClick={() => setShowFilters(!showFilters)}
-              className="md:hidden text-gray-600 hover:text-gray-800"
+              className="md:hidden text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-100"
             >
               {showFilters ? <X size={24} /> : <Filter size={24} />}
             </button>
@@ -189,7 +189,7 @@ const AllTickets = () => {
               {/* Search Inputs */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="relative">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     From Location
                   </label>
                   <div className="relative">
@@ -199,12 +199,12 @@ const AllTickets = () => {
                       placeholder="Origin city..."
                       value={searchFrom}
                       onChange={(e) => setSearchFrom(e.target.value)}
-                      className="w-full pl-11 pr-4 py-3 border-2 border-gray-200 text-gray-900 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all"
+                      className="w-full pl-11 pr-4 py-3 border-2 border-gray-200 dark:border-gray-600 text-gray-900 dark:text-gray-100 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all bg-white dark:bg-gray-700"
                     />
                     {searchFrom && (
                       <button
                         onClick={() => setSearchFrom("")}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
                       >
                         <X size={18} />
                       </button>
@@ -213,7 +213,7 @@ const AllTickets = () => {
                 </div>
 
                 <div className="relative">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     To Location
                   </label>
                   <div className="relative">
@@ -223,12 +223,12 @@ const AllTickets = () => {
                       placeholder="Destination city..."
                       value={searchTo}
                       onChange={(e) => setSearchTo(e.target.value)}
-                      className="w-full pl-11 pr-4 py-3 border-2 border-gray-200 text-gray-900 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all"
+                      className="w-full pl-11 pr-4 py-3 border-2 border-gray-200 dark:border-gray-600 text-gray-900 dark:text-gray-100 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all bg-white dark:bg-gray-700"
                     />
                     {searchTo && (
                       <button
                         onClick={() => setSearchTo("")}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
                       >
                         <X size={18} />
                       </button>
@@ -239,7 +239,7 @@ const AllTickets = () => {
 
               {/* Transport Type Buttons */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-3">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
                   Transport Type
                 </label>
                 <div className="flex flex-wrap gap-3">
@@ -250,7 +250,7 @@ const AllTickets = () => {
                       className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-medium transition-all ${
                         transportFilter === value
                           ? "bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg scale-105"
-                          : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                          : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
                       }`}
                     >
                       <Icon size={18} />
@@ -263,13 +263,13 @@ const AllTickets = () => {
               {/* Sort Options */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Sort by Price
                   </label>
                   <select
                     value={priceSort}
                     onChange={(e) => setPriceSort(e.target.value)}
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none bg-white text-gray-900 cursor-pointer transition-all"
+                    className="w-full px-4 py-3 border-2 border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 cursor-pointer transition-all"
                   >
                     <option value="none">Default Order</option>
                     <option value="low-to-high">Price: Low to High</option>
@@ -293,10 +293,10 @@ const AllTickets = () => {
           )}
 
           {/* Results Info */}
-          <div className="mt-6 pt-6 border-t border-gray-200 flex items-center justify-between flex-wrap gap-4">
-            <div className="text-sm text-gray-600">
-              Showing <span className="font-semibold text-gray-900">{filteredTickets.length}</span> of{" "}
-              <span className="font-semibold text-gray-900">{tickets.length}</span> tickets
+          <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700 flex items-center justify-between flex-wrap gap-4">
+            <div className="text-sm text-gray-600 dark:text-gray-400">
+              Showing <span className="font-semibold text-gray-900 dark:text-gray-100">{filteredTickets.length}</span> of{" "}
+              <span className="font-semibold text-gray-900 dark:text-gray-100">{tickets.length}</span> tickets
             </div>
             
             <div className="flex items-center gap-2">
@@ -327,15 +327,15 @@ const AllTickets = () => {
 
         {/* Tickets Grid/List */}
         {filteredTickets.length === 0 ? (
-          <div className="bg-white rounded-2xl shadow-xl p-12 text-center">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-12 text-center">
             <div className="max-w-md mx-auto">
-              <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <Search className="text-gray-400" size={48} />
+              <div className="w-24 h-24 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Search className="text-gray-400 dark:text-gray-500" size={48} />
               </div>
-              <h3 className="text-2xl font-bold text-gray-800 mb-3">
+              <h3 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-3">
                 {tickets.length === 0 ? "No Tickets Available" : "No Matches Found"}
               </h3>
-              <p className="text-gray-600 mb-6">
+              <p className="text-gray-600 dark:text-gray-400 mb-6">
                 {tickets.length === 0
                   ? "There are no tickets available at the moment. Please check back later."
                   : "We couldn't find any tickets matching your search criteria. Try adjusting your filters."}
@@ -373,7 +373,7 @@ const AllTickets = () => {
                 <button
                   onClick={() => setCurrentPage(currentPage - 1)}
                   disabled={currentPage === 0}
-                  className="px-4 py-2 rounded-xl bg-white border-2 border-gray-200 text-gray-700 font-medium hover:border-purple-500 hover:text-purple-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center gap-2 shadow-sm"
+                  className="px-4 py-2 rounded-xl bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-300 font-medium hover:border-purple-500 hover:text-purple-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center gap-2 shadow-sm"
                 >
                   <ChevronLeft size={18} />
                   Previous
@@ -391,7 +391,7 @@ const AllTickets = () => {
                       className={`px-4 py-2 rounded-xl font-medium transition-all shadow-sm ${
                         currentPage === page
                           ? "bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg scale-110"
-                          : "bg-white border-2 border-gray-200 text-gray-700 hover:border-purple-500 hover:text-purple-600"
+                          : "bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:border-purple-500 hover:text-purple-600"
                       }`}
                     >
                       {page + 1}
@@ -402,7 +402,7 @@ const AllTickets = () => {
                 <button
                   onClick={() => setCurrentPage(currentPage + 1)}
                   disabled={currentPage === totalPage - 1}
-                  className="px-4 py-2 rounded-xl bg-white border-2 border-gray-200 text-gray-700 font-medium hover:border-purple-500 hover:text-purple-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center gap-2 shadow-sm"
+                  className="px-4 py-2 rounded-xl bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-300 font-medium hover:border-purple-500 hover:text-purple-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center gap-2 shadow-sm"
                 >
                   Next
                   <ChevronRight size={18} />

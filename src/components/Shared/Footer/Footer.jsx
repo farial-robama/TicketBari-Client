@@ -262,13 +262,13 @@ const Footer = () => {
             <div>
               <h6 className="text-white font-semibold mb-3 text-center md:text-left">Accepted Payment Methods</h6>
               <div className="flex items-center gap-4 flex-wrap justify-center md:justify-start">
-                <div className="px-4 py-2 bg-white rounded-lg">
+                <div className="px-4 py-2 bg-white dark:bg-gray-700 rounded-lg">
                   <img src="https://img.icons8.com/color/48/visa.png" className="h-6" alt="Visa" />
                 </div>
-                <div className="px-4 py-2 bg-white rounded-lg">
+                <div className="px-4 py-2 bg-white dark:bg-gray-700 rounded-lg">
                   <img src="https://img.icons8.com/color/48/mastercard.png" className="h-6" alt="Mastercard" />
                 </div>
-                <div className="px-4 py-2 bg-white rounded-lg">
+                <div className="px-4 py-2 bg-white dark:bg-gray-700 rounded-lg">
                   <img src="https://img.icons8.com/fluency/48/stripe.png" className="h-6" alt="Stripe" />
                 </div>
                 <div className="px-4 py-2 bg-slate-800 rounded-lg border border-slate-700">

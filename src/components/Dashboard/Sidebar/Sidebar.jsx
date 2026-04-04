@@ -1,195 +1,140 @@
 
-import React, { useState, useEffect } from "react";
+import React from "react";
 import useAuth from "../../../hooks/useAuth";
 import useRole from "../../../hooks/useRole";
 import LoadingSpinner from "../../Shared/LoadingSpinner";
-import { AiOutlineBars } from "react-icons/ai";
 import { FcSettings } from "react-icons/fc";
+import { GrLogout } from "react-icons/gr";
 import { NavLink } from "react-router";
 import CustomerMenu from "../Menu/CustomerMenu";
 import VendorMenu from "../Menu/VendorMenu";
 import AdminMenu from "../Menu/AdminMenu";
-import { GrLogout } from "react-icons/gr";
 import MenuItem from "../Menu/MenuItem";
 import toast from "react-hot-toast";
-import { motion, AnimatePresence } from "framer-motion";
-import { X, Home, Ticket, ChevronRight, ChevronLeft } from "lucide-react";
+import { motion } from "framer-motion";
+import { ChevronLeft, ChevronRight, Home, Ticket } from "lucide-react";
 
-const Sidebar = () => {
+const getInitials = (name) =>
+  name ? name.split(" ").map((n) => n[0]).join("").slice(0, 2).toUpperCase() : "U";
+
+const Sidebar = ({ isCollapsed, setIsCollapsed, onClose }) => {
   const { logOut, user } = useAuth();
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [role, isRoleLoading] = useRole();
-  
-  
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth >= 768) {
-        setIsMobileMenuOpen(false);
-      }
-    };
-
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  const handleMobileToggle = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
-
 
   const handleLogout = async () => {
     try {
       await logOut();
-      toast.success("You logged out successfully!");
-    } catch (err) {
-      console.log("Logout failed!", err);
+      toast.success("Logged out successfully!");
+    } catch {
+      toast.error("Logout failed!");
     }
   };
 
   if (isRoleLoading) return <LoadingSpinner />;
 
   return (
-    <>
-      {/* Mobile Header */}
-      <div className="bg-white border-b border-gray-200 flex justify-between items-center md:hidden sticky top-0 z-50 shadow-sm">
-        <div className="flex items-center gap-3 px-4 py-3">
-          <button
-            onClick={handleMobileToggle}
-            className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
-          >
-            <AiOutlineBars className="h-6 w-6 text-gray-700" />
-          </button>
-          
-          <div className="flex items-center gap-2">
-            <img src="/logo.png" className="w-7 h-7" alt="" />
-            <span className="font-bold text-xl bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-              TicketBari
-            </span>
-          </div>
-        </div>
-
-        <div className="flex items-center gap-2 px-4">
-          <NavLink
-            to="/"
-            className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
-          >
-            <Home className="h-5 w-5 text-gray-600" />
-          </NavLink>
-          <NavLink
-            to="/tickets"
-            className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
-          >
-            <Ticket className="h-5 w-5 text-gray-600" />
-          </NavLink>
-        </div>
-      </div>
-
-      {/* Mobile Overlay */}
-      <AnimatePresence>
-        {isMobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={handleMobileToggle}
-            className="fixed inset-0 bg-black/20 z-40 md:hidden backdrop-blur-sm"
-          />
-        )}
-      </AnimatePresence>
-
-      {/* Sidebar */}
-      <div
-        className={`fixed inset-y-0 left-0 z-50 flex flex-col bg-white border-r border-gray-200 shadow-xl transition-all duration-300 md:w-72 w-72 ${
-          isMobileMenuOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
-        }`}
+    <div
+      className={`relative flex flex-col h-full bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 shadow-xl transition-all duration-300 ${
+        isCollapsed ? "w-20" : "w-72"
+      }`}
+    >
+      {/* Collapse toggle — desktop only */}
+      <button
+        onClick={() => setIsCollapsed?.((p) => !p)}
+        className="hidden md:flex absolute -right-3 top-6 w-6 h-6 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-full items-center justify-center shadow-sm hover:shadow-md transition-all z-10"
+        aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
       >
-        {/* Header */}
-        <div className="relative px-6 py-5 border-b border-gray-200">
-          <div className="flex items-center justify-between">
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="flex items-center gap-3"
-            >
-              <div>
-                <h1 className="font-bold text-xl text-gray-800">TicketBari</h1>
-                <p className="text-xs text-gray-500">Travel Made Easy</p>
-              </div>
-            </motion.div>
-            
-            {/* Close button for mobile only */}
-            <button
-              onClick={handleMobileToggle}
-              className="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
-            >
-              <X className="h-5 w-5 text-gray-600" />
-            </button>
-           
-          </div>
-        </div>
+        {isCollapsed ? <ChevronRight size={14} /> : <ChevronLeft size={14} />}
+      </button>
 
-        {/* User Profile */}
-        {user && (
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="px-6 py-4 bg-gradient-to-br from-purple-50 to-blue-50 border-b border-gray-200"
-          >
-            <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center text-white font-bold text-lg shadow-md">
-                {user?.displayName?.[0]?.toUpperCase() || "U"}
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="font-semibold text-sm text-gray-800 truncate">
-                  {user?.displayName || "User"}
-                </p>
-                <p className="text-xs text-gray-500 truncate">{user?.email}</p>
-                <div className="mt-1">
-                  <span className="inline-block px-2 py-0.5 bg-purple-100 text-purple-700 rounded-full text-xs font-medium capitalize">
-                    {role}
-                  </span>
-                </div>
-              </div>
+      {/* User Profile */}
+      {user && (
+        <motion.div
+          initial={{ opacity: 0, y: -8 }}
+          animate={{ opacity: 1, y: 0 }}
+          className={`border-b border-gray-200 dark:border-gray-700 bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20 ${
+            isCollapsed ? "px-3 py-4" : "px-5 py-4"
+          }`}
+        >
+          <div className={`flex items-center ${isCollapsed ? "justify-center" : "gap-3"}`}>
+            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center text-white font-bold text-sm shadow-md shrink-0">
+              {getInitials(user.displayName)}
             </div>
-          </motion.div>
-        )}
+            {!isCollapsed && (
+              <div className="flex-1 min-w-0">
+                <p className="font-semibold text-sm text-gray-800 dark:text-white truncate">
+                  {user.displayName || "User"}
+                </p>
+                <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
+                  {user.email}
+                </p>
+                <span className="inline-block mt-1 px-2 py-0.5 bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300 rounded-full text-xs font-medium capitalize">
+                  {role}
+                </span>
+              </div>
+            )}
+          </div>
+        </motion.div>
+      )}
 
-        {/* Navigation Menu */}
-        <nav className="flex-1 overflow-y-auto px-4 py-6 space-y-2 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
-          {role === "customer" && <CustomerMenu />}
-          {role === "vendor" && <VendorMenu />}
-          {role === "admin" && <AdminMenu />}
-        </nav>
+      {/* Navigation */}
+      <nav className="flex-1 overflow-y-auto px-3 py-4 space-y-1 scrollbar-thin scrollbar-thumb-gray-200 dark:scrollbar-thumb-gray-700">
+        {role === "customer" && <CustomerMenu isCollapsed={isCollapsed} />}
+        {role === "vendor" && <VendorMenu isCollapsed={isCollapsed} />}
+        {role === "admin" && <AdminMenu isCollapsed={isCollapsed} />}
+      </nav>
 
-       
-        <div className="border-t border-gray-200 px-4 py-4 space-y-2 bg-gray-50">
-          <MenuItem
-            icon={FcSettings}
-            label="Profile"
-            address="/dashboard/profile"
-          />
-          
-          <button
-            onClick={handleLogout}
-            className="flex items-center w-full px-4 py-3 gap-3 rounded-xl text-gray-700 hover:bg-red-50 hover:text-red-600 transition-all duration-300 group"
-          >
-            <GrLogout className="w-5 h-5 group-hover:scale-110 transition-transform" />
-            <span className="font-medium">Logout</span>
-          </button>
-        </div>
-
-        
-        <div className="px-6 py-3 border-t border-gray-200 bg-gray-50">
-          <p className="text-xs text-gray-400 text-center">
-            TicketBari v1.0
-          </p>
-        </div>
+      {/* Quick Links - Mobile Only */}
+      <div className="md:hidden border-t border-gray-200 dark:border-gray-700 px-3 py-3 bg-gray-50 dark:bg-gray-800/50">
+        <p className="text-xs text-gray-400 dark:text-gray-500 px-3 mb-2 uppercase tracking-wider font-medium">
+          Quick Links
+        </p>
+        <NavLink
+          to="/"
+          onClick={onClose}
+          className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-purple-600 dark:hover:text-purple-400 transition-all text-sm font-medium"
+        >
+          <Home className="w-5 h-5 shrink-0" />
+          <span>Go to Home</span>
+        </NavLink>
+        <NavLink
+          to="/tickets"
+          onClick={onClose}
+          className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-purple-600 dark:hover:text-purple-400 transition-all text-sm font-medium"
+        >
+          <Ticket className="w-5 h-5 shrink-0" />
+          <span>All Tickets</span>
+        </NavLink>
       </div>
-    </>
+
+      {/* Footer Actions */}
+      <div className="border-t border-gray-200 dark:border-gray-700 px-3 py-3 space-y-1 bg-gray-50 dark:bg-gray-800/50">
+        <MenuItem
+          icon={FcSettings}
+          label="Profile"
+          address="/dashboard/profile"
+          isCollapsed={isCollapsed}
+        />
+        <button
+          onClick={handleLogout}
+          title={isCollapsed ? "Logout" : undefined}
+          className={`flex items-center w-full px-3 py-2.5 gap-3 rounded-xl text-gray-600 dark:text-gray-400 hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 dark:hover:text-red-400 transition-all duration-200 group ${
+            isCollapsed ? "justify-center" : ""
+          }`}
+        >
+          <GrLogout className="w-5 h-5 shrink-0 group-hover:scale-110 transition-transform" />
+          {!isCollapsed && <span className="font-medium text-sm">Logout</span>}
+        </button>
+      </div>
+
+      {/* Version */}
+      {!isCollapsed && (
+        <div className="px-5 py-2.5 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50">
+          <p className="text-xs text-gray-400 text-center">TicketBari v1.0</p>
+        </div>
+      )}
+    </div>
   );
 };
 
 export default Sidebar;
-
-
-

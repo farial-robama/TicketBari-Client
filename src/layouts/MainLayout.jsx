@@ -5,10 +5,10 @@ import Footer from '../components/Shared/Footer/Footer';
 
 const MainLayout = () => {
     return (
-        <div>
+        <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <Navbar />
       <div className="h-20"></div> 
-      <div className='flex-grow px-4 md:px-10 py-10 mx-auto'>
+      <div className='flex-grow px-4 md:px-10 mx-auto'>
         <Outlet />
       </div>
       <Footer />

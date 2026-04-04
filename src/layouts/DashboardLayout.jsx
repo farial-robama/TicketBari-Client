@@ -1,233 +1,155 @@
-import React, { useState, useEffect, useContext } from "react";
+
+import React, { useState, useEffect, useCallback } from "react";
 import Sidebar from "../components/Dashboard/Sidebar/Sidebar";
-import { Outlet, useLocation, useNavigate, Link } from "react-router";
+import { Outlet, useLocation, Link } from "react-router";
 import Footer from "../components/Shared/Footer/Footer";
-import { 
-  Menu, 
-  X, 
-  ChevronRight,
-  Home,
-  LayoutDashboard,
-  TrendingUp,
-  Bell,
-  Search,
-  Settings,
-  LogOut,
-  User,
-  Moon,
-  Sun
-} from "lucide-react";
-import { AuthContext } from "../providers/AuthContext";
+import { Menu, X, Home, LayoutDashboard, ArrowUp, User, ChevronRight } from "lucide-react";
+import useAuth from "../hooks/useAuth";
+
+// Convert pathname to readable breadcrumb
+const getBreadcrumb = (pathname) => {
+  const parts = pathname.split("/").filter(Boolean);
+  return parts.map((p) => p.charAt(0).toUpperCase() + p.slice(1).replace(/-/g, " "));
+};
 
 const DashboardLayout = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
-  const [theme, setTheme] = useState(localStorage.getItem('theme') || "light");
+  const [imgError, setImgError] = useState(false);
   const location = useLocation();
-  const navigate = useNavigate();
-  
-  // Use useContext to access AuthContext
-  const authContext = useContext(AuthContext);
-  const user = authContext?.user;
-  const signOutUser = authContext?.signOutUser;
+  const { user } = useAuth();
 
-  // Handle theme
-  useEffect(() => {
-    const html = document.querySelector('html');
-    html.setAttribute("data-theme", theme);
-    localStorage.setItem("theme", theme);
-  }, [theme]);
+  const breadcrumbs = getBreadcrumb(location.pathname);
 
-  // Handle scroll effect
+  const getInitials = (name) =>
+    name ? name.split(" ").map((n) => n[0]).join("").slice(0, 2).toUpperCase() : "U";
+
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 10);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    const onScroll = () => setScrolled(window.scrollY > 10);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Close mobile sidebar on route change
+  // Close sidebar and user menu on route change
   useEffect(() => {
     setIsMobileSidebarOpen(false);
     setShowUserMenu(false);
   }, [location.pathname]);
 
-  // Prevent body scroll when mobile sidebar is open
+  // Lock body scroll when mobile sidebar is open
   useEffect(() => {
-    if (isMobileSidebarOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
-    return () => {
-      document.body.style.overflow = "unset";
-    };
+    document.body.style.overflow = isMobileSidebarOpen ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
   }, [isMobileSidebarOpen]);
 
-  // Get page title from location
-  const getPageTitle = () => {
-    const path = location.pathname.split("/").pop();
-    if (!path || path === "dashboard") return "Dashboard Overview";
-    return path.charAt(0).toUpperCase() + path.slice(1).replace(/-/g, " ");
-  };
-
-  // Get breadcrumb items
-  const getBreadcrumbs = () => {
-    const paths = location.pathname.split("/").filter(Boolean);
-    return paths.map((path, index) => ({
-      name: path.charAt(0).toUpperCase() + path.slice(1).replace(/-/g, " "),
-      path: "/" + paths.slice(0, index + 1).join("/"),
-      isLast: index === paths.length - 1
-    }));
-  };
-
-  // const handleLogout = async () => {
-  //   try {
-  //     if (signOutUser) {
-  //       await signOutUser();
-  //     }
-  //     navigate("/");
-  //   } catch (error) {
-  //     console.error("Logout failed:", error);
-  //   }
-  // };
-
-  const toggleTheme = () => {
-    setTheme(theme === "dark" ? "light" : "dark");
-  };
-
-  const breadcrumbs = getBreadcrumbs();
+  const closeSidebar = useCallback(() => setIsMobileSidebarOpen(false), []);
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Dashboard Top Bar */}
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+      {/* Header */}
       <header
-        className={`fixed top-0 left-0 right-0 z-40 bg-white border-b transition-all duration-300 ${
-          scrolled ? "shadow-md" : "border-gray-200 shadow-sm"
+        className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
+          scrolled
+            ? "bg-white/90 dark:bg-gray-800/90 backdrop-blur-md shadow-md border-b border-gray-200/60 dark:border-gray-700/60"
+            : "bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 shadow-sm"
         }`}
       >
-        <div className="flex items-center justify-between px-4 md:px-6 py-3">
-          {/* Left Section - Menu & Logo */}
-          <div className="flex items-center gap-4">
-            {/* Mobile Menu Toggle */}
+        <div className="flex items-center justify-between px-4 md:px-6 h-14">
+          {/* Left: hamburger + logo + breadcrumb */}
+          <div className="flex items-center gap-3">
             <button
-              onClick={() => setIsMobileSidebarOpen(!isMobileSidebarOpen)}
-              className="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
-              aria-label="Toggle menu"
+              onClick={() => setIsMobileSidebarOpen((p) => !p)}
+              className="md:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+              aria-label="Toggle sidebar"
             >
-              {isMobileSidebarOpen ? (
-                <X size={24} className="text-gray-700" />
-              ) : (
-                <Menu size={24} className="text-gray-700" />
-              )}
+              {isMobileSidebarOpen ? <X size={22} /> : <Menu size={22} />}
             </button>
 
-            {/* Logo - Always visible */}
-            <div className="flex items-center gap-2 group">
-              <img src="/logo.png" alt="Logo" className="w-8 h-8 transition-transform group-hover:scale-110" />
-              <span className="hidden md:block text-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+            {/* Desktop collapse toggle */}
+            <button
+              onClick={() => setIsCollapsed((p) => !p)}
+              className="hidden md:flex p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+              aria-label="Collapse sidebar"
+            >
+              <Menu size={20} />
+            </button>
+
+            <Link to="/" className="flex items-center gap-2 group">
+              <img src="/logo.png" alt="Logo" className="w-7 h-7 transition-transform group-hover:scale-110" />
+              <span className="hidden md:block text-lg font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
                 TicketBari
               </span>
-            </div>
+            </Link>
 
-            {/* Navigation Links - Desktop */}
-            <nav className="hidden lg:flex items-center gap-1 ml-8">
-              <Link
-                to="/"
-                className="flex items-center gap-2 px-4 py-2 rounded-lg text-gray-600 hover:bg-gray-100 hover:text-gray-900 transition-colors"
-              >
-                <Home size={18} />
-                <span>Home</span>
-              </Link>
-              <Link
-                to="/dashboard"
-                className="flex items-center gap-2 px-4 py-2 rounded-lg text-gray-600 hover:bg-gray-100 hover:text-gray-900 transition-colors"
-              >
-                <LayoutDashboard size={18} />
-                <span>Dashboard</span>
-              </Link>
-            </nav>
+            {/* Breadcrumb */}
+            <div className="hidden lg:flex items-center gap-1 text-sm text-gray-500 dark:text-gray-400 ml-2">
+              {breadcrumbs.map((crumb, i) => (
+                <React.Fragment key={i}>
+                  {i > 0 && <ChevronRight size={14} />}
+                  <span className={i === breadcrumbs.length - 1 ? "text-gray-800 dark:text-gray-200 font-medium" : ""}>
+                    {crumb}
+                  </span>
+                </React.Fragment>
+              ))}
+            </div>
           </div>
 
-          {/* Right Section - Actions & User */}
-          <div className="flex items-center gap-2 md:gap-3">
-
-            {/* Theme Toggle */}
-            <button
-              onClick={toggleTheme}
-              className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
-              aria-label="Toggle theme"
+          {/* Right: quick nav + user menu */}
+          <div className="flex items-center gap-2">
+            <Link
+              to="/"
+              className="hidden md:flex items-center gap-1.5 px-3 py-1.5 text-sm rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-gray-600 dark:text-gray-300"
             >
-              {theme === "dark" ? (
-                <Sun size={20} className="text-yellow-500" />
-              ) : (
-                <Moon size={20} className="text-indigo-600" />
-              )}
-            </button>
+              <Home size={16} />
+              <span>Home</span>
+            </Link>
 
-            {/* User Menu */}
             {user && (
               <div className="relative">
                 <button
-                  onClick={() => setShowUserMenu(!showUserMenu)}
-                  className="flex items-center gap-2 p-1 rounded-lg hover:bg-gray-100 transition-colors"
+                  onClick={() => setShowUserMenu((p) => !p)}
+                  className="flex items-center gap-2 p-1.5 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors border border-transparent hover:border-gray-200 dark:hover:border-gray-600"
+                  aria-expanded={showUserMenu}
+                  aria-haspopup="true"
                 >
-                  <img
-                    src={user?.photoURL || "/default-profile.png"}
-                    alt={user?.displayName || "User"}
-                    onError={(e) => { e.target.src = "/default-profile.png"; }}
-                    className="w-8 h-8 rounded-full object-cover border-2 border-gray-200"
-                  />
-                  <span className="hidden md:block text-sm font-medium text-gray-700 max-w-[100px] truncate">
-                    {user?.displayName || "User"}
+                  {user.photoURL && !imgError ? (
+                    <img
+                      src={user.photoURL}
+                      alt={user.displayName || "User"}
+                      onError={() => setImgError(true)}
+                      referrerPolicy="no-referrer"
+                      className="w-8 h-8 rounded-full object-cover border-2 border-gray-200 dark:border-gray-600"
+                    />
+                  ) : (
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center text-white text-xs font-bold border-2 border-gray-200 dark:border-gray-600">
+                      {getInitials(user.displayName)}
+                    </div>
+                  )}
+                  <span className="hidden md:block text-sm font-medium max-w-[100px] truncate pr-1">
+                    {user.displayName || "User"}
                   </span>
                 </button>
 
-                {/* Dropdown Menu */}
                 {showUserMenu && (
                   <>
-                    <div
-                      className="fixed inset-0 z-40"
-                      onClick={() => setShowUserMenu(false)}
-                    />
-                    <div className="absolute right-0 top-12 w-64 bg-white rounded-xl shadow-xl border border-gray-200 py-2 z-50">
-                      {/* User Info */}
-                      <div className="px-4 py-3 border-b border-gray-200">
-                        <p className="font-semibold text-gray-900">{user?.displayName || "User"}</p>
-                        <p className="text-xs text-gray-500 truncate">{user?.email}</p>
+                    <div className="fixed inset-0 z-40" onClick={() => setShowUserMenu(false)} />
+                    <div className="absolute right-0 top-11 w-56 bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 py-1.5 z-50"
+                      style={{ animation: "dropdownIn 0.15s ease-out" }}
+                    >
+                      <div className="px-4 py-2.5 border-b border-gray-200 dark:border-gray-700">
+                        <p className="font-semibold text-sm truncate">{user.displayName || "User"}</p>
+                        <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{user.email}</p>
                       </div>
-
-                      {/* Menu Items */}
-                      <Link
-                        to="/profile"
-                        className="flex items-center gap-3 px-4 py-2.5 hover:bg-gray-50 transition-colors text-gray-700"
-                        onClick={() => setShowUserMenu(false)}
-                      >
-                        <User size={18} />
-                        <span>My Profile</span>
+                      <Link to="/profile" onClick={() => setShowUserMenu(false)}
+                        className="flex items-center gap-2.5 px-4 py-2.5 text-sm hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                        <User size={16} /> My Profile
                       </Link>
-                      <Link
-                        to="/dashboard"
-                        className="flex items-center gap-3 px-4 py-2.5 hover:bg-gray-50 transition-colors text-gray-700"
-                        onClick={() => setShowUserMenu(false)}
-                      >
-                        <LayoutDashboard size={18} />
-                        <span>Dashboard</span>
+                      <Link to="/dashboard" onClick={() => setShowUserMenu(false)}
+                        className="flex items-center gap-2.5 px-4 py-2.5 text-sm hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                        <LayoutDashboard size={16} /> Dashboard
                       </Link>
-                      
-
-                      <div className="border-t border-gray-200 my-2"></div>
-
-                      {/* <button
-                        onClick={handleLogout}
-                        className="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-red-50 transition-colors text-red-600"
-                      >
-                        <LogOut size={18} />
-                        <span>Logout</span>
-                      </button> */}
                     </div>
                   </>
                 )}
@@ -237,63 +159,59 @@ const DashboardLayout = () => {
         </div>
       </header>
 
-      {/* Mobile Sidebar Overlay */}
+      {/* Mobile overlay */}
       {isMobileSidebarOpen && (
         <div
           className="md:hidden fixed inset-0 bg-black/50 z-40 backdrop-blur-sm"
-          onClick={() => setIsMobileSidebarOpen(false)}
+          onClick={closeSidebar}
         />
       )}
 
-      {/* Sidebar - Desktop & Mobile */}
+      {/* Sidebar wrapper */}
       <div
-        className={`
-          fixed top-0 left-0 h-full z-50 transition-transform duration-300
-          ${isMobileSidebarOpen ? "translate-x-0" : "-translate-x-full"}
-          md:translate-x-0 md:top-14
-        `}
+        className={`fixed top-14 left-0 h-[calc(100vh-3.5rem)] z-50 transition-transform duration-300 ${
+          isMobileSidebarOpen ? "translate-x-0" : "-translate-x-full"
+        } md:translate-x-0`}
       >
         <Sidebar
           isCollapsed={isCollapsed}
           setIsCollapsed={setIsCollapsed}
-          isMobile={true}
-          onClose={() => setIsMobileSidebarOpen(false)}
+          onClose={closeSidebar}
         />
       </div>
 
-      {/* Main Content Area */}
-      <div
-        className={`
-          flex flex-col min-h-screen 
-          transition-all duration-300 ease-in-out
-          pt-14
-          ${isCollapsed ? "md:ml-20" : "md:ml-72"}
-        `}
-      >
-
-        {/* Main Content */}
+      {/* Main content */}
+      <div className={`flex flex-col min-h-screen pt-14 transition-all duration-300 ${
+        isCollapsed ? "md:ml-20" : "md:ml-72"
+      }`}>
         <main className="flex-1 px-4 md:px-8 py-6 md:py-8">
           <div className="max-w-7xl mx-auto">
             <Outlet />
           </div>
         </main>
 
-        {/* Scroll to Top Button */}
+        {/* Scroll to top */}
         {scrolled && (
           <button
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            className="fixed bottom-6 right-6 p-3 bg-blue-600 text-white rounded-full shadow-lg hover:bg-blue-700 transition-all hover:scale-110 z-40"
+            className="fixed bottom-6 right-6 p-3 bg-purple-600 text-white rounded-full shadow-lg hover:bg-purple-700 hover:scale-110 transition-all z-40"
             aria-label="Scroll to top"
           >
-            <TrendingUp size={20} />
+            <ArrowUp size={20} />
           </button>
         )}
 
-        {/* Footer */}
-        <footer className="mt-auto border-t border-gray-200 bg-white">
+        {/* <footer className="mt-auto border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
           <Footer />
-        </footer>
+        </footer> */}
       </div>
+
+      <style>{`
+        @keyframes dropdownIn {
+          from { opacity: 0; transform: translateY(-6px) scale(0.97); }
+          to   { opacity: 1; transform: translateY(0) scale(1); }
+        }
+      `}</style>
     </div>
   );
 };

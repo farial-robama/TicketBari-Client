@@ -42,7 +42,7 @@ const TicketCard = ({ ticket }) => {
   };
 
   return (
-    <div className="group relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100">
+    <div className="group relative bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100 dark:border-gray-700">
       {/* Image Section with Overlay */}
       <div className="relative h-48 overflow-hidden">
         <img 
@@ -62,15 +62,15 @@ const TicketCard = ({ ticket }) => {
 
         {/* Quick View Button */}
         <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          <button className="p-2 bg-white/90 backdrop-blur-sm rounded-full hover:bg-white transition-colors shadow-lg">
-            <Eye size={18} className="text-gray-700" />
+          <button className="p-2 bg-white/90 dark:bg-gray-700/90 backdrop-blur-sm rounded-full hover:bg-white dark:hover:bg-gray-700 transition-colors shadow-lg">
+            <Eye size={18} className="text-gray-700 dark:text-gray-300" />
           </button>
         </div>
 
         {/* Price Tag on Image */}
-        <div className="absolute bottom-4 right-4 bg-white/95 backdrop-blur-sm rounded-xl px-4 py-2 shadow-lg">
-          <div className="text-xs text-gray-600 font-medium">From</div>
-          <div className="text-2xl font-bold text-gray-900">
+        <div className="absolute bottom-4 right-4 bg-white/95 dark:bg-gray-700/95 backdrop-blur-sm rounded-xl px-4 py-2 shadow-lg">
+          <div className="text-xs text-gray-600 dark:text-gray-400 font-medium">From</div>
+          <div className="text-2xl font-bold text-gray-900 dark:text-gray-100">
             ৳{ticket.price}
           </div>
         </div>
@@ -79,13 +79,13 @@ const TicketCard = ({ ticket }) => {
       {/* Content Section */}
       <div className="p-5">
         {/* Title */}
-        <h3 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-purple-600 transition-colors">
+        <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-3 line-clamp-2 group-hover:text-purple-600 transition-colors">
           {ticket.title}
         </h3>
 
         {/* Route Information */}
         {ticket.from && ticket.to && (
-          <div className="flex items-center gap-2 mb-4 bg-gray-50 rounded-lg p-3">
+          <div className="flex items-center gap-2 mb-4 bg-gray-50 dark:bg-gray-700 rounded-lg p-3">
             <div className="flex items-center gap-2 flex-1">
               <MapPin size={16} className="text-purple-600 flex-shrink-0" />
               <span className="text-sm font-medium text-gray-700 truncate">
@@ -105,13 +105,13 @@ const TicketCard = ({ ticket }) => {
         {/* Details Grid */}
         <div className="grid grid-cols-2 gap-3 mb-4">
           {/* Available Seats */}
-          <div className="flex items-center gap-2 bg-gray-50 rounded-lg p-2.5">
-            <div className="p-1.5 bg-white rounded-lg">
+          <div className="flex items-center gap-2 bg-gray-50 dark:bg-gray-700 rounded-lg p-2.5">
+            <div className="p-1.5 bg-white dark:bg-gray-600 rounded-lg">
               <Users size={16} className="text-purple-600" />
             </div>
             <div>
-              <div className="text-xs text-gray-500">Available</div>
-              <div className="text-sm font-semibold text-gray-900">
+              <div className="text-xs text-gray-500 dark:text-gray-400">Available</div>
+              <div className="text-sm font-semibold text-gray-900 dark:text-gray-100">
                 {ticket.quantity} seats
               </div>
             </div>
@@ -119,13 +119,13 @@ const TicketCard = ({ ticket }) => {
 
           {/* Departure Time */}
           {ticket.departureTime && (
-            <div className="flex items-center gap-2 bg-gray-50 rounded-lg p-2.5">
-              <div className="p-1.5 bg-white rounded-lg">
+            <div className="flex items-center gap-2 bg-gray-50 dark:bg-gray-700 rounded-lg p-2.5">
+              <div className="p-1.5 bg-white dark:bg-gray-600 rounded-lg">
                 <Clock size={16} className="text-blue-600" />
               </div>
               <div>
-                <div className="text-xs text-gray-500">Departure</div>
-                <div className="text-sm font-semibold text-gray-900">
+                <div className="text-xs text-gray-500 dark:text-gray-400">Departure</div>
+                <div className="text-sm font-semibold text-gray-900 dark:text-gray-100">
                   {ticket.departureTime}
                 </div>
               </div>
@@ -134,13 +134,13 @@ const TicketCard = ({ ticket }) => {
 
           {/* Date */}
           {ticket.date && (
-            <div className="flex items-center gap-2 bg-gray-50 rounded-lg p-2.5 col-span-2">
-              <div className="p-1.5 bg-white rounded-lg">
+            <div className="flex items-center gap-2 bg-gray-50 dark:bg-gray-700 rounded-lg p-2.5 col-span-2">
+              <div className="p-1.5 bg-white dark:bg-gray-600 rounded-lg">
                 <Calendar size={16} className="text-green-600" />
               </div>
               <div>
-                <div className="text-xs text-gray-500">Travel Date</div>
-                <div className="text-sm font-semibold text-gray-900">
+                <div className="text-xs text-gray-500 dark:text-gray-400">Travel Date</div>
+                <div className="text-sm font-semibold text-gray-900 dark:text-gray-100">
                   {new Date(ticket.date).toLocaleDateString('en-US', {
                     weekday: 'short',
                     year: 'numeric',
@@ -199,9 +199,9 @@ const TicketCard = ({ ticket }) => {
 
       {ticket.quantity === 0 && (
         <div className="absolute inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center">
-          <div className="bg-white rounded-2xl px-6 py-4 text-center">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl px-6 py-4 text-center">
             <div className="text-2xl font-bold text-red-600 mb-1">Sold Out</div>
-            <div className="text-sm text-gray-600">Check back later</div>
+            <div className="text-sm text-gray-600 dark:text-gray-400">Check back later</div>
           </div>
         </div>
       )}

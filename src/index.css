@@ -20,7 +20,8 @@ body {
   background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #312e81 100%);
 } */
 
-html[data-theme="dark"] body {
+html[data-theme="dark"] body,
+.dark body {
   background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #312e81 100%);
 }
 

@@ -108,7 +108,7 @@ The platform serves three roles:
 ### 🎨 UI/UX
 - Purple-blue gradient theme with glassmorphism effects
 - Framer Motion animations throughout
-- Dark / Light mode with system preference detection and persistent storage
+<!-- - Dark / Light mode with system preference detection and persistent storage -->
 - Mobile-first responsive design
 - Toast notifications, loading spinners, and error states
 
